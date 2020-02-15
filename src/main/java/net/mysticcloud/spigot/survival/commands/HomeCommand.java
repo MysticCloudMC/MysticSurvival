@@ -35,6 +35,8 @@ public class HomeCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
 					String homes = "";
 					for (Warp home : WarpUtils.getWarps("home")) {
+						CoreUtils.debug("Home: " + home.metadata("Owner"));
+						CoreUtils.debug("Player: " + ((Player) sender).getUniqueId().toString());
 						if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
 							homes = homes + ", " + home.name();
 					}
