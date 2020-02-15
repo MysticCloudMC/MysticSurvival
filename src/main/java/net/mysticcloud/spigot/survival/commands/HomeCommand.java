@@ -9,16 +9,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 
-import net.mysticcloud.spigot.core.Main;
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.warps.Warp;
 import net.mysticcloud.spigot.core.utils.warps.WarpBuilder;
 import net.mysticcloud.spigot.core.utils.warps.WarpUtils;
+import net.mysticcloud.spigot.survival.MysticSurvival;
 
 public class HomeCommand implements CommandExecutor {
 
-	public HomeCommand(Main plugin, String... cmd) {
+	public HomeCommand(MysticSurvival plugin, String... cmd) {
 		for (String comd : cmd) {
 			PluginCommand com = plugin.getCommand(comd);
 			com.setExecutor(this);
