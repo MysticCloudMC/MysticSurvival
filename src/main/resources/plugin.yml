@@ -3,7 +3,7 @@ author: QuickScythe
 version: ALPHA
 description: The MysticCloud Survival plugin.
 api-version: 1.15
-main: net.mysticcloud.spigot.spigot.MysticSurvival
+main: net.mysticcloud.spigot.survival.MysticSurvival
 commands:
   home:
     usage: /home [owner|default=you] <name>
