@@ -83,8 +83,7 @@ public class HomeCommand implements CommandExecutor {
 						.setLocation(((Player) sender).getLocation())
 						.setMetadata("Owner", ((Player)sender).getUniqueId().toString())
 						.getWarp();
-				sender.sendMessage(CoreUtils.prefixes("warps") + "Warp created! "
-						+ (args.length >= 2 ? args[0] : "warp") + ":" + (args.length >= 2 ? args[1] : args[0]));
+				sender.sendMessage(CoreUtils.prefixes("homes") + "Home (" + name + ") set!");
 
 			} else {
 				sender.sendMessage(CoreUtils.prefixes("warps") + "You must be a player to use that command.");
