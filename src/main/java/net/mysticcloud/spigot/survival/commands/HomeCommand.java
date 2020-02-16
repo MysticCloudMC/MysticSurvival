@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
@@ -32,6 +33,8 @@ public class HomeCommand implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("home")) {
 			if (sender instanceof Player) {
 				if (args.length == 0) {
+					for(PermissionAttachmentInfo perm : ((Player)sender).getEffectivePermissions()) {
+					}
 					sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
 					String homes = "";
 					for (Warp home : WarpUtils.getWarps("home")) {
@@ -39,6 +42,7 @@ public class HomeCommand implements CommandExecutor {
 						CoreUtils.debug("Player: " + ((Player) sender).getUniqueId().toString());
 						if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
 							homes = homes + ", " + home.name();
+						sender.sendMessage(homes);
 					}
 					return false;
 				}
@@ -61,13 +65,13 @@ public class HomeCommand implements CommandExecutor {
 				for (Warp home : homes) {
 					if (home.metadata("Owner").equals(owner)) {
 						((Player) sender).teleport(home.location());
-						sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.id());
+						sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
 						return true;
 					}
 				}
 
 				sender.sendMessage(CoreUtils.prefixes("homes")
-						+ "There was an error. If you see this message please contact an admin. (Error Code: SUR-HCMD67)");
+						+ "There was an error. If you see this message please contact an admin. (Error Code: SUR-HCMD101)");
 
 			} else {
 				sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
