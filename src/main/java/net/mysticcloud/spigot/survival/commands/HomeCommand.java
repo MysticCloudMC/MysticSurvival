@@ -8,7 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
@@ -16,6 +15,7 @@ import net.mysticcloud.spigot.core.utils.warps.Warp;
 import net.mysticcloud.spigot.core.utils.warps.WarpBuilder;
 import net.mysticcloud.spigot.core.utils.warps.WarpUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.utils.HomeUtils;
 
 public class HomeCommand implements CommandExecutor {
 
@@ -29,17 +29,13 @@ public class HomeCommand implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (sender instanceof Player) {
+			if (cmd.getName().equalsIgnoreCase("home")) {
 
-		if (cmd.getName().equalsIgnoreCase("home")) {
-			if (sender instanceof Player) {
 				if (args.length == 0) {
-					for(PermissionAttachmentInfo perm : ((Player)sender).getEffectivePermissions()) {
-					}
 					sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
 					String homes = "";
 					for (Warp home : WarpUtils.getWarps("home")) {
-						CoreUtils.debug("Home: " + home.metadata("Owner"));
-						CoreUtils.debug("Player: " + ((Player) sender).getUniqueId().toString());
 						if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
 							homes = homes + ", " + home.name();
 						sender.sendMessage(homes);
@@ -73,28 +69,28 @@ public class HomeCommand implements CommandExecutor {
 				sender.sendMessage(CoreUtils.prefixes("homes")
 						+ "There was an error. If you see this message please contact an admin. (Error Code: SUR-HCMD101)");
 
-			} else {
-				sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
-				return true;
 			}
-		}
-		
-		if (cmd.getName().equalsIgnoreCase("sethome")) {
-			if (sender instanceof Player) {
-				String name = args.length >= 1 ? args[0] : "1";
-				WarpBuilder warp = new WarpBuilder();
-				warp.createWarp()
-						.setType("home")
-						.setName(name)
-						.setLocation(((Player) sender).getLocation())
-						.setMetadata("Owner", ((Player)sender).getUniqueId().toString())
-						.getWarp();
-				sender.sendMessage(CoreUtils.prefixes("homes") + "Home (" + name + ") set!");
 
-			} else {
-				sender.sendMessage(CoreUtils.prefixes("warps") + "You must be a player to use that command.");
+			if (cmd.getName().equalsIgnoreCase("sethome")) {
+				if (sender instanceof Player) {
+					String name = args.length >= 1 ? args[0]
+							: (HomeUtils.getHomes(((Player) sender).getUniqueId()).size() + 1) + "";
+					WarpBuilder warp = new WarpBuilder();
+					if (warp.createWarp().setType("home").setName(name).setLocation(((Player) sender).getLocation())
+							.setMetadata("Owner", ((Player) sender).getUniqueId().toString()).getWarp() != null)
+						sender.sendMessage(CoreUtils.prefixes("homes") + "Home (" + name + ") set!");
+					else
+						sender.sendMessage(CoreUtils.prefixes("homes") + "There was an error setting you home.");
+
+				} else {
+					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
+				}
 			}
+		} else {
+			sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 		}
+
 		return false;
+
 	}
 }

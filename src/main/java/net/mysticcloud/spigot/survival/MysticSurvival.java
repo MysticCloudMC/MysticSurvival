@@ -36,6 +36,7 @@ public class MysticSurvival extends JavaPlugin {
 		
 		SurvivalUtils.start();
 		new HomeCommand(this, "home", "sethome", "removehome");
+		new HomeCommand(this, "playerwarp", "addplayerwarp", "removeplayerwarp");
 	}
 
 }

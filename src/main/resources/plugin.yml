@@ -15,3 +15,15 @@ commands:
     aliases: ['removehome']
     usage: /deletehome [owner|default=you] <name>
     description: Remove a home from the database
+  playerwarp:
+    aliases: ['pw']
+    usage: /playerwarp <name> [selector]
+    description: Warp to Player Warps!
+  addplayerwarp:
+    aliases: ['addpw','apw']
+    usage: /addplayerwarp <name>
+    description: Add a Player Warp to the database.
+  removeplayerwarp:
+    aliases: ['removepw','deletepw','rpw','dpw']
+    usage: /removeplayerwarp <name> [selector]
+    description: Remove a Player Warp from the database.
