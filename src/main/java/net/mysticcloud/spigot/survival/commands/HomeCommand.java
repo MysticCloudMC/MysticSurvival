@@ -37,9 +37,10 @@ public class HomeCommand implements CommandExecutor {
 					String homes = "";
 					for (Warp home : WarpUtils.getWarps("home")) {
 						if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
-							homes = homes + ", " + home.name();
-						sender.sendMessage(homes);
+							homes = homes == "" ? home.name() : homes + ", " + home.name();
+						
 					}
+					sender.sendMessage(homes);
 					return false;
 				}
 				String type = "home";
