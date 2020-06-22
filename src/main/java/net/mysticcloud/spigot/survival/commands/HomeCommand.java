@@ -1,6 +1,7 @@
 package net.mysticcloud.spigot.survival.commands;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -33,26 +34,36 @@ public class HomeCommand implements CommandExecutor {
 			if (cmd.getName().equalsIgnoreCase("home")) {
 				String type = "home";
 				String owner = ((Player) sender).getUniqueId().toString();
+				List<Warp> homes = HomeUtils.getHomes(UUID.fromString(owner));
 				if (args.length == 0) {
+					if (homes.size() == 0) {
+						String homess = "";
+						for (Warp home : homes) {
+							homess = homess == "" ? home.name() : homess + ", " + home.name();
 
-					String homes = "";
-					for (Warp home : WarpUtils.getWarps("home")) {
-						if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
-							homes = homes == "" ? home.name() : homes + ", " + home.name();
-
-					}
-					if (homes == "" || homes.contains(",")) {
+						}
 						sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
-						sender.sendMessage(homes);
-						return false;
-					} else {
+						sender.sendMessage(homess);
 
-						for (Warp home : WarpUtils.getWarps(type, homes)) {
-							if (home.metadata("Owner").equals(owner)) {
-								((Player) sender).teleport(home.location());
-								sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
-								return true;
+//							for (Warp home : WarpUtils.getWarps(type, type)) {
+//								if (home.metadata("Owner").equals(owner)) {
+//									((Player) sender).teleport(home.location());
+//									sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
+//									return true;
+//							}
+//						}
+					} else {
+						if (HomeUtils.getHomes(UUID.fromString(owner)).size() >= 2) {
+							String homess = "";
+							for (Warp home : homes) {
+								if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
+									homess = homess == "" ? home.name() : homess + ", " + home.name();
+								sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
+								sender.sendMessage(homess);
 							}
+							Warp home = homes.get(0);
+							((Player) sender).teleport(home.location());
+							sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
 						}
 					}
 
@@ -69,12 +80,12 @@ public class HomeCommand implements CommandExecutor {
 					}
 					owner = Bukkit.getPlayer(args[1]).getUniqueId().toString();
 				}
-				List<Warp> homes = WarpUtils.getWarps(type, name);
-				if (homes.size() == 0) {
+				List<Warp> homes1 = WarpUtils.getWarps(type, name);
+				if (homes1.size() == 0) {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "Can't find that home...");
 					return false;
 				}
-				for (Warp home : homes) {
+				for (Warp home : homes1) {
 					if (home.metadata("Owner").equals(owner)) {
 						((Player) sender).teleport(home.location());
 						sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
@@ -102,7 +113,7 @@ public class HomeCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 				}
 			}
-			
+
 		} else {
 			sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 		}
