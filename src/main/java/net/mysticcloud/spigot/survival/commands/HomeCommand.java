@@ -31,20 +31,47 @@ public class HomeCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("home")) {
-
+				String type = "home";
+				String owner = ((Player) sender).getUniqueId().toString();
 				if (args.length == 0) {
-					sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
+
 					String homes = "";
 					for (Warp home : WarpUtils.getWarps("home")) {
 						if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
 							homes = homes == "" ? home.name() : homes + ", " + home.name();
-						
+
 					}
-					sender.sendMessage(homes);
+					if (homes == "") {
+						sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
+						sender.sendMessage(homes);
+						return false;
+					} else {
+
+						if (homes.contains(",")) {
+							for (Warp home : WarpUtils.getWarps(type, homes.split(", ")[0])) {
+								if (home.metadata("Owner").equals(owner)) {
+									((Player) sender).teleport(home.location());
+									sender.sendMessage(
+											CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
+									return true;
+								}
+							}
+						} else {
+							for (Warp home : WarpUtils.getWarps(type, homes)) {
+								if (home.metadata("Owner").equals(owner)) {
+									((Player) sender).teleport(home.location());
+									sender.sendMessage(
+											CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
+									return true;
+								}
+							}
+						}
+					}
+
 					return false;
+
 				}
-				String type = "home";
-				String owner = ((Player) sender).getUniqueId().toString();
+
 				String name = args[0];
 				if (args.length > 1) {
 					if (Bukkit.getPlayer(args[1]) == null) {
