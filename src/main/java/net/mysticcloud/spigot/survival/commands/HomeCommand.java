@@ -41,29 +41,17 @@ public class HomeCommand implements CommandExecutor {
 							homes = homes == "" ? home.name() : homes + ", " + home.name();
 
 					}
-					if (homes == "") {
+					if (homes == "" || homes.contains(",")) {
 						sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
 						sender.sendMessage(homes);
 						return false;
 					} else {
 
-						if (homes.contains(",")) {
-							for (Warp home : WarpUtils.getWarps(type, homes.split(", ")[0])) {
-								if (home.metadata("Owner").equals(owner)) {
-									((Player) sender).teleport(home.location());
-									sender.sendMessage(
-											CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
-									return true;
-								}
-							}
-						} else {
-							for (Warp home : WarpUtils.getWarps(type, homes)) {
-								if (home.metadata("Owner").equals(owner)) {
-									((Player) sender).teleport(home.location());
-									sender.sendMessage(
-											CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
-									return true;
-								}
+						for (Warp home : WarpUtils.getWarps(type, homes)) {
+							if (home.metadata("Owner").equals(owner)) {
+								((Player) sender).teleport(home.location());
+								sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
+								return true;
 							}
 						}
 					}
@@ -101,7 +89,7 @@ public class HomeCommand implements CommandExecutor {
 
 			if (cmd.getName().equalsIgnoreCase("sethome")) {
 				if (sender instanceof Player) {
-					String name = args.length >= 1 ? args[0]
+					String name = args.length > 1 ? args[0]
 							: (HomeUtils.getHomes(((Player) sender).getUniqueId()).size() + 1) + "";
 					WarpBuilder warp = new WarpBuilder();
 					if (warp.createWarp().setType("home").setName(name).setLocation(((Player) sender).getLocation())
@@ -114,6 +102,7 @@ public class HomeCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 				}
 			}
+			
 		} else {
 			sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 		}
