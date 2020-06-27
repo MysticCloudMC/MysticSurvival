@@ -32,79 +32,45 @@ public class HomeCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("home")) {
-				String type = "home";
-				String owner = ((Player) sender).getUniqueId().toString();
-				List<Warp> homes = HomeUtils.getHomes(UUID.fromString(owner));
+				List<Warp> homes = HomeUtils.getHomes(((Player)sender).getName());
 				if (args.length == 0) {
 					if (homes.size() == 0) {
-						String homess = "";
+						sender.sendMessage(CoreUtils.prefixes("homes") + "You must set a home first! /sethome");
+						return false;
+					}
+
+					Warp thome = homes.get(0);
+					boolean choosen = false;
+					if (homes.size() > 1 && args.length > 0) {
 						for (Warp home : homes) {
-							homess = homess == "" ? home.name() : homess + ", " + home.name();
-
-						}
-						sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
-						sender.sendMessage(homess);
-
-//							for (Warp home : WarpUtils.getWarps(type, type)) {
-//								if (home.metadata("Owner").equals(owner)) {
-//									((Player) sender).teleport(home.location());
-//									sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
-//									return true;
-//							}
-//						}
-					} else {
-						if (HomeUtils.getHomes(UUID.fromString(owner)).size() >= 2) {
-							String homess = "";
-							for (Warp home : homes) {
-								if (home.metadata("Owner").equals(((Player) sender).getUniqueId().toString()))
-									homess = homess == "" ? home.name() : homess + ", " + home.name();
-								sender.sendMessage(CoreUtils.prefixes("homes") + "Here is a list of avalible homes:");
-								sender.sendMessage(homess);
+							if (home.name().equalsIgnoreCase(args[0])) {
+								thome = home;
+								choosen = true;
+								break;
 							}
-							Warp home = homes.get(0);
-							((Player) sender).teleport(home.location());
-							sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
 						}
 					}
 
-					return false;
-
-				}
-
-				String name = args[0];
-				if (args.length > 1) {
-					if (Bukkit.getPlayer(args[1]) == null) {
-						sender.sendMessage(
-								CoreUtils.prefixes("homes") + "Player must be online for you to visit their home.");
-						return true;
+					((Player) sender).teleport(thome.location());
+					sender.sendMessage(
+							CoreUtils.prefixes("homes") + "You have teleported to home " + homes.get(0).name() + ".");
+					if (!choosen) {
+						String s = "";
+						for (Warp home : homes)
+							s = s == "" ? home.name() : s + ", " + home.name();
+						sender.sendMessage(CoreUtils.prefixes("homes") + "Here's a list of your homes: " + s);
 					}
-					owner = Bukkit.getPlayer(args[1]).getUniqueId().toString();
-				}
-				List<Warp> homes1 = WarpUtils.getWarps(type, name);
-				if (homes1.size() == 0) {
-					sender.sendMessage(CoreUtils.prefixes("homes") + "Can't find that home...");
-					return false;
-				}
-				for (Warp home : homes1) {
-					if (home.metadata("Owner").equals(owner)) {
-						((Player) sender).teleport(home.location());
-						sender.sendMessage(CoreUtils.prefixes("homes") + "Teleporting to home: " + home.name());
-						return true;
-					}
-				}
 
-				sender.sendMessage(CoreUtils.prefixes("homes")
-						+ "There was an error. If you see this message please contact an admin. (Error Code: SUR-HCMD101)");
-
+				}
 			}
 
 			if (cmd.getName().equalsIgnoreCase("sethome")) {
 				if (sender instanceof Player) {
-					String name = args.length > 1 ? args[0]
-							: (HomeUtils.getHomes(((Player) sender).getUniqueId()).size() + 1) + "";
+					String name = args.length > 0 ? args[0]
+							: (HomeUtils.getHomes(((Player)sender).getName()).size() + 1) + "";
 					WarpBuilder warp = new WarpBuilder();
-					if (warp.createWarp().setType("home").setName(name).setLocation(((Player) sender).getLocation())
-							.setMetadata("Owner", ((Player) sender).getUniqueId().toString()).getWarp() != null)
+					if (warp.createWarp().setType("home~" + ((Player) sender).getName()).setName(name)
+							.setLocation(((Player) sender).getLocation()).getWarp() != null)
 						sender.sendMessage(CoreUtils.prefixes("homes") + "Home (" + name + ") set!");
 					else
 						sender.sendMessage(CoreUtils.prefixes("homes") + "There was an error setting you home.");
