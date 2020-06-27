@@ -92,7 +92,7 @@ public class HomeCommand implements CommandExecutor {
 					String name = args.length > 0 ? args[0]
 							: (HomeUtils.getHomes(((Player) sender).getUniqueId()).size() + 1) + "";
 					WarpBuilder warp = new WarpBuilder();
-					if (warp.createWarp().setType("home~" + ((Player) sender).getName()).setName(name)
+					if (warp.createWarp().setType("home~" + ((Player) sender).getUniqueId()).setName(name)
 							.setLocation(((Player) sender).getLocation()).getWarp() != null)
 						sender.sendMessage(CoreUtils.prefixes("homes") + "Home (" + name + ") set!");
 					else
