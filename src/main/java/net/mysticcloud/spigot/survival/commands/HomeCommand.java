@@ -36,7 +36,7 @@ public class HomeCommand implements CommandExecutor {
 				if (args.length == 0) {
 					if (homes.size() == 0) {
 						sender.sendMessage(CoreUtils.prefixes("homes") + "You must set a home first! /sethome");
-						return false;
+						return true;
 					}
 				}
 
@@ -54,7 +54,7 @@ public class HomeCommand implements CommandExecutor {
 
 				((Player) sender).teleport(thome.location());
 				sender.sendMessage(
-						CoreUtils.prefixes("homes") + "You have teleported to home " + homes.get(0).name() + ".");
+						CoreUtils.prefixes("homes") + "You have teleported to home " + thome.name() + ".");
 				if (!choosen) {
 					String s = "";
 					for (Warp home : homes)
@@ -84,7 +84,7 @@ public class HomeCommand implements CommandExecutor {
 			sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 		}
 
-		return false;
+		return true;
 
 	}
 }
