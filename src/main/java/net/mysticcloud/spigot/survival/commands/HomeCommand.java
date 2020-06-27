@@ -32,7 +32,7 @@ public class HomeCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("home")) {
-				List<Warp> homes = HomeUtils.getHomes(((Player) sender).getUniqueId().toString());
+				List<Warp> homes = HomeUtils.getHomes(((Player) sender).getUniqueId());
 				if (args.length <= 1) {
 					if (args.length == 0) {
 						if (homes.size() == 0) {
@@ -64,10 +64,10 @@ public class HomeCommand implements CommandExecutor {
 					}
 
 				} else {
-					String owner = CoreUtils.LookupUUID(args[0]) != null ? CoreUtils.LookupUUID(args[0]).toString() : "";
+					UUID owner = CoreUtils.LookupUUID(args[0]);
 					String home = args[1];
 					
-					if(owner!="") {
+					if(owner!=null) {
 						List<Warp> ohomes = HomeUtils.getHomes(owner);
 						for(Warp ohome : ohomes) {
 							if(ohome.name().equalsIgnoreCase(home)) {
@@ -90,7 +90,7 @@ public class HomeCommand implements CommandExecutor {
 			if (cmd.getName().equalsIgnoreCase("sethome")) {
 				if (sender instanceof Player) {
 					String name = args.length > 0 ? args[0]
-							: (HomeUtils.getHomes(((Player) sender).getUniqueId().toString()).size() + 1) + "";
+							: (HomeUtils.getHomes(((Player) sender).getUniqueId()).size() + 1) + "";
 					WarpBuilder warp = new WarpBuilder();
 					if (warp.createWarp().setType("home~" + ((Player) sender).getName()).setName(name)
 							.setLocation(((Player) sender).getLocation()).getWarp() != null)

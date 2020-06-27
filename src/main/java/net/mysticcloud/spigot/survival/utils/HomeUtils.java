@@ -11,9 +11,9 @@ import net.mysticcloud.spigot.core.utils.warps.WarpUtils;
 
 public class HomeUtils {
 
-	public static List<Warp> getHomes(String player) {
+	public static List<Warp> getHomes(UUID uid) {
 		List<Warp> homes = new ArrayList<>();
-		for (Warp home : WarpUtils.getWarps("home~" + player)) {
+		for (Warp home : WarpUtils.getWarps("home~" + uid.toString())) {
 			homes.add(home);
 		}
 
