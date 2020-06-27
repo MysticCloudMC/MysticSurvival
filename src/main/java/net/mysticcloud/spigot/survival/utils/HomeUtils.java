@@ -13,7 +13,7 @@ public class HomeUtils {
 
 	public static List<Warp> getHomes(String player) {
 		List<Warp> homes = new ArrayList<>();
-		for (Warp home : WarpUtils.getWarps("homes~" + player)) {
+		for (Warp home : WarpUtils.getWarps("home~" + player)) {
 			homes.add(home);
 		}
 
