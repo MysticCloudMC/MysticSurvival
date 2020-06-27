@@ -32,42 +32,42 @@ public class HomeCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("home")) {
-				List<Warp> homes = HomeUtils.getHomes(((Player)sender).getName());
+				List<Warp> homes = HomeUtils.getHomes(((Player) sender).getName());
 				if (args.length == 0) {
 					if (homes.size() == 0) {
 						sender.sendMessage(CoreUtils.prefixes("homes") + "You must set a home first! /sethome");
 						return false;
 					}
+				}
 
-					Warp thome = homes.get(0);
-					boolean choosen = false;
-					if (homes.size() > 1 && args.length > 0) {
-						for (Warp home : homes) {
-							if (home.name().equalsIgnoreCase(args[0])) {
-								thome = home;
-								choosen = true;
-								break;
-							}
+				Warp thome = homes.get(0);
+				boolean choosen = false;
+				if (homes.size() > 1 && args.length > 0) {
+					for (Warp home : homes) {
+						if (home.name().equalsIgnoreCase(args[0])) {
+							thome = home;
+							choosen = true;
+							break;
 						}
 					}
-
-					((Player) sender).teleport(thome.location());
-					sender.sendMessage(
-							CoreUtils.prefixes("homes") + "You have teleported to home " + homes.get(0).name() + ".");
-					if (!choosen) {
-						String s = "";
-						for (Warp home : homes)
-							s = s == "" ? home.name() : s + ", " + home.name();
-						sender.sendMessage(CoreUtils.prefixes("homes") + "Here's a list of your homes: " + s);
-					}
-
 				}
+
+				((Player) sender).teleport(thome.location());
+				sender.sendMessage(
+						CoreUtils.prefixes("homes") + "You have teleported to home " + homes.get(0).name() + ".");
+				if (!choosen) {
+					String s = "";
+					for (Warp home : homes)
+						s = s == "" ? home.name() : s + ", " + home.name();
+					sender.sendMessage(CoreUtils.prefixes("homes") + "Here's a list of your homes: " + s);
+				}
+
 			}
 
 			if (cmd.getName().equalsIgnoreCase("sethome")) {
 				if (sender instanceof Player) {
 					String name = args.length > 0 ? args[0]
-							: (HomeUtils.getHomes(((Player)sender).getName()).size() + 1) + "";
+							: (HomeUtils.getHomes(((Player) sender).getName()).size() + 1) + "";
 					WarpBuilder warp = new WarpBuilder();
 					if (warp.createWarp().setType("home~" + ((Player) sender).getName()).setName(name)
 							.setLocation(((Player) sender).getLocation()).getWarp() != null)
