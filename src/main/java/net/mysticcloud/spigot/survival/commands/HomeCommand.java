@@ -73,7 +73,7 @@ public class HomeCommand implements CommandExecutor {
 							if(ohome.name().equalsIgnoreCase(home)) {
 								((Player)sender).teleport(ohome.location());
 								sender.sendMessage(
-										CoreUtils.prefixes("homes") + "You have teleported to " + formatUsername(args[1]) + " home " + ohome.name() + ".");
+										CoreUtils.prefixes("homes") + "You have teleported to " + formatUsername(args[0]) + " home " + ohome.name() + ".");
 								return true;
 							}
 						}
