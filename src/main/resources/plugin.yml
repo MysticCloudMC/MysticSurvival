@@ -12,7 +12,7 @@ commands:
     usage: /sethome [name]
     description: Add a home to the database
   deletehome:
-    aliases: ['removehome']
+    aliases: ['removehome','rmhome','delhome']
     usage: /deletehome [owner|default=you] <name>
     description: Remove a home from the database
   playerwarp:

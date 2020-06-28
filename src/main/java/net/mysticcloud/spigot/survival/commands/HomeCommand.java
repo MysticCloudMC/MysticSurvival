@@ -102,6 +102,21 @@ public class HomeCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 				}
 			}
+			
+			
+			if (cmd.getName().equalsIgnoreCase("deletehome")) {
+				if (sender instanceof Player) {
+					for(Warp home : HomeUtils.getHomes(((Player) sender).getUniqueId())) {
+						WarpUtils.removeWarp("home~" + ((Player)sender).getUniqueId(), home);
+						sender.sendMessage(CoreUtils.prefixes("homes") + "DELETED");
+						return true;
+					}
+					sender.sendMessage(CoreUtils.prefixes("homes") + "ERROR");
+
+				} else {
+					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
+				}
+			}
 
 		} else {
 			sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
