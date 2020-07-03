@@ -66,14 +66,14 @@ public class HomeCommand implements CommandExecutor {
 				} else {
 					UUID owner = CoreUtils.LookupUUID(args[0]);
 					String home = args[1];
-					
-					if(owner!=null) {
+
+					if (owner != null) {
 						List<Warp> ohomes = HomeUtils.getHomes(owner);
-						for(Warp ohome : ohomes) {
-							if(ohome.name().equalsIgnoreCase(home)) {
-								((Player)sender).teleport(ohome.location());
-								sender.sendMessage(
-										CoreUtils.prefixes("homes") + "You have teleported to " + formatUsername(args[0]) + " home " + ohome.name() + ".");
+						for (Warp ohome : ohomes) {
+							if (ohome.name().equalsIgnoreCase(home)) {
+								((Player) sender).teleport(ohome.location());
+								sender.sendMessage(CoreUtils.prefixes("homes") + "You have teleported to "
+										+ formatUsername(args[0]) + " home " + ohome.name() + ".");
 								return true;
 							}
 						}
@@ -81,9 +81,6 @@ public class HomeCommand implements CommandExecutor {
 						return true;
 					}
 					sender.sendMessage(CoreUtils.prefixes("homes") + "That player could not be found.");
-					
-					
-					
 				}
 			}
 
@@ -102,12 +99,11 @@ public class HomeCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");
 				}
 			}
-			
-			
+
 			if (cmd.getName().equalsIgnoreCase("deletehome")) {
 				if (sender instanceof Player) {
-					for(Warp home : HomeUtils.getHomes(((Player) sender).getUniqueId())) {
-						WarpUtils.removeWarp("home~" + ((Player)sender).getUniqueId(), home);
+					for (Warp home : HomeUtils.getHomes(((Player) sender).getUniqueId())) {
+						WarpUtils.removeWarp("home~" + ((Player) sender).getUniqueId(), home);
 						sender.sendMessage(CoreUtils.prefixes("homes") + "DELETED");
 						return true;
 					}
@@ -128,6 +124,6 @@ public class HomeCommand implements CommandExecutor {
 
 	private String formatUsername(String username) {
 		return username.toLowerCase().endsWith("s") ? username + "'" : username + "'s";
-		
+
 	}
 }
