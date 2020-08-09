@@ -40,15 +40,34 @@ public class PlayerListener implements Listener {
 				break;
 			case SKELETON:
 				color = "&c";
+			case DROWNED:
+				color = "&a";
+				break;
+			case CREEPER:
+				color = "&2";
+				break;
+			case BLAZE:
+				color = "&6";
+				break;
+			case ENDERMAN:
+				color = "&5";
+				break;
+			case CAVE_SPIDER:
+				color = "&1";
+				break;
+			case SPIDER:
+				color = "&1";
 				break;
 			default:
+				
 				break;
 			}
 			String name = CoreUtils.colorize(
 					"&7[" + level + "] " + color + "&l" + e.getEntity().getName().substring(0, 1).toUpperCase()
 							+ e.getEntity().getName().substring(1, e.getEntity().getName().length()).toLowerCase());
-			((Monster) e.getEntity()).setMaxHealth(20 + (player.getLevel() * 1.5));
-			((Monster) e.getEntity()).setHealth(((Monster) e.getEntity()).getMaxHealth());
+			Monster mon = (Monster) e.getEntity();
+			mon.setMaxHealth(mon.getHealth() + (player.getLevel() * 1.5));
+			mon.setHealth(mon.getMaxHealth());
 			e.getEntity().setCustomName(name);
 
 		}
