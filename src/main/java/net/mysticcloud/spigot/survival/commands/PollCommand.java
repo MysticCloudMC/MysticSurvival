@@ -35,7 +35,7 @@ public class PollCommand implements CommandExecutor {
 		 *  @usage /poll create [name] [question(arg2,...)]
 		 */
 		if(args[0].equalsIgnoreCase("create")) {
-			if(args.length <= 3) {
+			if(args.length <= 2) {
 				sender.sendMessage(CoreUtils.colorize("&e/poll create [name] [question(arg2,...)]"));
 				return false;
 			}
@@ -51,7 +51,7 @@ public class PollCommand implements CommandExecutor {
 		 *  @usage /poll options [name] [id] [answer(arg3,...)]
 		 */
 		if(args[0].equalsIgnoreCase("options")) {
-			if(args.length <= 4) {
+			if(args.length <= 3) {
 				sender.sendMessage(CoreUtils.colorize("&e/poll options [name] [id] [answer(arg3,...)]"));
 				return false;
 			}
@@ -67,7 +67,7 @@ public class PollCommand implements CommandExecutor {
 		 *  @usage /poll publish [name]
 		 */
 		if(args[0].equalsIgnoreCase("publish")) {
-			if(args.length <= 2) {
+			if(args.length <= 1) {
 				sender.sendMessage(CoreUtils.colorize("&e/poll publish [name]"));
 				return false;
 			}
@@ -79,7 +79,7 @@ public class PollCommand implements CommandExecutor {
 		 */
 		if(args[0].equalsIgnoreCase("vote")) {
 			if(sender instanceof Player) {
-				if(args.length <= 2) {
+				if(args.length <= 1) {
 					sender.sendMessage(CoreUtils.colorize("&e/poll vote [id]"));
 					return false;
 				}
