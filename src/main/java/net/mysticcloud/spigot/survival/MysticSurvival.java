@@ -44,7 +44,7 @@ public class MysticSurvival extends JavaPlugin {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&l" + getDescription().getName() + " &f>&7 Found MysticCore! Loading plugin.."));
 		}
 		
-		SurvivalUtils.start();
+		SurvivalUtils.start(this);
 		new HomeCommand(this, "home", "sethome", "removehome");
 		new HomeCommand(this, "playerwarp", "addplayerwarp", "removeplayerwarp");
 		new PollCommand(this,"poll");

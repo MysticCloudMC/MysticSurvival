@@ -13,23 +13,15 @@ import org.bukkit.entity.Player;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.runnables.PollTimer;
+import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
 public class PollUtils {
 	
-	private static MysticSurvival plugin;
 	
 	private static Map<String, Poll> polls = new HashMap<>();
 	private static List<Poll> pollQueue = new ArrayList<>();
 	private static Poll poll = null;
 	
-	
-	public static void start(MysticSurvival main) {
-		plugin = main;
-	}
-	
-	public static MysticSurvival getPlugin() {
-		return plugin;
-	}
 	
 	public static Poll createPoll(String name, String question) {
 		Poll poll = new Poll(name, question);
@@ -49,10 +41,10 @@ public class PollUtils {
 			for(Entry<Integer,String> entry : poll.getOptions().entrySet()) {
 				player.sendMessage(CoreUtils.colorize("&e" + entry.getKey() + "&f: " + entry.getValue()));
 			}
-			player.sendMessage(CoreUtils.colorize("&fThis poll will last &e" + poll.getTimer() + "&f seconds. &7&l(/poll vote [id])"));
+			player.sendMessage(CoreUtils.colorize("&fThis poll will last &e" + poll.getTimer() + "&f seconds. &7&o(/poll vote [id])"));
 			player.sendMessage(CoreUtils.colorize("&e-----------------------------------------"));
 		}
-		Bukkit.getScheduler().runTaskLater(plugin, new PollTimer(poll), poll.getTimer()*20);
+		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new PollTimer(poll), poll.getTimer()*20);
 	}
 	
 
