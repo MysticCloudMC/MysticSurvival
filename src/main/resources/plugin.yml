@@ -24,6 +24,10 @@ commands:
     usage: /addplayerwarp <name>
     description: Add a Player Warp to the database.
   removeplayerwarp:
-    aliases: ['removepw','deletepw','rpw','dpw']
+    aliases: ['removepw','deletepw','rpw','dpw','rempw','delpw']
     usage: /removeplayerwarp <name> [selector]
     description: Remove a Player Warp from the database.
+  poll:
+    usage: /poll
+    description: Poll command.
+  

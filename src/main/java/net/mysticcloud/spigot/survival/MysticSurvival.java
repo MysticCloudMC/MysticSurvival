@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.mysticcloud.spigot.survival.commands.HomeCommand;
+import net.mysticcloud.spigot.survival.commands.PollCommand;
 import net.mysticcloud.spigot.survival.listeners.PlayerListener;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
@@ -46,6 +47,7 @@ public class MysticSurvival extends JavaPlugin {
 		SurvivalUtils.start();
 		new HomeCommand(this, "home", "sethome", "removehome");
 		new HomeCommand(this, "playerwarp", "addplayerwarp", "removeplayerwarp");
+		new PollCommand(this,"poll");
 		
 		new PlayerListener(this);
 	}
