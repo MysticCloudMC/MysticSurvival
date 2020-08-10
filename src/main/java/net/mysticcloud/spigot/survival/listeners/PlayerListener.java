@@ -34,6 +34,9 @@ public class PlayerListener implements Listener {
 			}
 			String color = "&2";
 			int level = CoreUtils.getRandom().nextInt(7) + (player.getLevel() - 5);
+			if (level < 1)
+				level = 1;
+
 			switch (e.getEntity().getType()) {
 			case ZOMBIE:
 				color = "&a";
@@ -59,7 +62,7 @@ public class PlayerListener implements Listener {
 				color = "&1";
 				break;
 			default:
-				
+
 				break;
 			}
 			String name = CoreUtils.colorize(
