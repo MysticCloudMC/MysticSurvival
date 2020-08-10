@@ -24,7 +24,7 @@ public class PlayerListener implements Listener {
 	public void onEntityDeath(EntityDeathEvent e) {
 		if(e.getEntity() instanceof Monster && e.getEntity().getKiller() != null && e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(level/100);
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(level/10);
 			//Drops?
 		}
 	}
