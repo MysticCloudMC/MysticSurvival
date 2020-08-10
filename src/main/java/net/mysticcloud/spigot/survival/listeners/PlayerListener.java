@@ -49,13 +49,15 @@ public class PlayerListener implements Listener {
 
 			if (((Player) e.getEntity()).getHealth() - e.getDamage() <= 0) {
 				e.setCancelled(true);
-				for(ItemStack i : ((Player)e.getEntity()).getInventory().getContents()) {
-					e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
+				for (ItemStack i : ((Player) e.getEntity()).getInventory().getContents()) {
+					if (i != null)
+						e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
 				}
-				((Player)e.getEntity()).getInventory().clear();
+				((Player) e.getEntity()).getInventory().clear();
 				e.setCancelled(true);
 				CoreUtils.teleportToSpawn((Player) e.getEntity(), SpawnReason.DEATH);
-				TeleportUtils.teleportLocation((Player) e.getEntity(), HomeUtils.getHomes(((Player) e.getEntity()).getUniqueId()).get(0).location());
+				TeleportUtils.teleportLocation((Player) e.getEntity(),
+						HomeUtils.getHomes(((Player) e.getEntity()).getUniqueId()).get(0).location());
 				((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getMaxHealth());
 				((Player) e.getEntity()).setFoodLevel(20);
 
