@@ -1,5 +1,6 @@
 package net.mysticcloud.spigot.survival.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -24,7 +25,8 @@ public class PlayerListener implements Listener {
 	public void onEntityDeath(EntityDeathEvent e) {
 		if(e.getEntity() instanceof Monster && e.getEntity().getKiller() != null && e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(level);
+			Bukkit.broadcastMessage(level + "");
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double)level*100);
 			//Drops?
 			if(level > 5) {
 				CoreUtils.spawnGem(e.getEntity().getLocation());
