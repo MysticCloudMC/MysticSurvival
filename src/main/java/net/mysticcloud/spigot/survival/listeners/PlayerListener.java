@@ -1,5 +1,7 @@
 package net.mysticcloud.spigot.survival.listeners;
 
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -7,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +17,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
+import net.mysticcloud.spigot.core.utils.SpawnReason;
+import net.mysticcloud.spigot.core.utils.teleport.TeleportUtils;
+import net.mysticcloud.spigot.core.utils.warps.Warp;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
 public class PlayerListener implements Listener {
@@ -22,23 +29,44 @@ public class PlayerListener implements Listener {
 	public PlayerListener(MysticSurvival plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
-		if(e.getEntity() instanceof Monster && e.getEntity().getKiller() != null && e.getEntity().hasMetadata("level")) {
+		if (e.getEntity() instanceof Monster && e.getEntity().getKiller() != null
+				&& e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double)level/100);
-			//Drops?
-			if(level > 5) {
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double) level / 100);
+			// Drops?
+			if (level > 5) {
 				e.getDrops().add(new ItemStack(Material.DIAMOND));
 			}
 		}
 	}
-	
+
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player) {
+
+			if (((Player) e.getEntity()).getHealth() - e.getDamage() <= 0) {
+				for(ItemStack i : ((Player)e.getEntity()).getInventory().getContents()) {
+					e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
+				}
+				((Player)e.getEntity()).getInventory().clear();
+				e.setCancelled(true);
+				CoreUtils.teleportToSpawn((Player) e.getEntity(), SpawnReason.DEATH);
+				TeleportUtils.teleportLocation((Player) e.getEntity(), HomeUtils.getHomes(((Player) e.getEntity()).getUniqueId()).get(0).location());
+				((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getMaxHealth());
+				((Player) e.getEntity()).setFoodLevel(20);
+
+			}
+
+		}
+	}
+
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
-		if(e.getEntity() instanceof Monster && e.getDamager() instanceof Player) {
-			e.setDamage((e.getDamage()+CoreUtils.getMysticPlayer(((Player)e.getDamager())).getLevel()/2));
+		if (e.getEntity() instanceof Monster && e.getDamager() instanceof Player) {
+			e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() / 2));
 		}
 	}
 
