@@ -26,6 +26,9 @@ public class PlayerListener implements Listener {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
 			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(level);
 			//Drops?
+			if(level > 5) {
+				CoreUtils.spawnGem(e.getEntity().getLocation());
+			}
 		}
 	}
 
