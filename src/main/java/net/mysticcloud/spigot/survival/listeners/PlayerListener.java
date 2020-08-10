@@ -1,21 +1,32 @@
 package net.mysticcloud.spigot.survival.listeners;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
 public class PlayerListener implements Listener {
 
 	public PlayerListener(MysticSurvival plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+	
+	@EventHandler
+	public void onEntityDeath(EntityDeathEvent e) {
+		if(e.getEntity() instanceof Monster && e.getEntity().getKiller() != null && e.getEntity().hasMetadata("level")) {
+			int level = (int) e.getEntity().getMetadata("level").get(0).value();
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(level/100);
+			//Drops?
+		}
 	}
 
 	@EventHandler
@@ -69,6 +80,7 @@ public class PlayerListener implements Listener {
 					"&7[" + level + "] " + color + "&l" + e.getEntity().getName().substring(0, 1).toUpperCase()
 							+ e.getEntity().getName().substring(1, e.getEntity().getName().length()).toLowerCase());
 			Monster mon = (Monster) e.getEntity();
+			mon.setMetadata("level", new FixedMetadataValue(SurvivalUtils.getPlugin(), level));
 			mon.setMaxHealth(mon.getHealth() + (player.getLevel() * 1.5));
 			mon.setHealth(mon.getMaxHealth());
 			e.getEntity().setCustomName(name);
