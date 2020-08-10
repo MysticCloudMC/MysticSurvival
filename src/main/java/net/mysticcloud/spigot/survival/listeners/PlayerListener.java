@@ -48,6 +48,7 @@ public class PlayerListener implements Listener {
 		if (e.getEntity() instanceof Player) {
 
 			if (((Player) e.getEntity()).getHealth() - e.getDamage() <= 0) {
+				e.setCancelled(true);
 				for(ItemStack i : ((Player)e.getEntity()).getInventory().getContents()) {
 					e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
 				}
@@ -66,7 +67,7 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
 		if (e.getEntity() instanceof Monster && e.getDamager() instanceof Player) {
-			e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() / 2));
+			e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 		}
 	}
 
