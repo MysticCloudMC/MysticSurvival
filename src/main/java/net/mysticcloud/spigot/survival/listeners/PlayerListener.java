@@ -1,6 +1,7 @@
 package net.mysticcloud.spigot.survival.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -8,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
@@ -26,10 +28,10 @@ public class PlayerListener implements Listener {
 		if(e.getEntity() instanceof Monster && e.getEntity().getKiller() != null && e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
 			Bukkit.broadcastMessage(level + "");
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double)level*100);
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double)level/100);
 			//Drops?
 			if(level > 5) {
-				CoreUtils.spawnGem(e.getEntity().getLocation());
+				e.getDrops().add(new ItemStack(Material.DIAMOND));
 			}
 		}
 	}
