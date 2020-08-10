@@ -2,6 +2,7 @@ package net.mysticcloud.spigot.survival.listeners;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -55,11 +56,20 @@ public class PlayerListener implements Listener {
 				}
 				((Player) e.getEntity()).getInventory().clear();
 				e.setCancelled(true);
-				CoreUtils.teleportToSpawn((Player) e.getEntity(), SpawnReason.DEATH);
-				TeleportUtils.teleportLocation((Player) e.getEntity(),
-						HomeUtils.getHomes(((Player) e.getEntity()).getUniqueId()).get(0).location());
-				((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getMaxHealth());
-				((Player) e.getEntity()).setFoodLevel(20);
+				Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
+					public void run() {
+						if (HomeUtils.getHomes(e.getEntity().getUniqueId()).size() > 0) {
+
+							TeleportUtils.teleportLocation((Player) e.getEntity(),
+									HomeUtils.getHomes(((Player) e.getEntity()).getUniqueId()).get(0).location());
+						} else {
+							CoreUtils.teleportToSpawn((Player) e.getEntity(), SpawnReason.DEATH);
+						}
+						((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getMaxHealth());
+						((Player) e.getEntity()).setFoodLevel(20);
+
+					}
+				}, 1);
 
 			}
 
