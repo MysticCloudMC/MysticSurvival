@@ -60,7 +60,7 @@ public class PlayerListener implements Listener {
 					public void run() {
 						if (HomeUtils.getHomes(e.getEntity().getUniqueId()).size() > 0) {
 
-							TeleportUtils.teleportLocation((Player) e.getEntity(),
+							e.getEntity().teleport(
 									HomeUtils.getHomes(((Player) e.getEntity()).getUniqueId()).get(0).location());
 						} else {
 							CoreUtils.teleportToSpawn((Player) e.getEntity(), SpawnReason.DEATH);
