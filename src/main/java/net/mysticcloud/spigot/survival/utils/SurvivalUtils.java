@@ -44,7 +44,7 @@ public class SurvivalUtils {
 
 		weaponTiers.put(Tier.EXTREME,
 				new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW, Material.TRIDENT });
-		descriptors.put(Tier.LOW, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+		descriptors.put(Tier.EXTREME, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 	}
 
 	public static MysticSurvival getPlugin() {
@@ -90,7 +90,7 @@ public class SurvivalUtils {
 					a.setDisplayName(name);
 					item.setItemMeta(a);
 				}
-				if (s.equalsIgnoreCase("ice")) {
+				if (s.equalsIgnoreCase("frost")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
