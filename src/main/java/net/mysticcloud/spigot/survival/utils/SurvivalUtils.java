@@ -87,6 +87,7 @@ public class SurvivalUtils {
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					String name = a.getDisplayName();
 					name = CoreUtils.colorize(name + "&f of &cFlame&f");
+					a.setLore(lore);
 					a.setDisplayName(name);
 					item.setItemMeta(a);
 				}
@@ -97,6 +98,7 @@ public class SurvivalUtils {
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					String name = a.getDisplayName();
 					name = CoreUtils.colorize(name + "&f of &bFrost&f");
+					a.setLore(lore);
 					a.setDisplayName(name);
 					item.setItemMeta(a);
 				}
