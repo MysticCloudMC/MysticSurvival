@@ -38,9 +38,7 @@ public class PlayerListener implements Listener {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
 			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double) level / 100);
 			// Drops?
-			if (level > 5) {
-				e.getDrops().add(new ItemStack(Material.DIAMOND));
-			}
+			SurvivalUtils.handleDrops(level,e.getEntity().getLocation());
 		}
 	}
 
@@ -97,7 +95,7 @@ public class PlayerListener implements Listener {
 				e.setCancelled(true);
 				return;
 			}
-			String color = "&2";
+			String color = "&f";
 			int level = CoreUtils.getRandom().nextInt(7) + (player.getLevel() - 5);
 			if (level < 1)
 				level = 1;
