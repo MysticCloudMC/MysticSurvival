@@ -62,17 +62,18 @@ public class SurvivalUtils {
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 		if (CoreUtils.getRandom().nextBoolean() && !mystic) {
-			
+			mystic = true;
 			lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l" + ((int) ( level * (1 / CoreUtils.getRandom().nextInt(4)) )) + "&7"));
 			name = name + " of &cFlame&f";
 		}
 		if (CoreUtils.getRandom().nextBoolean() && !mystic) {
+			mystic = true;
 			lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l" + ((int) ( level * (1 / CoreUtils.getRandom().nextInt(4)) )) + "&7"));
-			name = name + " of &cFlame&f";
+			name = name + " of &cFrost&f";
 		}
 		
 		a.setLore(lore);
-		a.setDisplayName(name);
+		a.setDisplayName(CoreUtils.colorize("&f" + name));
 		item.setItemMeta(a);
 		
 		
