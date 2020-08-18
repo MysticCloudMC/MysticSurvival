@@ -48,15 +48,18 @@ public class SurvivalUtils {
 		ItemStack item = new ItemStack(
 				weaponTiers.get(tier)[CoreUtils.getRandom().nextInt(weaponTiers.get(tier).length)]);
 		ItemMeta a = item.getItemMeta();
-
+		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 		if (CoreUtils.getRandom().nextBoolean() && !mystic) {
-			List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+			
 			lore.add(CoreUtils.colorize("&cFire&f Damage: &c&l" + ((int) ( level * (1 / CoreUtils.getRandom().nextInt(4)) )) + "&f"));
 		}
 		if (CoreUtils.getRandom().nextBoolean() && !mystic) {
-			List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 			lore.add(CoreUtils.colorize("&bFrost&f Damage: &b&l" + ((int) ( level * (1 / CoreUtils.getRandom().nextInt(4)) )) + "&f"));
 		}
+		
+		a.setLore(lore);
+		
+		item.setItemMeta(a);
 
 		return item;
 	}
