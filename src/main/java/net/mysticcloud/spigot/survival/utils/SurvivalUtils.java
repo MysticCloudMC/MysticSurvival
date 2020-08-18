@@ -76,7 +76,7 @@ public class SurvivalUtils {
 	}
 
 	private static ItemStack randomizeEnhancements(ItemStack item, int level) {
-//		boolean enhanced = false;
+		boolean enhanced = false;
 		Collections.shuffle(enhancements);
 		for (String s : enhancements) {
 			if (CoreUtils.getRandom().nextBoolean()) {
@@ -86,10 +86,11 @@ public class SurvivalUtils {
 					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					String name = a.getDisplayName();
-					name = CoreUtils.colorize(name + "&f of &cFlame&f");
+					name = CoreUtils.colorize(name + "&f " + (enhanced ? "and" : "or") + " &cFlame&f");
 					a.setLore(lore);
 					a.setDisplayName(name);
 					item.setItemMeta(a);
+					enhanced = true;
 				}
 				if (s.equalsIgnoreCase("frost")) {
 					ItemMeta a = item.getItemMeta();
@@ -97,10 +98,11 @@ public class SurvivalUtils {
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					String name = a.getDisplayName();
-					name = CoreUtils.colorize(name + "&f of &bFrost&f");
+					name = CoreUtils.colorize(name + "&f " + (enhanced ? "and" : "or") + " &bFrost&f");
 					a.setLore(lore);
 					a.setDisplayName(name);
 					item.setItemMeta(a);
+					enhanced = true;
 				}
 			}
 		}
