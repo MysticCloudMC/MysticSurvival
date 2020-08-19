@@ -255,9 +255,6 @@ public class SurvivalUtils {
 		item.setItemMeta(a);
 		item = randomizeArmorEnhancements(item, level);
 		ItemMeta a2 = item.getItemMeta();
-
-		a2.setDisplayName(CoreUtils.colorize("&f" + name));
-
 		a2.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a2);
 
