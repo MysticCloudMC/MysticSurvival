@@ -226,19 +226,16 @@ public class SurvivalUtils {
 		double speed = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
 		
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage",
-				((double)((double)damage)/((double)100)), Operation.ADD_NUMBER, EquipmentSlot.HAND);
+				damage, Operation.ADD_NUMBER, EquipmentSlot.HAND);
 		a.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
 		
 		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed",
-				((double)((double)speed)/((double)100)), Operation.ADD_NUMBER, EquipmentSlot.HAND);
+				speed, Operation.ADD_NUMBER, EquipmentSlot.HAND);
 		a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
 
 		lore.add(CoreUtils.colorize("&7Damage: " + ((int)damage)));
 		lore.add(CoreUtils.colorize("&7Speed: " + ((int)speed)));
-		
-		lore.add("");
 		lore.add(CoreUtils.colorize("&7------------------"));
-		lore.add("");
 		a.setLore(lore);
 
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
