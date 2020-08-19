@@ -38,7 +38,7 @@ public class PlayerListener implements Listener {
 		if (e.getEntity() instanceof Monster && e.getEntity().getKiller() != null
 				&& e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double) level / 100);
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(((double) level / 100)*CoreUtils.getRandom().nextInt(50));
 			// Drops?
 			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
 		}
