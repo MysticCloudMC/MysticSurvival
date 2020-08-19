@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -31,6 +32,18 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
+	public void onPlayerChat(AsyncPlayerChatEvent e) {
+		if (e.getMessage().equalsIgnoreCase("!giveRandomWeapon")) {
+			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
+					SurvivalUtils.weaponGenerator((int) e.getPlayer().getMetadata("level").get(0).value()));
+		}
+		if (e.getMessage().equalsIgnoreCase("!giveRandomArmor")) {
+			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
+					SurvivalUtils.armorGenerator((int) e.getPlayer().getMetadata("level").get(0).value()));
+		}
+	}
+
+	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
 		if (e.getEntity() instanceof Monster && e.getEntity().getKiller() != null
 				&& e.getEntity().hasMetadata("level")) {
@@ -40,8 +53,6 @@ public class PlayerListener implements Listener {
 			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
 		}
 	}
-
-	
 
 	@EventHandler
 	public void onEntityDamage(EntityDamageEvent e) {
