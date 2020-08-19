@@ -148,7 +148,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
-							+ ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) + "&7"));
+							+ ((int)((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5))) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cFlame&f"));
