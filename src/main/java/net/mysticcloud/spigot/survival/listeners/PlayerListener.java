@@ -1,5 +1,6 @@
 package net.mysticcloud.spigot.survival.listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -13,9 +14,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -51,9 +49,22 @@ public class PlayerListener implements Listener {
 
 			if (((Player) e.getEntity()).getHealth() - e.getDamage() <= 0) {
 				e.setCancelled(true);
+				List<ItemStack> adds = new ArrayList<>();
 				for (ItemStack i : ((Player) e.getEntity()).getInventory().getContents()) {
-					if (i != null)
+					if (i != null) {
+						if(i.hasItemMeta()) {
+							if(i.getItemMeta().hasLore()) {
+								for(String s : i.getItemMeta().getLore()) {
+									if(ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
+										adds.add(i);
+										continue;
+									}
+								}
+							}
+						}
 						e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
+					}
+						
 				}
 				((Player) e.getEntity()).getInventory().clear();
 				e.setCancelled(true);
@@ -68,6 +79,9 @@ public class PlayerListener implements Listener {
 						}
 						((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getMaxHealth());
 						((Player) e.getEntity()).setFoodLevel(20);
+						for(ItemStack i : adds) {
+							((Player)e.getEntity()).getInventory().addItem(i);
+						}
 
 					}
 				}, 1);

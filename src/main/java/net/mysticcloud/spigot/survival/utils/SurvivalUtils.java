@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -313,6 +314,16 @@ public class SurvivalUtils {
 		for (ItemStack i : drops) {
 			location.getWorld().dropItemNaturally(location, i);
 		}
+	}
+
+	public static ItemStack soulbind(Player sender, ItemStack item) {
+		ItemMeta a = item.getItemMeta();
+		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+		lore.add(CoreUtils.colorize("&6&lSoulbound"));
+		a.setLore(lore);
+		item.setItemMeta(a);
+		
+		return item;
 	}
 
 }
