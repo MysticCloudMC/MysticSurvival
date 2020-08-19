@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -32,14 +33,33 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if (e.getMessage().equalsIgnoreCase("!giveRandomWeapon")) {
-			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
-					SurvivalUtils.weaponGenerator((int) e.getPlayer().getMetadata("level").get(0).value()));
+	public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
+		String cmd = "";
+		String[] args = new String[] {};
+		if (e.getMessage().contains(" ")) {
+			cmd = e.getMessage().split(" ")[0];
+			String tmp = "";
+			tmp = e.getMessage();
+			tmp = tmp.replaceFirst(cmd + " ", "");
+			args = tmp.split(" ");
+
+		} else {
+			cmd = e.getMessage();
 		}
-		if (e.getMessage().equalsIgnoreCase("!giveRandomArmor")) {
+		int level = (int) e.getPlayer().getMetadata("level").get(0).value();
+		if(args.length != 0) {
+			level = Integer.parseInt(args[0]);
+		}
+
+		if (!cmd.equalsIgnoreCase("/GiveRandomWeapon")){
+			e.setCancelled(true);
 			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
-					SurvivalUtils.armorGenerator((int) e.getPlayer().getMetadata("level").get(0).value()));
+					SurvivalUtils.weaponGenerator(level));
+		}
+		if (!cmd.equalsIgnoreCase("/GiveRandomArmor")){
+			e.setCancelled(true);
+			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
+					SurvivalUtils.armorGenerator(level));
 		}
 	}
 
