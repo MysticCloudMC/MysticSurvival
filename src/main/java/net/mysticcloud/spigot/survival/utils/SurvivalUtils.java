@@ -44,10 +44,11 @@ public class SurvivalUtils {
 		weaponEnhancements.add("fire");
 		weaponEnhancements.add("frost");
 		weaponEnhancements.add("fireball");
+		weaponEnhancements.add("speed");
 
 		weaponTiers.put(Tier.HUMAN,
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
-		weaponDescriptors.put(Tier.HUMAN, new String[] { "Dull", "Chipped", "SHUMAN", "" });
+		weaponDescriptors.put(Tier.HUMAN, new String[] { "Dull", "Chipped", "Slow", "" });
 
 		weaponTiers.put(Tier.WIZARD,
 				new Material[] { Material.STONE_AXE, Material.IRON_SWORD, Material.IRON_AXE, Material.GOLDEN_SWORD });
@@ -57,7 +58,7 @@ public class SurvivalUtils {
 		weaponDescriptors.put(Tier.DEMI_GOD, new String[] { "Sharp", "Flashing", "Powerful" });
 
 		weaponTiers.put(Tier.CELESTIAL,
-				new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW, Material.TRIDENT });
+				new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW, Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
 		weaponDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
 		armorEnhancements.add("speed");
@@ -76,7 +77,7 @@ public class SurvivalUtils {
 		armorDescriptors.put(Tier.DEMI_GOD, new String[] { "Strong", "Glistening", "Holy" });
 
 		armorTiers.put(Tier.CELESTIAL, new Material[] { Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
-				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS });
+				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.NETHERITE_BOOTS});
 		armorDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
 	}
@@ -165,6 +166,21 @@ public class SurvivalUtils {
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
+					item.setItemMeta(a);
+					enhanced = true;
+				}
+				if (s.equalsIgnoreCase("speed")) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
+					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &a&l"
+							+ level2));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &aSpeed&f"));
+					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), getArmorType(item.getType()) + " Movement Speed", ((double)level2/100),
+							Operation.ADD_NUMBER);
+					a.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
 					item.setItemMeta(a);
 					enhanced = true;
 				}
