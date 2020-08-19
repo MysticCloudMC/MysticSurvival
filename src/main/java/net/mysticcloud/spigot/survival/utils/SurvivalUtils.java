@@ -24,8 +24,12 @@ public class SurvivalUtils {
 	private static MysticSurvival plugin;
 
 	static Map<Tier, Material[]> weaponTiers = new HashMap<>();
-	static Map<Tier, String[]> descriptors = new HashMap<>();
-	static List<String> enhancements = new ArrayList<>();
+	static Map<Tier, String[]> weaponDescriptors = new HashMap<>();
+	static List<String> weaponEnhancements = new ArrayList<>();
+
+	static Map<Tier, Material[]> armorTiers = new HashMap<>();
+	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
+	static List<String> armorEnhancements = new ArrayList<>();
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
 
 	public static void start(MysticSurvival main) {
@@ -34,24 +38,44 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("survival", "&5&lMystic Survival &7>&f ");
 		CoreUtils.coreHandleDamage(false);
 
-		enhancements.add("fire");
-		enhancements.add("frost");
-		enhancements.add("fireball");
+		weaponEnhancements.add("fire");
+		weaponEnhancements.add("frost");
+		weaponEnhancements.add("fireball");
 
 		weaponTiers.put(Tier.LOW,
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
-		descriptors.put(Tier.LOW, new String[] { "Dull", "Chipped", "Slow", "" });
+		weaponDescriptors.put(Tier.LOW, new String[] { "Dull", "Chipped", "Slow", "" });
 
 		weaponTiers.put(Tier.MID,
 				new Material[] { Material.STONE_AXE, Material.IRON_SWORD, Material.IRON_AXE, Material.GOLDEN_SWORD });
-		descriptors.put(Tier.MID, new String[] { "Swift", "Shiny", "Dented" });
+		weaponDescriptors.put(Tier.MID, new String[] { "Swift", "Shiny", "Dented" });
 
 		weaponTiers.put(Tier.HIGH, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW });
-		descriptors.put(Tier.HIGH, new String[] { "Sharp", "Flashing", "Powerful" });
+		weaponDescriptors.put(Tier.HIGH, new String[] { "Sharp", "Flashing", "Powerful" });
 
 		weaponTiers.put(Tier.EXTREME,
 				new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW, Material.TRIDENT });
-		descriptors.put(Tier.EXTREME, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+		weaponDescriptors.put(Tier.EXTREME, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+
+		armorEnhancements.add("speed");
+		armorEnhancements.add("armor");
+
+		armorTiers.put(Tier.LOW, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
+				Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS });
+		armorDescriptors.put(Tier.LOW, new String[] { "Ripped", "Torn", "Dirty", "" });
+
+		armorTiers.put(Tier.MID, new Material[] { Material.CHAINMAIL_BOOTS, Material.IRON_CHESTPLATE,
+				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET });
+		armorDescriptors.put(Tier.MID, new String[] { "Protective", "Shiny", "Dented" });
+
+		armorTiers.put(Tier.HIGH, new Material[] { Material.DIAMOND_HELMET, Material.IRON_CHESTPLATE,
+				Material.IRON_HELMET, Material.IRON_LEGGINGS, Material.IRON_BOOTS });
+		armorDescriptors.put(Tier.HIGH, new String[] { "Strong", "Glistening", "Holy" });
+
+		armorTiers.put(Tier.EXTREME, new Material[] { Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
+				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS });
+		armorDescriptors.put(Tier.EXTREME, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+
 	}
 
 	public static MysticSurvival getPlugin() {
@@ -60,12 +84,16 @@ public class SurvivalUtils {
 
 	/*
 	 * 
-	 * Weapon Generation
+	 * Weapon and Armor Generation
 	 * 
 	 */
 
-	private static String getDescriptor(Tier tier) {
-		return descriptors.get(tier)[CoreUtils.getRandom().nextInt(descriptors.get(tier).length)];
+	private static String getWeaponDescriptor(Tier tier) {
+		return weaponDescriptors.get(tier)[CoreUtils.getRandom().nextInt(weaponDescriptors.get(tier).length)];
+	}
+	
+	private static String getArmorDescriptor(Tier tier) {
+		return armorDescriptors.get(tier)[CoreUtils.getRandom().nextInt(armorDescriptors.get(tier).length)];
 	}
 
 	private static String getWeaponType(Material weapon) {
@@ -81,24 +109,36 @@ public class SurvivalUtils {
 			return "Cross Bow";
 		return "Stick";
 	}
-
-	private static ItemStack randomizeEnhancements(ItemStack item, int level) {
-		boolean enhanced = false;
+	private static String getArmorType(Material armor) {
+		if (armor.name().contains("HELMET"))
+			return "Helmet";
+		if (armor.name().contains("CHESTPLATE"))
+			return "Chestplate";
+		if (armor.name().contains("LEGGINGS"))
+			return "Pants";
+		if (armor.name().contains("BOOTS"))
+			return "Boots";
 		
-		Collections.shuffle(enhancements);
-		for (String s : enhancements) {
-			
+		return "Stick";
+	}
+
+	private static ItemStack randomizeWeaponEnhancements(ItemStack item, int level) {
+		boolean enhanced = false;
+
+		Collections.shuffle(weaponEnhancements);
+		for (String s : weaponEnhancements) {
+
 			if (CoreUtils.getRandom().nextBoolean()) {
-				if(s.equalsIgnoreCase("fireball")) {
+				if (s.equalsIgnoreCase("fireball")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &c&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					a.setLore(lore);
-					a.setDisplayName(CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
-					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), "Attack Speed",
-							0.001, Operation.ADD_NUMBER,
-							EquipmentSlot.HAND);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
+					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), "Attack Speed", 0.001,
+							Operation.ADD_NUMBER, EquipmentSlot.HAND);
 					a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, am);
 					item.setItemMeta(a);
 					enhanced = true;
@@ -109,7 +149,8 @@ public class SurvivalUtils {
 					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					a.setLore(lore);
-					a.setDisplayName(CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cFlame&f"));
+					a.setDisplayName(
+							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cFlame&f"));
 					item.setItemMeta(a);
 					enhanced = true;
 				}
@@ -119,7 +160,50 @@ public class SurvivalUtils {
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
 					a.setLore(lore);
-					a.setDisplayName(CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
+					a.setDisplayName(
+							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
+					item.setItemMeta(a);
+					enhanced = true;
+				}
+			}
+		}
+		return item;
+	}
+	
+	private static ItemStack randomizeArmorEnhancements(ItemStack item, int level) {
+		boolean enhanced = false;
+
+		Collections.shuffle(weaponEnhancements);
+		for (String s : weaponEnhancements) {
+
+			if (CoreUtils.getRandom().nextBoolean()) {
+				if (s.equalsIgnoreCase("speed")) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
+					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &c&l"
+							+ level2));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &aSpeed&f"));
+					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), getArmorType(item.getType()) + " Movement Speed", ((double)level2/100),
+							Operation.ADD_NUMBER, EquipmentSlot.FEET);
+					a.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
+					item.setItemMeta(a);
+					enhanced = true;
+				}
+				if (s.equalsIgnoreCase("armor")) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
+					lore.add(CoreUtils.colorize("&dArmor&7 Modifier: &d&l"
+							+ level2));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &dProtection&f"));
+					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), getArmorType(item.getType()) + " Protection", ((double)level2/100),
+							Operation.ADD_NUMBER, EquipmentSlot.FEET);
+					a.addAttributeModifier(Attribute.GENERIC_ARMOR, am);
 					item.setItemMeta(a);
 					enhanced = true;
 				}
@@ -134,18 +218,46 @@ public class SurvivalUtils {
 		ItemStack item = new ItemStack(
 				weaponTiers.get(tier)[CoreUtils.getRandom().nextInt(weaponTiers.get(tier).length)]);
 
-		String name = getDescriptor(tier) + " " + getWeaponType(item.getType());
+		String name = getWeaponDescriptor(tier) + " " + getWeaponType(item.getType());
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-		
-		
-		
+
+		double damage = 0;
+		double speed = 0;
+
+		lore.add(CoreUtils.colorize("&7Damage: " + damage));
+		lore.add(CoreUtils.colorize("&7Speed: " + speed));
+
+		a.setLore(lore);
+
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
-		
+
 		a.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a);
 
-		item = randomizeEnhancements(item, level);
+		item = randomizeWeaponEnhancements(item, level);
+
+		return item;
+	}
+	
+	public static ItemStack armorGenerator(int level) {
+
+		Tier tier = Tier.getTier(level);
+		ItemStack item = new ItemStack(
+				armorTiers.get(tier)[CoreUtils.getRandom().nextInt(armorTiers.get(tier).length)]);
+
+		String name = getArmorDescriptor(tier) + " " + getArmorType(item.getType());
+		ItemMeta a = item.getItemMeta();
+		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+
+		a.setLore(lore);
+
+		a.setDisplayName(CoreUtils.colorize("&f" + name));
+
+		a.addItemFlags(ItemFlag.values());
+		item.setItemMeta(a);
+
+		item = randomizeArmorEnhancements(item, level);
 
 		return item;
 	}
