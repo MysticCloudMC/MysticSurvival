@@ -32,36 +32,6 @@ public class PlayerListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler
-	public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-		String cmd = "";
-		String[] args = new String[] {};
-		if (e.getMessage().contains(" ")) {
-			cmd = e.getMessage().split(" ")[0];
-			String tmp = "";
-			tmp = e.getMessage();
-			tmp = tmp.replaceFirst(cmd + " ", "");
-			args = tmp.split(" ");
-
-		} else {
-			cmd = e.getMessage();
-		}
-		int level = (int) e.getPlayer().getMetadata("level").get(0).value();
-		if(args.length != 0) {
-			level = Integer.parseInt(args[0]);
-		}
-
-		if (!cmd.equalsIgnoreCase("/GiveRandomWeapon")){
-			e.setCancelled(true);
-			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
-					SurvivalUtils.weaponGenerator(level));
-		}
-		if (!cmd.equalsIgnoreCase("/GiveRandomArmor")){
-			e.setCancelled(true);
-			e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
-					SurvivalUtils.armorGenerator(level));
-		}
-	}
 
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
