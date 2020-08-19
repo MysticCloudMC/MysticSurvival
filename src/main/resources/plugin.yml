@@ -30,4 +30,7 @@ commands:
   poll:
     usage: /poll
     description: Poll command.
+  giverandomarmor:
+  giverandomweapon:
+  
   
