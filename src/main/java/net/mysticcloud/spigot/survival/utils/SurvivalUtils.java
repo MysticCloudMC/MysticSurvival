@@ -187,7 +187,7 @@ public class SurvivalUtils {
 					a.setDisplayName(CoreUtils
 							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &aSpeed&f"));
 					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), getArmorType(item.getType()) + " Movement Speed", ((double)level2/100),
-							Operation.ADD_NUMBER, EquipmentSlot.FEET);
+							Operation.ADD_NUMBER);
 					a.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
 					item.setItemMeta(a);
 					enhanced = true;
@@ -202,7 +202,7 @@ public class SurvivalUtils {
 					a.setDisplayName(CoreUtils
 							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &dProtection&f"));
 					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), getArmorType(item.getType()) + " Protection", ((double)level2/100),
-							Operation.ADD_NUMBER, EquipmentSlot.FEET);
+							Operation.ADD_NUMBER);
 					a.addAttributeModifier(Attribute.GENERIC_ARMOR, am);
 					item.setItemMeta(a);
 					enhanced = true;
