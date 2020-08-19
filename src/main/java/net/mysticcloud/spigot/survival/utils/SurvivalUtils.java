@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -89,11 +90,11 @@ public class SurvivalUtils {
 	 */
 
 	private static String getWeaponDescriptor(Tier tier) {
-		return weaponDescriptors.get(tier)[CoreUtils.getRandom().nextInt(weaponDescriptors.get(tier).length)];
+		return weaponDescriptors.get(tier)[new Random().nextInt(weaponDescriptors.get(tier).length)];
 	}
 	
 	private static String getArmorDescriptor(Tier tier) {
-		return armorDescriptors.get(tier)[CoreUtils.getRandom().nextInt(armorDescriptors.get(tier).length)];
+		return armorDescriptors.get(tier)[new Random().nextInt(armorDescriptors.get(tier).length)];
 	}
 
 	private static String getWeaponType(Material weapon) {
@@ -128,12 +129,12 @@ public class SurvivalUtils {
 		Collections.shuffle(weaponEnhancements);
 		for (String s : weaponEnhancements) {
 
-			if (CoreUtils.getRandom().nextBoolean()) {
+			if (new Random().nextBoolean()) {
 				if (s.equalsIgnoreCase("fireball")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &c&l"
-							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1) + "&7"));
+							+ ((int) (level * (1 / new Random().nextInt(3)+1)) + 1) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
 							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
@@ -147,7 +148,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
-							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1) + "&7"));
+							+ ((int) (level * (1 / new Random().nextInt(3)+1)) + 1) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cFlame&f"));
@@ -158,7 +159,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
-							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1) + "&7"));
+							+ ((int) (level * (1 / new Random().nextInt(3)+1)) + 1) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
@@ -176,11 +177,11 @@ public class SurvivalUtils {
 		Collections.shuffle(armorEnhancements);
 		for (String s : armorEnhancements) {
 
-			if (CoreUtils.getRandom().nextBoolean()) {
+			if (new Random().nextBoolean()) {
 				if (s.equalsIgnoreCase("speed")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
+					int level2 = ((int) (level * (1 / new Random().nextInt(3)+1)) + 1);
 					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &c&l"
 							+ level2));
 					a.setLore(lore);
@@ -195,7 +196,7 @@ public class SurvivalUtils {
 				if (s.equalsIgnoreCase("armor")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
+					int level2 = ((int) (level * (1 / new Random().nextInt(3)+1)) + 1);
 					lore.add(CoreUtils.colorize("&dArmor&7 Modifier: &d&l"
 							+ level2));
 					a.setLore(lore);
@@ -216,14 +217,14 @@ public class SurvivalUtils {
 
 		Tier tier = Tier.getTier(level);
 		ItemStack item = new ItemStack(
-				weaponTiers.get(tier)[CoreUtils.getRandom().nextInt(weaponTiers.get(tier).length)]);
+				weaponTiers.get(tier)[new Random().nextInt(weaponTiers.get(tier).length)]);
 
 		String name = getWeaponDescriptor(tier) + " " + getWeaponType(item.getType());
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 
-		double damage = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
-		double speed = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
+		double damage = ((int) (level * (1 / new Random().nextInt(3)+1)) + 1);
+		double speed = ((int) (level * (1 / new Random().nextInt(3)+1)) + 1);
 		
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage",
 				damage, Operation.ADD_NUMBER, EquipmentSlot.HAND);
@@ -252,7 +253,7 @@ public class SurvivalUtils {
 
 		Tier tier = Tier.getTier(level);
 		ItemStack item = new ItemStack(
-				armorTiers.get(tier)[CoreUtils.getRandom().nextInt(armorTiers.get(tier).length)]);
+				armorTiers.get(tier)[new Random().nextInt(armorTiers.get(tier).length)]);
 
 		String name = getArmorDescriptor(tier) + " " + getArmorType(item.getType());
 		ItemMeta a = item.getItemMeta();
