@@ -237,7 +237,7 @@ public class SurvivalUtils {
 				speed, Operation.ADD_NUMBER, EquipmentSlot.HAND);
 		a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
 		
-		lore.add("&7Tier: " + tier.getName());
+		lore.add(CoreUtils.colorize("&7Tier: " + tier.getName()));
 
 		lore.add(CoreUtils.colorize("&7Damage: " + ((int)damage)));
 		lore.add(CoreUtils.colorize("&7Speed: " + ((int)speed)));
