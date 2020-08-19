@@ -53,8 +53,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 		if (args[0].equalsIgnoreCase("soulbind")) {
 			sender.sendMessage(CoreUtils.prefixes("admin") + "Binding...");
 			if (sender instanceof Player && ((Player)sender).getItemInHand() != null) {
-				((Player) sender).getInventory()
-						.addItem(SurvivalUtils.soulbind((Player)sender,((Player)sender).getItemInHand()));
+				SurvivalUtils.soulbind((Player)sender,((Player)sender).getItemInHand());
 			}
 		}
 
