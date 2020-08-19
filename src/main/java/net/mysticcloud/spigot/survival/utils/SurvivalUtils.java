@@ -265,6 +265,7 @@ public class SurvivalUtils {
 	public static void handleDrops(int level, Location location) {
 		List<ItemStack> drops = new ArrayList<>();
 		drops.add(weaponGenerator(level));
+		drops.add(armorGenerator(level));
 		for (ItemStack i : drops) {
 			location.getWorld().dropItem(location, i);
 		}
