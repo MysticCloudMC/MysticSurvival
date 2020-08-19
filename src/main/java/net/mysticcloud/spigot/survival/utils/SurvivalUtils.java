@@ -222,12 +222,23 @@ public class SurvivalUtils {
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 
-		double damage = 0;
-		double speed = 0;
+		double damage = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1)/100;
+		double speed = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1)/100;
+		
+		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage",
+				damage, Operation.ADD_NUMBER, EquipmentSlot.HAND);
+		a.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
+		
+		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed",
+				speed, Operation.ADD_NUMBER, EquipmentSlot.HAND);
+		a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
 
-		lore.add(CoreUtils.colorize("&7Damage: " + damage));
-		lore.add(CoreUtils.colorize("&7Speed: " + speed));
-
+		lore.add(CoreUtils.colorize("&7Damage: " + ((int)damage*100)));
+		lore.add(CoreUtils.colorize("&7Speed: " + ((int)speed*100)));
+		
+		lore.add("");
+		lore.add(CoreUtils.colorize("&7------------------"));
+		lore.add("");
 		a.setLore(lore);
 
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
