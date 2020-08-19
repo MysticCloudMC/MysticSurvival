@@ -223,8 +223,9 @@ public class SurvivalUtils {
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 
-		double damage = ((int) (level * (1 / (new Random().nextInt(3)+1))) + 1);
-		double speed = ((int) (level * (1 / (new Random().nextInt(3)+1))) + 1);
+		double damage = ( (level * (1 / (new Random().nextInt(3)+1))) + 1);
+		double speed = ( (level * (1 / (new Random().nextInt(3)+1))) + 1);
+		
 		
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage",
 				damage, Operation.ADD_NUMBER, EquipmentSlot.HAND);
