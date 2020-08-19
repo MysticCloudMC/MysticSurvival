@@ -31,6 +31,8 @@ public class SurvivalUtils {
 	static Map<Tier, Material[]> armorTiers = new HashMap<>();
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
 	static List<String> armorEnhancements = new ArrayList<>();
+	
+	static ItemStack[] foods = new ItemStack[] {CoreUtils.getItem("Bread")};
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
 
 	public static void start(MysticSurvival main) {
@@ -270,11 +272,29 @@ public class SurvivalUtils {
 
 		return item;
 	}
+	
+	public static ItemStack foodGenerator() {
+		ItemStack item = 
+				foods[new Random().nextInt(foods.length)];
+		ItemMeta a = item.getItemMeta();
+		a.addItemFlags(ItemFlag.values());
+		item.setItemMeta(a);
+		return item;
+	}
 
 	public static void handleDrops(int level, Location location) {
 		List<ItemStack> drops = new ArrayList<>();
-		drops.add(weaponGenerator(level));
-		drops.add(armorGenerator(level));
+		if(CoreUtils.getRandom().nextBoolean()) {
+			drops.add(armorGenerator(level));
+			if(CoreUtils.getRandom().nextBoolean()) {
+				drops.add(weaponGenerator(level));
+			}
+				
+		}
+		if(CoreUtils.getRandom().nextBoolean()) {
+			drops.add(foodGenerator());
+		}
+		
 		for (ItemStack i : drops) {
 			location.getWorld().dropItemNaturally(location, i);
 		}
