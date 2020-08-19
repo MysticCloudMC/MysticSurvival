@@ -133,8 +133,8 @@ public class SurvivalUtils {
 				if (s.equalsIgnoreCase("fireball")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &c&l"
-							+ ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) + "&7"));
+					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &6&l"
+							+ ((int)((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5))) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
 							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
@@ -159,7 +159,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
-							+ ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) + "&7"));
+							+ ((int)((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5))) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
@@ -182,7 +182,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
-					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &c&l"
+					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &a&l"
 							+ level2));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
