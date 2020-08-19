@@ -173,8 +173,8 @@ public class SurvivalUtils {
 	private static ItemStack randomizeArmorEnhancements(ItemStack item, int level) {
 		boolean enhanced = false;
 
-		Collections.shuffle(weaponEnhancements);
-		for (String s : weaponEnhancements) {
+		Collections.shuffle(armorEnhancements);
+		for (String s : armorEnhancements) {
 
 			if (CoreUtils.getRandom().nextBoolean()) {
 				if (s.equalsIgnoreCase("speed")) {
@@ -248,16 +248,18 @@ public class SurvivalUtils {
 
 		String name = getArmorDescriptor(tier) + " " + getArmorType(item.getType());
 		ItemMeta a = item.getItemMeta();
-		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-
-		a.setLore(lore);
 
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
 
 		a.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a);
-
 		item = randomizeArmorEnhancements(item, level);
+		ItemMeta a2 = item.getItemMeta();
+
+		a2.setDisplayName(CoreUtils.colorize("&f" + name));
+
+		a2.addItemFlags(ItemFlag.values());
+		item.setItemMeta(a2);
 
 		return item;
 	}
