@@ -133,7 +133,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &c&l"
-							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
+							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
 							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
@@ -147,7 +147,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
-							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
+							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cFlame&f"));
@@ -158,7 +158,7 @@ public class SurvivalUtils {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
-							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
+							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1) + "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
@@ -180,7 +180,7 @@ public class SurvivalUtils {
 				if (s.equalsIgnoreCase("speed")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
+					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
 					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &c&l"
 							+ level2));
 					a.setLore(lore);
@@ -195,7 +195,7 @@ public class SurvivalUtils {
 				if (s.equalsIgnoreCase("armor")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
+					int level2 = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
 					lore.add(CoreUtils.colorize("&dArmor&7 Modifier: &d&l"
 							+ level2));
 					a.setLore(lore);
@@ -222,8 +222,8 @@ public class SurvivalUtils {
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 
-		double damage = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
-		double speed = ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1);
+		double damage = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
+		double speed = ((int) (level * (1 / CoreUtils.getRandom().nextInt(3)+1)) + 1);
 		
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage",
 				damage, Operation.ADD_NUMBER, EquipmentSlot.HAND);
