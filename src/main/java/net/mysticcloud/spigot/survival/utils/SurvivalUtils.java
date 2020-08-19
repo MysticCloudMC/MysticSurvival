@@ -13,6 +13,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -35,6 +36,7 @@ public class SurvivalUtils {
 
 		enhancements.add("fire");
 		enhancements.add("frost");
+		enhancements.add("fireball");
 
 		weaponTiers.put(Tier.LOW,
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
@@ -139,6 +141,8 @@ public class SurvivalUtils {
 		
 		
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
+		
+		a.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a);
 
 		item = randomizeEnhancements(item, level);
