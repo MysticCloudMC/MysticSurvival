@@ -39,7 +39,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random armor...");
 				((Player) sender).getInventory()
 						.addItem(SurvivalUtils.armorGenerator(args.length == 2 ? Integer.parseInt(args[1])
-								: (int) ((Player) sender).getMetadata("level").get(0).value()));
+								: CoreUtils.getMysticPlayer(((Player)sender)).getLevel()));
 			}
 		}
 		if (args[0].equalsIgnoreCase("giveRandomWeapon")) {
@@ -47,7 +47,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			if (sender instanceof Player) {
 				((Player) sender).getInventory()
 						.addItem(SurvivalUtils.weaponGenerator(args.length == 2 ? Integer.parseInt(args[1])
-								: (int) ((Player) sender).getMetadata("level").get(0).value()));
+								: (CoreUtils.getMysticPlayer(((Player)sender)).getLevel())));
 			}
 		}
 
