@@ -3,7 +3,7 @@ package net.mysticcloud.spigot.survival.listeners;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -13,14 +13,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.core.utils.SpawnReason;
-import net.mysticcloud.spigot.core.utils.teleport.TeleportUtils;
-import net.mysticcloud.spigot.core.utils.warps.Warp;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
@@ -38,9 +37,11 @@ public class PlayerListener implements Listener {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
 			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP((double) level / 100);
 			// Drops?
-			SurvivalUtils.handleDrops(level,e.getEntity().getLocation());
+			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
 		}
 	}
+
+	
 
 	@EventHandler
 	public void onEntityDamage(EntityDamageEvent e) {

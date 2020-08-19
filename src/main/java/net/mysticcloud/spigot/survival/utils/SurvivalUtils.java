@@ -5,9 +5,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.attribute.AttributeModifier.Operation;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -77,18 +82,32 @@ public class SurvivalUtils {
 
 	private static ItemStack randomizeEnhancements(ItemStack item, int level) {
 		boolean enhanced = false;
+		
 		Collections.shuffle(enhancements);
 		for (String s : enhancements) {
+			
 			if (CoreUtils.getRandom().nextBoolean()) {
+				if(s.equalsIgnoreCase("fireball")) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &c&l"
+							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
+					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), "Attack Speed",
+							0.001, Operation.ADD_NUMBER,
+							EquipmentSlot.HAND);
+					a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, am);
+					item.setItemMeta(a);
+					enhanced = true;
+				}
 				if (s.equalsIgnoreCase("fire")) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
-					String name = a.getDisplayName();
-					name = CoreUtils.colorize(name + "&f " + (enhanced ? "and" : "or") + " &cFlame&f");
 					a.setLore(lore);
-					a.setDisplayName(name);
+					a.setDisplayName(CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cFlame&f"));
 					item.setItemMeta(a);
 					enhanced = true;
 				}
@@ -97,10 +116,8 @@ public class SurvivalUtils {
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
 							+ ((int) (level * (1 / CoreUtils.getRandom().nextInt(4))) + 1) + "&7"));
-					String name = a.getDisplayName();
-					name = CoreUtils.colorize(name + "&f " + (enhanced ? "and" : "or") + " &bFrost&f");
 					a.setLore(lore);
-					a.setDisplayName(name);
+					a.setDisplayName(CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
 					item.setItemMeta(a);
 					enhanced = true;
 				}
