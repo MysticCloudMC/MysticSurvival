@@ -274,7 +274,7 @@ public class SurvivalUtils {
 		drops.add(weaponGenerator(level));
 		drops.add(armorGenerator(level));
 		for (ItemStack i : drops) {
-			location.getWorld().dropItem(location, i);
+			location.getWorld().dropItemNaturally(location, i);
 		}
 	}
 
