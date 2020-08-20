@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -40,6 +41,19 @@ public class PlayerListener implements Listener {
 			// Drops?
 			
 			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
+		}
+	}
+	
+	@EventHandler
+	public void onItemDrop(PlayerDropItemEvent e) {
+		if(e.getItemDrop().getItemStack().hasItemMeta()) {
+			if(e.getItemDrop().getItemStack().getItemMeta().hasLore()) {
+				for(String s : e.getItemDrop().getItemStack().getItemMeta().getLore()) {
+					if(ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
+						e.setCancelled(true);
+					}
+				}
+			}
 		}
 	}
 

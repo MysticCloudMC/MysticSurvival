@@ -1,5 +1,6 @@
 package net.mysticcloud.spigot.survival.commands;
 
+import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,6 +31,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			sender.sendMessage(CoreUtils.colorize(CoreUtils.prefixes("admin") + "Here is a list of sub-commands:"));
 			sender.sendMessage(CoreUtils.colorize("&3giveRandomArmor [level]"));
 			sender.sendMessage(CoreUtils.colorize("&3giveRandomWeapon [level]"));
+			sender.sendMessage(CoreUtils.colorize("&3soulbind"));
 
 			return true;
 		}
