@@ -281,11 +281,11 @@ public class SurvivalUtils {
 		ItemMeta a = item.getItemMeta();
 
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
-
+		
 		a.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a);
 		item = randomizeArmorEnhancements(item, level);
-
+		
 		return item;
 	}
 	
@@ -295,6 +295,22 @@ public class SurvivalUtils {
 		ItemMeta a = item.getItemMeta();
 		a.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a);
+		return item;
+	}
+	
+	public static ItemStack bookGenerator(int level) {
+
+		ItemStack item = new ItemStack(Material.BOOK);
+
+		String name = "&2&lEnhancement Book";
+		ItemMeta a = item.getItemMeta();
+
+		a.setDisplayName(CoreUtils.colorize("&f" + name));
+
+		a.addItemFlags(ItemFlag.values());
+		item.setItemMeta(a);
+		item = randomizeArmorEnhancements(item, level);
+
 		return item;
 	}
 
@@ -325,5 +341,7 @@ public class SurvivalUtils {
 		
 		return item;
 	}
+
+	
 
 }

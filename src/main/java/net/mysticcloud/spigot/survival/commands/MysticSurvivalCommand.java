@@ -32,10 +32,18 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			sender.sendMessage(CoreUtils.colorize("&3giveRandomArmor [level]"));
 			sender.sendMessage(CoreUtils.colorize("&3giveRandomWeapon [level]"));
 			sender.sendMessage(CoreUtils.colorize("&3soulbind"));
+			sender.sendMessage(CoreUtils.colorize("&3giveRandomBook"));
 
 			return true;
 		}
-
+		if (args[0].equalsIgnoreCase("giveRandomBook")) {
+			if (sender instanceof Player) {
+				sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random armor...");
+				((Player) sender).getInventory()
+						.addItem(SurvivalUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
+								: CoreUtils.getMysticPlayer(((Player)sender)).getLevel()));
+			}
+		}
 		if (args[0].equalsIgnoreCase("giveRandomArmor")) {
 			if (sender instanceof Player) {
 				sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random armor...");

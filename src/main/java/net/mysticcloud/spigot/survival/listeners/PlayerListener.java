@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -14,8 +15,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
@@ -41,6 +44,26 @@ public class PlayerListener implements Listener {
 			// Drops?
 			
 			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
+		}
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		if(e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null) {
+			ItemStack book = e.getCurrentItem();
+			ItemStack tool = e.getCursor();
+			ItemMeta tm = tool.getItemMeta();
+			List<String> blore = book.getItemMeta().hasLore() ? book.getItemMeta().getLore() : new ArrayList<>();
+			List<String> tlore = tool.getItemMeta().hasLore() ? tool.getItemMeta().getLore() : new ArrayList<>();
+			
+			for(String s : blore) {
+				tlore.add(CoreUtils.colorize(s));
+			}
+			
+			tm.setLore(tlore);
+			tool.setItemMeta(tm);
+			book.setAmount(0);
+			
 		}
 	}
 	
