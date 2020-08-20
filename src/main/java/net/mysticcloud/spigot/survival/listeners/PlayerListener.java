@@ -49,30 +49,8 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if(e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null) {
-			ItemStack book = e.getCurrentItem();
-			ItemStack tool = e.getCursor();
-			ItemMeta tm = tool.getItemMeta();
-			List<String> blore = book.getItemMeta().hasLore() ? book.getItemMeta().getLore() : new ArrayList<>();
-			List<String> tlore = tool.getItemMeta().hasLore() ? tool.getItemMeta().getLore() : new ArrayList<>();
-			
-			for(String s : blore) {
-//				for(String a : tlore) {
-//					if(s.contains(":") && a.contains(":")) {
-//						if(ChatColor.stripColor(a.split(":")[0]).equalsIgnoreCase(ChatColor.stripColor(s.split(":")[0]))) {
-//							continue;
-//						}
-//					}
-//				}
-			
-				
-				tlore.add(CoreUtils.colorize(s));
-			}
-			
-			tm.setLore(tlore);
-			tool.setItemMeta(tm);
-			book.setAmount(0);
-			
+		if(e.getCursor().getType().equals(Material.BOOK) && e.getCurrentItem() != null) {
+			SurvivalUtils.enhance(e.getCurrentItem(), e.getCursor());
 		}
 	}
 	

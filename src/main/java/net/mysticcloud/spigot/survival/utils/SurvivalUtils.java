@@ -334,6 +334,30 @@ public class SurvivalUtils {
 			location.getWorld().dropItemNaturally(location, i);
 		}
 	}
+	
+	public static ItemStack enhance(ItemStack tool, ItemStack book) {
+		ItemMeta tm = tool.getItemMeta();
+		List<String> blore = book.getItemMeta().hasLore() ? book.getItemMeta().getLore() : new ArrayList<>();
+		List<String> tlore = tool.getItemMeta().hasLore() ? tool.getItemMeta().getLore() : new ArrayList<>();
+		
+		for(String s : blore) {
+//			for(String a : tlore) {
+//				if(s.contains(":") && a.contains(":")) {
+//					if(ChatColor.stripColor(a.split(":")[0]).equalsIgnoreCase(ChatColor.stripColor(s.split(":")[0]))) {
+//						continue;
+//					}
+//				}
+//			}
+		
+			
+			tlore.add(CoreUtils.colorize(s));
+		}
+		
+		tm.setLore(tlore);
+		tool.setItemMeta(tm);
+		book.setAmount(book.getAmount()-1);
+		return tool;
+	}
 
 	public static ItemStack soulbind(Player sender, ItemStack item) {
 		ItemMeta a = item.getItemMeta();
