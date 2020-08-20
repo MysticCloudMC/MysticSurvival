@@ -309,7 +309,10 @@ public class SurvivalUtils {
 
 		a.addItemFlags(ItemFlag.values());
 		item.setItemMeta(a);
-		item = randomizeArmorEnhancements(item, level);
+		if(CoreUtils.getRandom().nextBoolean())
+			item = randomizeArmorEnhancements(item, level);
+		else
+			item = randomizeWeaponEnhancements(item, level);
 
 		return item;
 	}
