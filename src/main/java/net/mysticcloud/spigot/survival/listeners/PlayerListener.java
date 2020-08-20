@@ -34,32 +34,32 @@ public class PlayerListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
-
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e) {
 		if (e.getEntity() instanceof Monster && e.getEntity().getKiller() != null
 				&& e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller()).gainXP(CoreUtils.getMoneyFormat(((double) level / 100)*CoreUtils.getRandom().nextInt(25)));
+			CoreUtils.getMysticPlayer(e.getEntity().getKiller())
+					.gainXP(CoreUtils.getMoneyFormat(((double) level / 100) * CoreUtils.getRandom().nextInt(25)));
 			// Drops?
-			
+
 			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
 		}
 	}
-	
+
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if(e.getCursor().getType().equals(Material.BOOK) && e.getCurrentItem() != null) {
+		if (e.getCursor().getType().equals(Material.BOOK) && e.getCurrentItem() != null) {
 			SurvivalUtils.enhance(e.getCurrentItem(), e.getCursor());
 		}
 	}
-	
+
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
-		if(e.getItemDrop().getItemStack().hasItemMeta()) {
-			if(e.getItemDrop().getItemStack().getItemMeta().hasLore()) {
-				for(String s : e.getItemDrop().getItemStack().getItemMeta().getLore()) {
-					if(ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
+		if (e.getItemDrop().getItemStack().hasItemMeta()) {
+			if (e.getItemDrop().getItemStack().getItemMeta().hasLore()) {
+				for (String s : e.getItemDrop().getItemStack().getItemMeta().getLore()) {
+					if (ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
 						e.setCancelled(true);
 					}
 				}
@@ -76,19 +76,20 @@ public class PlayerListener implements Listener {
 				List<ItemStack> adds = new ArrayList<>();
 				for (ItemStack i : ((Player) e.getEntity()).getInventory().getContents()) {
 					if (i != null) {
-						if(i.hasItemMeta()) {
-							if(i.getItemMeta().hasLore()) {
-								for(String s : i.getItemMeta().getLore()) {
-									if(ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
+						if (i.hasItemMeta()) {
+							if (i.getItemMeta().hasLore()) {
+								for (String s : i.getItemMeta().getLore()) {
+									if (ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
 										adds.add(i);
 										continue;
 									}
 								}
 							}
 						}
-						e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
+						if (!adds.contains(i))
+							e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), i);
 					}
-						
+
 				}
 				((Player) e.getEntity()).getInventory().clear();
 				e.setCancelled(true);
@@ -103,8 +104,8 @@ public class PlayerListener implements Listener {
 						}
 						((Player) e.getEntity()).setHealth(((Player) e.getEntity()).getMaxHealth());
 						((Player) e.getEntity()).setFoodLevel(20);
-						for(ItemStack i : adds) {
-							((Player)e.getEntity()).getInventory().addItem(i);
+						for (ItemStack i : adds) {
+							((Player) e.getEntity()).getInventory().addItem(i);
 						}
 
 					}
