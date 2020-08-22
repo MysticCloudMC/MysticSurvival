@@ -386,6 +386,8 @@ public class SurvivalUtils {
 		for (String s : blore) {
 			tlore.add(s);
 		}
+		
+			
 
 		for (String l : tlore) {
 			double n = 0;
@@ -396,24 +398,29 @@ public class SurvivalUtils {
 					//Not a number?
 				}
 			}
+			
 			if (ChatColor.stripColor(l).contains("Speed Modifier:")) {
+				tm.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED);
 				AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
 						getArmorType(tool.getType()) + " Movement Speed", n, Operation.ADD_NUMBER);
 				tm.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
 
 			}
 			if (ChatColor.stripColor(l).contains("Armor Modifier:")) {
+				tm.removeAttributeModifier(Attribute.GENERIC_ARMOR);
 				AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
 						getArmorType(tool.getType()) + " Protection", ((double) n / 100), Operation.ADD_NUMBER);
 				tm.addAttributeModifier(Attribute.GENERIC_ARMOR, am);
 			}
 			if (ChatColor.stripColor(l).contains("Damage:")) {
+				tm.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
 				AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", n,
 						Operation.ADD_NUMBER, EquipmentSlot.HAND);
 				tm.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
 
 			}
 			if (ChatColor.stripColor(l).contains("Speed:")) {
+				tm.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
 				AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", n, Operation.ADD_NUMBER,
 						EquipmentSlot.HAND);
 				tm.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
