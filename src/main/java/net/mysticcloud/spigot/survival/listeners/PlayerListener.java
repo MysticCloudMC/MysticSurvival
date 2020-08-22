@@ -49,7 +49,8 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null) {
+		if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
+				&& !e.getCursor().getType().equals(Material.BOOK) && !e.getCursor().getType().equals(Material.AIR)) {
 			SurvivalUtils.enhance(e.getCursor(), e.getCurrentItem());
 		}
 	}
