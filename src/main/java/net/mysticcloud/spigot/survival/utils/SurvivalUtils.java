@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -348,6 +349,7 @@ public class SurvivalUtils {
 		if (book.hasItemMeta()) {
 			if (book.getItemMeta().hasLore()) {
 				for (String s : book.getItemMeta().getLore()) {
+					Bukkit.broadcastMessage("Book lore +=> " + s);
 					blore.add(s);
 				}
 			}
@@ -357,6 +359,7 @@ public class SurvivalUtils {
 			if (tool.getItemMeta().hasLore()) {
 				for (String s : tool.getItemMeta().getLore()) {
 					tlore.add(s);
+					Bukkit.broadcastMessage("Tool lore +=> " + s);
 				}
 			}
 		}
@@ -365,22 +368,33 @@ public class SurvivalUtils {
 
 		for (int i = 0; i != tlore.size(); i++) {
 			for (int j = 0; j != blore.size(); j++) {
-				if (tlore.get(i).contains(":"))
+				if (tlore.get(i).contains(":")) {
+					Bukkit.broadcastMessage("Contains ':'");
+					Bukkit.broadcastMessage("Tool: " + tlore.get(i));
+					Bukkit.broadcastMessage("Book: " + blore.get(j));
 					if (ChatColor.stripColor(tlore.get(i).split(":")[0])
 							.equals(ChatColor.stripColor(blore.get(j).split(":")[0]))) {
+						Bukkit.broadcastMessage("Equal. K=" + i + ";V=" + blore.get(j));
 						chgs.put(i, blore.get(j));
 					}
+				}
 			}
 		}
 		for (String a : chgs.values()) {
+			Bukkit.broadcastMessage("Removing " + a + ChatColor.WHITE + " from blore");
 			blore.remove(a);
 		}
 		for (Entry<Integer, String> en : chgs.entrySet()) {
-			tlore.remove(en.getKey());
+			Bukkit.broadcastMessage("tlore removing: " + tlore.get((int)en.getKey()));
+			tlore.remove((int)en.getKey());
 			tlore.add(en.getValue());
+			Bukkit.broadcastMessage("tlore adding: " + en.getValue());
 		}
+		
+		Bukkit.broadcastMessage("--------------");
 
 		for (String s : blore) {
+			Bukkit.broadcastMessage("tlore adding: " + s);
 			tlore.add(s);
 		}
 
