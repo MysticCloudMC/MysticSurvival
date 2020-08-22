@@ -390,7 +390,11 @@ public class SurvivalUtils {
 		for (String l : tlore) {
 			double n = 0;
 			if (l.contains(": ")) {
+				try {
 				n = ((double) Integer.parseInt(ChatColor.stripColor(l).split(":")[1].replaceAll(" ", "")) / 100);
+				} catch(NumberFormatException ex) {
+					//Not a number?
+				}
 			}
 			if (ChatColor.stripColor(l).contains("Speed Modifier:")) {
 				AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
