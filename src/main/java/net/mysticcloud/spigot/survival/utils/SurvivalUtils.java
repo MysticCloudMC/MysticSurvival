@@ -364,7 +364,7 @@ public class SurvivalUtils {
 			}
 		}
 
-		Map<Integer, String> chgs = new HashMap<>();
+		Map<String, String> chgs = new HashMap<>();
 
 		for (int i = 0; i != tlore.size(); i++) {
 			for (int j = 0; j != blore.size(); j++) {
@@ -375,7 +375,7 @@ public class SurvivalUtils {
 					if (ChatColor.stripColor(tlore.get(i).split(":")[0])
 							.equals(ChatColor.stripColor(blore.get(j).split(":")[0]))) {
 						Bukkit.broadcastMessage("Equal. K=" + i + ";V=" + blore.get(j));
-						chgs.put(i, blore.get(j));
+						chgs.put(tlore.get(i), blore.get(j));
 					}
 				}
 			}
@@ -384,16 +384,13 @@ public class SurvivalUtils {
 			Bukkit.broadcastMessage("Removing " + a + ChatColor.WHITE + " from blore");
 			blore.remove(a);
 		}
-		for (Entry<Integer, String> en : chgs.entrySet()) {
-			Bukkit.broadcastMessage("tlore removing: " + tlore.get((int)en.getKey()));
-			tlore.remove((int)en.getKey());
+		for (Entry<String, String> en : chgs.entrySet()) {
+			Bukkit.broadcastMessage("tlore removing: " + en.getKey());
+			tlore.remove(en.getKey());
+			tlore.add(en.getValue());
+			Bukkit.broadcastMessage("tlore adding: " + en.getValue());
 			
 		}
-		for (String a : chgs.values()) {
-			tlore.add(a);
-			Bukkit.broadcastMessage("tlore adding: " + a);
-		}
-		
 		Bukkit.broadcastMessage("--------------");
 
 		for (String s : blore) {
