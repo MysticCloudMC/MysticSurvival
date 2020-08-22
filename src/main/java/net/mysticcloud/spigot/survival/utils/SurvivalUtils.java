@@ -350,31 +350,36 @@ public class SurvivalUtils {
 
 		for (int i = 0; i != tlore.size(); i++) {
 			for (int j = 0; j != blore.size(); j++) {
-				if (ChatColor.stripColor(tlore.get(i).split(":")[0])
-						.equals(ChatColor.stripColor(blore.get(j).split(":")[0]))) {
-					chgs.put(i, blore.get(j));
-				}
+				if (tlore.get(i).contains(":"))
+					if (ChatColor.stripColor(tlore.get(i).split(":")[0])
+							.equals(ChatColor.stripColor(blore.get(j).split(":")[0]))) {
+						chgs.put(i, blore.get(j));
+					}
 			}
 		}
-		for(String a : chgs.values()) {
+		for (String a : chgs.values()) {
 			blore.remove(a);
 		}
-		for(Entry<Integer, String> en : chgs.entrySet()) {
+		for (Entry<Integer, String> en : chgs.entrySet()) {
 			tlore.remove(en.getKey());
 			tlore.add(en.getValue());
 		}
 
 		for (String s : blore) {
-//			for(String a : tlore) {
-//				if(s.contains(":") && a.contains(":")) {
-//					if(ChatColor.stripColor(a.split(":")[0]).equalsIgnoreCase(ChatColor.stripColor(s.split(":")[0]))) {
-//						continue;
-//					}
-//				}
-//			}
-
-			tlore.add(CoreUtils.colorize(s));
+			tlore.add(s);
 		}
+
+//		for (String s : blore) {
+////			for(String a : tlore) {
+////				if(s.contains(":") && a.contains(":")) {
+////					if(ChatColor.stripColor(a.split(":")[0]).equalsIgnoreCase(ChatColor.stripColor(s.split(":")[0]))) {
+////						continue;
+////					}
+////				}
+////			}
+//
+//			tlore.add(CoreUtils.colorize(s));
+//		}
 
 		tm.setLore(tlore);
 		tool.setItemMeta(tm);
