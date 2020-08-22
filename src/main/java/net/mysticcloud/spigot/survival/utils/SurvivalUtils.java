@@ -343,8 +343,23 @@ public class SurvivalUtils {
 
 	public static ItemStack enhance(ItemStack tool, ItemStack book) {
 		ItemMeta tm = tool.getItemMeta();
-		List<String> blore = book.getItemMeta().hasLore() ? book.getItemMeta().getLore() : new ArrayList<>();
-		List<String> tlore = tool.getItemMeta().hasLore() ? tool.getItemMeta().getLore() : new ArrayList<>();
+		List<String> blore = new ArrayList<>();
+		List<String> tlore = new ArrayList<>();
+		if (book.hasItemMeta()) {
+			if (book.getItemMeta().hasLore()) {
+				for (String s : book.getItemMeta().getLore()) {
+					blore.add(s);
+				}
+			}
+		}
+
+		if (tool.hasItemMeta()) {
+			if (tool.getItemMeta().hasLore()) {
+				for (String s : tool.getItemMeta().getLore()) {
+					tlore.add(s);
+				}
+			}
+		}
 
 		Map<Integer, String> chgs = new HashMap<>();
 
