@@ -349,7 +349,6 @@ public class SurvivalUtils {
 		if (book.hasItemMeta()) {
 			if (book.getItemMeta().hasLore()) {
 				for (String s : book.getItemMeta().getLore()) {
-					Bukkit.broadcastMessage("Book lore +=> " + s);
 					blore.add(s);
 				}
 			}
@@ -359,7 +358,6 @@ public class SurvivalUtils {
 			if (tool.getItemMeta().hasLore()) {
 				for (String s : tool.getItemMeta().getLore()) {
 					tlore.add(s);
-					Bukkit.broadcastMessage("Tool lore +=> " + s);
 				}
 			}
 		}
@@ -369,46 +367,55 @@ public class SurvivalUtils {
 		for (int i = 0; i != tlore.size(); i++) {
 			for (int j = 0; j != blore.size(); j++) {
 				if (tlore.get(i).contains(":")) {
-					Bukkit.broadcastMessage("Contains ':'");
-					Bukkit.broadcastMessage("Tool: " + tlore.get(i));
-					Bukkit.broadcastMessage("Book: " + blore.get(j));
 					if (ChatColor.stripColor(tlore.get(i).split(":")[0])
 							.equals(ChatColor.stripColor(blore.get(j).split(":")[0]))) {
-						Bukkit.broadcastMessage("Equal. K=" + i + ";V=" + blore.get(j));
 						chgs.put(tlore.get(i), blore.get(j));
 					}
 				}
 			}
 		}
 		for (String a : chgs.values()) {
-			Bukkit.broadcastMessage("Removing " + a + ChatColor.WHITE + " from blore");
 			blore.remove(a);
 		}
 		for (Entry<String, String> en : chgs.entrySet()) {
-			Bukkit.broadcastMessage("tlore removing: " + en.getKey());
 			tlore.remove(en.getKey());
 			tlore.add(en.getValue());
-			Bukkit.broadcastMessage("tlore adding: " + en.getValue());
-			
+
 		}
-		Bukkit.broadcastMessage("--------------");
 
 		for (String s : blore) {
-			Bukkit.broadcastMessage("tlore adding: " + s);
 			tlore.add(s);
 		}
 
-//		for (String s : blore) {
-////			for(String a : tlore) {
-////				if(s.contains(":") && a.contains(":")) {
-////					if(ChatColor.stripColor(a.split(":")[0]).equalsIgnoreCase(ChatColor.stripColor(s.split(":")[0]))) {
-////						continue;
-////					}
-////				}
-////			}
-//
-//			tlore.add(CoreUtils.colorize(s));
-//		}
+		for (String l : tlore) {
+			double n = 0;
+			if (l.contains(": ")) {
+				n = ((double) Integer.parseInt(ChatColor.stripColor(l).split(":")[1].replaceAll(" ", "")) / 100);
+			}
+			if (ChatColor.stripColor(l).contains("Speed Modifier:")) {
+				AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
+						getArmorType(tool.getType()) + " Movement Speed", n, Operation.ADD_NUMBER);
+				tm.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
+
+			}
+			if (ChatColor.stripColor(l).contains("Armor Modifier:")) {
+				AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
+						getArmorType(tool.getType()) + " Protection", ((double) n / 100), Operation.ADD_NUMBER);
+				tm.addAttributeModifier(Attribute.GENERIC_ARMOR, am);
+			}
+			if (ChatColor.stripColor(l).contains("Damage:")) {
+				AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", n,
+						Operation.ADD_NUMBER, EquipmentSlot.HAND);
+				tm.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
+
+			}
+			if (ChatColor.stripColor(l).contains("Speed:")) {
+				AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", n, Operation.ADD_NUMBER,
+						EquipmentSlot.HAND);
+				tm.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
+			}
+
+		}
 
 		tm.setLore(tlore);
 		tool.setItemMeta(tm);
