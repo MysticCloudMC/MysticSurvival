@@ -387,8 +387,11 @@ public class SurvivalUtils {
 		for (Entry<Integer, String> en : chgs.entrySet()) {
 			Bukkit.broadcastMessage("tlore removing: " + tlore.get((int)en.getKey()));
 			tlore.remove((int)en.getKey());
-			tlore.add(en.getValue());
-			Bukkit.broadcastMessage("tlore adding: " + en.getValue());
+			
+		}
+		for (String a : chgs.values()) {
+			tlore.add(a);
+			Bukkit.broadcastMessage("tlore adding: " + a);
 		}
 		
 		Bukkit.broadcastMessage("--------------");
