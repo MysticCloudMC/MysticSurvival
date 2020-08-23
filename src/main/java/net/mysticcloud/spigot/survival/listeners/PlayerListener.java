@@ -132,7 +132,7 @@ public class PlayerListener implements Listener {
 
 		}
 	}
-	
+
 	@EventHandler
 	public void onProjectileShoot(ProjectileLaunchEvent e) {
 		if (e.getEntity().getShooter() instanceof Player) {
@@ -167,14 +167,19 @@ public class PlayerListener implements Listener {
 				Bukkit.broadcastMessage("Projectile vampirism.");
 				if (e.getEntity() instanceof Player) {
 					Bukkit.broadcastMessage("Entity is player.");
-					if (CoreUtils.getRandom().nextInt(100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()) * 20) {
-						Bukkit.broadcastMessage("Chance struck. Removing " + (e.getDamage()/2) + " health points.");
-						((Player) e.getDamager()).setHealth(
-								((Player) e.getDamager()).getHealth() + (e.getDamage()/2));
+					if (CoreUtils.getRandom().nextInt(
+							100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value())
+									* 20) {
+						Bukkit.broadcastMessage("Chance struck. Removing " + (e.getDamage() / 2) + " health points.");
+						((LivingEntity) ((Projectile) e.getDamager()).getShooter())
+								.setHealth(((LivingEntity) ((Projectile) e.getDamager()).getShooter()).getHealth()
+										+ (e.getDamage() / 2));
 					}
 				} else {
-					Bukkit.broadcastMessage("Entity is entity. Removing " + (((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
-							* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value())))) + " health points");
+					Bukkit.broadcastMessage("Entity is entity. Removing "
+							+ (((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
+									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))))
+							+ " health points");
 					((LivingEntity) e.getDamager())
 							.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
 									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))));
@@ -238,9 +243,9 @@ public class PlayerListener implements Listener {
 										if (CoreUtils.getRandom().nextInt(100) < Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
 											if (e.getEntity() instanceof Player) {
-												Item i = e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(),
-														((LivingEntity) e.getEntity()).getEquipment()
-																.getItemInMainHand());
+												Item i = e.getEntity().getWorld().dropItemNaturally(
+														e.getEntity().getLocation(), ((LivingEntity) e.getEntity())
+																.getEquipment().getItemInMainHand());
 												i.setPickupDelay(40);
 												((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
 														.setAmount(0);
