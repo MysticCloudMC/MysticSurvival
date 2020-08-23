@@ -47,8 +47,10 @@ public class SurvivalUtils {
 
 		weaponEnhancements.add("fire");
 		weaponEnhancements.add("frost");
-		weaponEnhancements.add("fireball");
+		weaponEnhancements.add("disarm");
 		weaponEnhancements.add("speed");
+		weaponEnhancements.add("dodge");
+		weaponEnhancements.add("vampire");
 
 		weaponTiers.put(Tier.HUMAN,
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
@@ -139,18 +141,39 @@ public class SurvivalUtils {
 		for (String s : weaponEnhancements) {
 
 			if (new Random().nextBoolean()) {
-				if (s.equalsIgnoreCase("fireball") && level > Tier.DEMI_GOD.maxLevel) {
+				if (s.equalsIgnoreCase("disarm") && level > Tier.DEMI_GOD.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&6Fireball&7 Damage: &6&l"
+					lore.add(CoreUtils.colorize("&1Disarm&7 Chance: &1&l"
 							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
 							+ "&7"));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
-							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &6Fireballs&f"));
-					AttributeModifier am = new AttributeModifier(UUID.randomUUID(), "Attack Speed", 0.001,
-							Operation.ADD_NUMBER, EquipmentSlot.HAND);
-					a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, am);
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &1Disarming&f"));
+					item.setItemMeta(a);
+					enhanced = true;
+				}
+				if (s.equalsIgnoreCase("dodge") && level > Tier.HUMAN.maxLevel) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					lore.add(CoreUtils.colorize("&cDodge&7 Chance: &c&l"
+							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
+							+ "&7"));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cDodging&f"));
+					item.setItemMeta(a);
+					enhanced = true;
+				}
+				if (s.equalsIgnoreCase("vampire") && level > Tier.HUMAN.maxLevel) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					lore.add(CoreUtils.colorize("&4Vampirism&7 Chance: &4&l"
+							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
+							+ "&7"));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &4Vampirism&f"));
 					item.setItemMeta(a);
 					enhanced = true;
 				}

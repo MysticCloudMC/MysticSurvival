@@ -22,9 +22,9 @@ public enum Tier {
 	public String getName() {
 		switch (name()) {
 		case "HUMAN":
-			return "&e&lHuman";
+			return "&e&lWarrier";
 		case "WIZARD":
-			return "&5&lWizard";
+			return "&5&lMage";
 		case "DEMI_GOD":
 			return "&b&lDemi-God";
 		case "CELESTIAL":

@@ -38,7 +38,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 		}
 		if (args[0].equalsIgnoreCase("giveRandomBook")) {
 			if (sender instanceof Player) {
-				sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random armor...");
+				sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random book...");
 				((Player) sender).getInventory()
 						.addItem(SurvivalUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
 								: CoreUtils.getMysticPlayer(((Player)sender)).getLevel()));
