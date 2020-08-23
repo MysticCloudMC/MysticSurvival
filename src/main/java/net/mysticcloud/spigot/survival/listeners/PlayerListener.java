@@ -157,7 +157,7 @@ public class PlayerListener implements Listener {
 			if (e.getEntity() instanceof Monster) {
 				e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 			}
-			if (e.getEntity() instanceof Player) {
+			if (e.getEntity() instanceof Player && ((Player) e.getEntity()).getItemInHand() != null) {
 				if (((Player) e.getEntity()).getItemInHand().getItemMeta().hasLore()) {
 
 					ItemStack s = ((Player) e.getEntity()).getEquipment().getItemInMainHand();
