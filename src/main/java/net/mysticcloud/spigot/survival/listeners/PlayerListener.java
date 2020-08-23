@@ -152,77 +152,88 @@ public class PlayerListener implements Listener {
 					}, Integer.parseInt("" + e.getDamager().getMetadata("frost").get(0).value()) * 20);
 				}
 			}
+			return;
 		}
 		if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
 			if (e.getEntity() instanceof Monster) {
 				e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 			}
-			if (e.getEntity() instanceof Player && ((Player) e.getEntity()).getItemInHand() != null) {
-				if (((Player) e.getEntity()).getItemInHand().getItemMeta().hasLore()) {
 
-					ItemStack s = ((Player) e.getEntity()).getEquipment().getItemInMainHand();
+			if (e.getEntity() instanceof Player) {
+				if (((Player) e.getEntity()).getEquipment().getItemInMainHand() != null) {
+					if (((Player) e.getEntity()).getEquipment().getItemInMainHand().hasItemMeta()) {
+						if (((Player) e.getEntity()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
+							ItemStack s = ((Player) e.getEntity()).getEquipment().getItemInMainHand();
+							for (String a : s.getItemMeta().getLore()) {
+								if (ChatColor.stripColor(a).split(":")[0].equals("Dodge Chance")) {
+									if (CoreUtils.getRandom().nextInt(100) < Integer
+											.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
+										e.setCancelled(true);
+										((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
+										((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
+										break;
+									}
 
-					for (String a : s.getItemMeta().getLore()) {
-						if (ChatColor.stripColor(a).split(":")[0].equals("Dodge Chance")) {
-							if (CoreUtils.getRandom().nextInt(100) < Integer
-									.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-								e.setCancelled(true);
-								((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
-								((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
-								break;
+								}
 							}
-
 						}
 					}
 				}
 			}
-			if (((Player) e.getDamager()).getItemInHand().getItemMeta().hasLore()) {
-				ItemStack s = ((Player) e.getDamager()).getEquipment().getItemInMainHand();
+			if (((Player) e.getDamager()).getEquipment().getItemInMainHand() != null) {
+				if (((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta()) {
+					if (((Player) e.getDamager()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
+						ItemStack s = ((Player) e.getDamager()).getEquipment().getItemInMainHand();
 
-				for (String a : s.getItemMeta().getLore()) {
-					if (a.contains(":")) {
-						if (ChatColor.stripColor(a).split(":")[0].equals("Disarm Chance")) {
-							if (((LivingEntity) e.getEntity()).getEquipment().getItemInHand() != null) {
-								if (CoreUtils.getRandom().nextInt(100) < Integer
-										.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-									e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(),
-											((LivingEntity) e.getEntity()).getEquipment().getItemInHand());
-									((LivingEntity) e.getEntity()).getEquipment().getItemInHand().setAmount(0);
+						for (String a : s.getItemMeta().getLore()) {
+							if (a.contains(":")) {
+								if (ChatColor.stripColor(a).split(":")[0].equals("Disarm Chance")) {
+									if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
+										if (CoreUtils.getRandom().nextInt(100) < Integer
+												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
+											e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(),
+													((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand());
+											((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
+													.setAmount(0);
 
+										}
+
+									}
+								}
+
+								if (ChatColor.stripColor(a).split(":")[0].equals("Fire Damage")) {
+									e.getEntity().setFireTicks(
+											Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
+								}
+
+								if (ChatColor.stripColor(a).split(":")[0].equals("Frost Damage")) {
+									((LivingEntity) e.getEntity())
+											.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
+													Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20, 1));
+									RandomFormat format = new RandomFormat();
+									format.particle(Particle.REDSTONE);
+									format.setDustOptions(new DustOptions(Color.AQUA, 1));
+									CoreUtils.particles.put(e.getEntity().getUniqueId(), format);
+									Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
+
+										@Override
+										public void run() {
+											CoreUtils.particles__remove.add(e.getEntity().getUniqueId());
+										}
+
+									}, Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
+								}
+
+								if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism")) {
+									((LivingEntity) e.getDamager()).setHealth(((LivingEntity) e.getDamager())
+											.getHealth()
+											+ (e.getDamage() * (Integer.parseInt(ChatColor.stripColor(a).split(": ")[1])
+													/ 100)));
 								}
 
 							}
 						}
-
-						if (ChatColor.stripColor(a).split(":")[0].equals("Fire Damage")) {
-							e.getEntity().setFireTicks(Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
-						}
-
-						if (ChatColor.stripColor(a).split(":")[0].equals("Frost Damage")) {
-							((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
-									Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20, 1));
-							RandomFormat format = new RandomFormat();
-							format.particle(Particle.REDSTONE);
-							format.setDustOptions(new DustOptions(Color.AQUA, 1));
-							CoreUtils.particles.put(e.getEntity().getUniqueId(), format);
-							Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
-
-								@Override
-								public void run() {
-									CoreUtils.particles__remove.add(e.getEntity().getUniqueId());
-								}
-
-							}, Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
-						}
-
-						if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism")) {
-							((LivingEntity) e.getDamager())
-									.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
-											* (Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) / 100)));
-						}
-
 					}
-
 				}
 			}
 		}
