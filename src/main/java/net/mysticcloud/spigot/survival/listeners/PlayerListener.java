@@ -160,7 +160,7 @@ public class PlayerListener implements Listener {
 			if (e.getEntity() instanceof Player) {
 				if (((Player) e.getEntity()).getItemInHand().getItemMeta().hasLore()) {
 
-					ItemStack s = ((Player) e.getDamager()).getEquipment().getItemInMainHand();
+					ItemStack s = ((Player) e.getEntity()).getEquipment().getItemInMainHand();
 
 					for (String a : s.getItemMeta().getLore()) {
 						if (ChatColor.stripColor(a).split(":")[0].equals("Dodge Chance")) {
