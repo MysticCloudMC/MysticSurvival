@@ -7,12 +7,12 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 
 public enum Enhancement {
 	DISARM("&1Disarm&7 Chance: &1&l", true),
-	SPEED("&aSpeed&7 Modification: &a&l", false),
+	SPEED("&aSpeed&7 Modifier: &a&l", false),
 	VAMPIRISM("&4Vampirism&7 Chance: &4&l", true),
 	DODGE("&eDodge&7 Chance: &e&l", true),
 	FIRE("&cFire&7 Damage: &c&l", true),
 	FROST("&bFrost&7 Damage: &b&l", true),
-	PROTECTION("&dArmor&7 Modification: &d&l", false);
+	PROTECTION("&dArmor&7 Modifier: &d&l", false);
 	
 	String name;
 	boolean weapon;
