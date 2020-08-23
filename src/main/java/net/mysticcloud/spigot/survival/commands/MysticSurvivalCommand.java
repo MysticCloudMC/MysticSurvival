@@ -62,7 +62,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						if (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("delete")) {
 							try {
 								SurvivalUtils.removeEnhancement(((Player) sender).getEquipment().getItemInMainHand(),
-										Enhancement.valueOf(args[1].toUpperCase()));
+										Enhancement.valueOf(args[2].toUpperCase()));
 							} catch (IllegalArgumentException ex) {
 								String s = "";
 								for (Enhancement en : Enhancement.values()) {
