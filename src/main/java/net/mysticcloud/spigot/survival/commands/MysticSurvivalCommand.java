@@ -26,7 +26,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("mysticcloud.admin")) {
+		if (sender.hasPermission("mysticcloud.admin")) {
 			if (args.length == 0) {
 				sender.sendMessage(
 						CoreUtils.colorize(CoreUtils.prefixes("admin") + "Usage: /msurvival <subcommand> [args]"));
@@ -52,8 +52,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					if (args.length == 2) {
 						String s = "";
 						for (Enhancement en : Enhancement.values()) {
-							s = (s == "" ? "" : "&7,&f ") + en.name().substring(0, 1).toUpperCase()
-									+ en.name().substring(1, en.name().length()).toLowerCase();
+							s = (s == "" ? "" : "&7,&f ") + en.name().toLowerCase();
 						}
 						s = CoreUtils.colorize(s);
 						sender.sendMessage(CoreUtils.prefixes("admin")
@@ -65,9 +64,10 @@ public class MysticSurvivalCommand implements CommandExecutor {
 								SurvivalUtils.enhance(((Player) sender).getEquipment().getItemInMainHand(),
 										Enhancement.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]));
 							} catch (NumberFormatException ex) {
-								sender.sendMessage(CoreUtils.prefixes("admin") + "You didn't use a number for the level.");
 								sender.sendMessage(
-										CoreUtils.prefixes("admin") + "Usage: /msurvival enhance <enhancement> <level>");
+										CoreUtils.prefixes("admin") + "You didn't use a number for the level.");
+								sender.sendMessage(CoreUtils.prefixes("admin")
+										+ "Usage: /msurvival enhance <enhancement> <level>");
 							}
 						} catch (IllegalArgumentException ex) {
 							String s = "";
@@ -81,7 +81,8 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						}
 
 					} else {
-						sender.sendMessage(CoreUtils.prefixes("admin") + "Usage: /msurvival enhance <enhancement> <level>");
+						sender.sendMessage(
+								CoreUtils.prefixes("admin") + "Usage: /msurvival enhance <enhancement> <level>");
 					}
 
 				}
@@ -109,11 +110,10 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				}
 			}
 
-			
 		}
-		
+
 		return true;
-		
+
 	}
 
 //	private String formatUsername(String username) {
