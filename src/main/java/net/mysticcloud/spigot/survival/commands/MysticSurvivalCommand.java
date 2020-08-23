@@ -52,7 +52,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					if (args.length == 2) {
 						String s = "";
 						for (Enhancement en : Enhancement.values()) {
-							s = (s == "" ? "" : "&7,&f ") + en.name().toLowerCase();
+							s = (s == "" ? "&f" : "&7,&f ") + en.name().toLowerCase();
 						}
 						s = CoreUtils.colorize(s);
 						sender.sendMessage(CoreUtils.prefixes("admin")
@@ -72,7 +72,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						} catch (IllegalArgumentException ex) {
 							String s = "";
 							for (Enhancement en : Enhancement.values()) {
-								s = (s == "" ? "" : "&7,&f ") + en.name().toLowerCase();
+								s = (s == "" ? "&f" : "&7,&f ") + en.name().toLowerCase();
 							}
 							s = CoreUtils.colorize(s);
 							sender.sendMessage(CoreUtils.prefixes("admin")
