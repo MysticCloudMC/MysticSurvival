@@ -163,6 +163,23 @@ public class PlayerListener implements Listener {
 				e.getEntity()
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
 			}
+			if (e.getDamager().hasMetadata("vampirism")) {
+				Bukkit.broadcastMessage("Projectile vampirism.");
+				if (e.getEntity() instanceof Player) {
+					Bukkit.broadcastMessage("Entity is player.");
+					if (CoreUtils.getRandom().nextInt(100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()) * 20) {
+						Bukkit.broadcastMessage("Chance struck. Removing " + e.getDamage() + " health points.");
+						((LivingEntity) e.getDamager()).setHealth(
+								((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()));
+					}
+				} else {
+					Bukkit.broadcastMessage("Entity is entity. Removing " + (((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
+							* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value())))) + " health points");
+					((LivingEntity) e.getDamager())
+							.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
+									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))));
+				}
+			}
 			if (e.getDamager().hasMetadata("frost")) {
 				if (e.getEntity() instanceof LivingEntity) {
 					((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
