@@ -165,7 +165,7 @@ public class PlayerListener implements Listener {
 			}
 			if (e.getDamager().hasMetadata("vampirism")) {
 				Bukkit.broadcastMessage("Projectile vampirism.");
-				if (e.getEntity() instanceof Player) {
+//				if (e.getEntity() instanceof Player) {
 					Bukkit.broadcastMessage("Entity is player.");
 					if (CoreUtils.getRandom().nextInt(
 							100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value())
@@ -175,15 +175,11 @@ public class PlayerListener implements Listener {
 								.setHealth(((LivingEntity) ((Projectile) e.getDamager()).getShooter()).getHealth()
 										+ (e.getDamage() / 2));
 					}
-				} else {
-					Bukkit.broadcastMessage("Entity is entity. Removing "
-							+ (((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
-									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))))
-							+ " health points");
-					((LivingEntity) e.getDamager())
-							.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
-									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))));
-				}
+//				} else {
+//					((LivingEntity) e.getDamager())
+//							.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
+//									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))));
+//				}
 			}
 			if (e.getDamager().hasMetadata("frost")) {
 				if (e.getEntity() instanceof LivingEntity) {
