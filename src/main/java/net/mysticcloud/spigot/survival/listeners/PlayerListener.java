@@ -168,9 +168,9 @@ public class PlayerListener implements Listener {
 				if (e.getEntity() instanceof Player) {
 					Bukkit.broadcastMessage("Entity is player.");
 					if (CoreUtils.getRandom().nextInt(100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()) * 20) {
-						Bukkit.broadcastMessage("Chance struck. Removing " + e.getDamage() + " health points.");
-						((LivingEntity) e.getDamager()).setHealth(
-								((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()));
+						Bukkit.broadcastMessage("Chance struck. Removing " + (e.getDamage()/2) + " health points.");
+						((Player) e.getDamager()).setHealth(
+								((Player) e.getDamager()).getHealth() + (e.getDamage()/2));
 					}
 				} else {
 					Bukkit.broadcastMessage("Entity is entity. Removing " + (((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
