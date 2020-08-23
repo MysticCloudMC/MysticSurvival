@@ -73,9 +73,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("admin") + "Usage: /msurvival enhance <enhancement> <level>");
 				}
 
-				((Player) sender).getInventory()
-						.addItem(SurvivalUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
-								: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
+				
 			}
 		}
 		if (args[0].equalsIgnoreCase("giveRandomArmor")) {
