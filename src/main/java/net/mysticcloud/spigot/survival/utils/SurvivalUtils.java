@@ -30,11 +30,11 @@ public class SurvivalUtils {
 
 	static Map<Tier, Material[]> weaponTiers = new HashMap<>();
 	static Map<Tier, String[]> weaponDescriptors = new HashMap<>();
-	static List<String> weaponEnhancements = new ArrayList<>();
+	static List<Enhancement> weaponEnhancements = new ArrayList<>();
 
 	static Map<Tier, Material[]> armorTiers = new HashMap<>();
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
-	static List<String> armorEnhancements = new ArrayList<>();
+	static List<Enhancement> armorEnhancements = new ArrayList<>();
 
 	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
@@ -42,15 +42,16 @@ public class SurvivalUtils {
 	public static void start(MysticSurvival main) {
 		plugin = main;
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
-		CoreUtils.addPrefix("survival", "&5&lMystic Survival &7>&f ");
+		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&f ");
 		CoreUtils.coreHandleDamage(false);
-
-		weaponEnhancements.add("fire");
-		weaponEnhancements.add("frost");
-		weaponEnhancements.add("disarm");
-		weaponEnhancements.add("speed");
-		weaponEnhancements.add("dodge");
-		weaponEnhancements.add("vampire");
+		
+		for(Enhancement en : Enhancement.values()) {
+			if(en.isWeapon()) {
+				weaponEnhancements.add(en);
+			} else {
+				armorEnhancements.add(en);
+			}
+		}
 
 		weaponTiers.put(Tier.HUMAN,
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
@@ -68,8 +69,6 @@ public class SurvivalUtils {
 				Material.CROSSBOW, Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
 		weaponDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
-		armorEnhancements.add("speed");
-		armorEnhancements.add("armor");
 
 		armorTiers.put(Tier.HUMAN, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
 				Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS });
@@ -138,13 +137,13 @@ public class SurvivalUtils {
 		boolean enhanced = false;
 
 		Collections.shuffle(weaponEnhancements);
-		for (String s : weaponEnhancements) {
+		for (Enhancement en : weaponEnhancements) {
 
 			if (new Random().nextBoolean()) {
-				if (s.equalsIgnoreCase("disarm") && level > Tier.DEMI_GOD.maxLevel) {
+				if (en.equals(Enhancement.DISARM) && level > Tier.DEMI_GOD.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&1Disarm&7 Chance: &1&l"
+					lore.add(CoreUtils.colorize(en.getName()
 							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
 							+ "&7"));
 					a.setLore(lore);
@@ -153,10 +152,10 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (s.equalsIgnoreCase("dodge") && level > Tier.HUMAN.maxLevel) {
+				if (en.equals(Enhancement.DODGE) && level > Tier.HUMAN.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&cDodge&7 Chance: &c&l"
+					lore.add(CoreUtils.colorize(en.getName()
 							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
 							+ "&7"));
 					a.setLore(lore);
@@ -165,10 +164,10 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (s.equalsIgnoreCase("vampire") && level > Tier.HUMAN.maxLevel) {
+				if (en.equals(Enhancement.VAMPIRISM) && level > Tier.HUMAN.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&4Vampirism&7 Chance: &4&l"
+					lore.add(CoreUtils.colorize(en.getName()
 							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
 							+ "&7"));
 					a.setLore(lore);
@@ -177,10 +176,10 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (s.equalsIgnoreCase("fire") && level > Tier.WIZARD.maxLevel) {
+				if (en.equals(Enhancement.FIRE) && level > Tier.WIZARD.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&cFire&7 Damage: &c&l"
+					lore.add(CoreUtils.colorize(en.getName()
 							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
 							+ "&7"));
 					a.setLore(lore);
@@ -189,31 +188,15 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (s.equalsIgnoreCase("frost") && level > Tier.HUMAN.maxLevel) {
+				if (en.equals(Enhancement.FROST) && level > Tier.HUMAN.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize("&bFrost&7 Damage: &b&l"
+					lore.add(CoreUtils.colorize(en.getName()
 							+ ((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)))
 							+ "&7"));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &bFrost&f"));
-					item.setItemMeta(a);
-					enhanced = true;
-				}
-				if (s.equalsIgnoreCase("speed")) {
-					ItemMeta a = item.getItemMeta();
-					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble())
-							+ CoreUtils.getRandom().nextInt(5));
-					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &a&l" + level2));
-					a.setLore(lore);
-					a.setDisplayName(
-							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &aSpeed&f"));
-					AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
-							getArmorType(item.getType()) + " Movement Speed", ((double) level2 / 100),
-							Operation.ADD_NUMBER);
-					a.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
 					item.setItemMeta(a);
 					enhanced = true;
 				}
@@ -226,15 +209,15 @@ public class SurvivalUtils {
 		boolean enhanced = false;
 
 		Collections.shuffle(armorEnhancements);
-		for (String s : armorEnhancements) {
+		for (Enhancement en : armorEnhancements) {
 
 			if (new Random().nextBoolean()) {
-				if (s.equalsIgnoreCase("speed")) {
+				if (en.equals(Enhancement.SPEED)) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble())
 							+ CoreUtils.getRandom().nextInt(5));
-					lore.add(CoreUtils.colorize("&aSpeed&7 Modifier: &a&l" + level2));
+					lore.add(CoreUtils.colorize(en.getName() + level2));
 					a.setLore(lore);
 					a.setDisplayName(
 							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &aSpeed&f"));
@@ -245,12 +228,12 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (s.equalsIgnoreCase("armor")) {
+				if (en.equals(Enhancement.PROTECTION)) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble())
 							+ CoreUtils.getRandom().nextInt(5));
-					lore.add(CoreUtils.colorize("&dArmor&7 Modifier: &d&l" + level2));
+					lore.add(CoreUtils.colorize(en.getName() + level2));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
 							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &dProtection&f"));
@@ -365,7 +348,32 @@ public class SurvivalUtils {
 		}
 	}
 
-	public static ItemStack enhance(ItemStack tool, ItemStack book) {
+	public static ItemStack enhance(ItemStack tool, Enhancement enhance, int power) {
+		ItemMeta tm = tool.getItemMeta();
+		List<String> tlore = new ArrayList<>();
+		if (tool.hasItemMeta()) {
+			if (tool.getItemMeta().hasLore()) {
+				for (String s : tool.getItemMeta().getLore()) {
+					if (s.contains(":")) {
+						if (ChatColor.stripColor(s).split(":")[0].equals(ChatColor.stripColor(enhance.getName()))) {
+							continue;
+						}
+					}
+					tlore.add(s);
+				}
+			}
+		}
+
+		tlore.add(enhance.getName() + power);
+
+		tm.setLore(tlore);
+
+		tool.setItemMeta(tm);
+
+		return tool;
+	}
+
+	public static ItemStack enhanceInInventory(ItemStack tool, ItemStack book) {
 		ItemMeta tm = tool.getItemMeta();
 		List<String> blore = new ArrayList<>();
 		List<String> tlore = new ArrayList<>();
@@ -397,10 +405,8 @@ public class SurvivalUtils {
 				}
 			}
 		}
-		for (String a : chgs.values()) {
-			blore.remove(a);
-		}
 		for (Entry<String, String> en : chgs.entrySet()) {
+			blore.remove(en.getValue());
 			tlore.remove(en.getKey());
 			tlore.add(en.getValue());
 
@@ -409,19 +415,45 @@ public class SurvivalUtils {
 		for (String s : blore) {
 			tlore.add(s);
 		}
-		
-			
 
-		for (String l : tlore) {
+		tm.setLore(tlore);
+		tool.setItemMeta(tm);
+
+		if (book.getAmount() - 1 >= 1) {
+			book.setAmount(book.getAmount() - 1);
+		} else {
+			book.setType(Material.AIR);
+		}
+
+		finalizeEnhancement(tool, tlore);
+
+		return tool;
+	}
+
+	private static ItemStack finalizeEnhancement(ItemStack tool, List<String> lore) {
+		if (lore == null) {
+			if (tool.hasItemMeta()) {
+				if (tool.getItemMeta().hasLore()) {
+					lore = tool.getItemMeta().getLore();
+				} else {
+					lore = new ArrayList<>();
+				}
+			} else {
+				lore = new ArrayList<>();
+			}
+		}
+
+		ItemMeta tm = tool.getItemMeta();
+		for (String l : lore) {
 			double n = 0;
 			if (l.contains(": ")) {
 				try {
-				n = ((double) Integer.parseInt(ChatColor.stripColor(l).split(":")[1].replaceAll(" ", "")) / 100);
-				} catch(NumberFormatException ex) {
-					//Not a number?
+					n = ((double) Integer.parseInt(ChatColor.stripColor(l).split(":")[1].replaceAll(" ", "")) / 100);
+				} catch (NumberFormatException ex) {
+					// Not a number?
 				}
 			}
-			
+
 			if (ChatColor.stripColor(l).contains("Speed Modifier:")) {
 				tm.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED);
 				AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
@@ -450,10 +482,6 @@ public class SurvivalUtils {
 			}
 
 		}
-
-		tm.setLore(tlore);
-		tool.setItemMeta(tm);
-		book.setAmount(book.getAmount() - 1);
 		return tool;
 	}
 

@@ -10,8 +10,8 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -24,7 +24,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -59,9 +58,15 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
-				&& !e.getCursor().getType().equals(Material.BOOK) && !e.getCursor().getType().equals(Material.AIR)) {
-			SurvivalUtils.enhance(e.getCursor(), e.getCurrentItem());
+		try {
+			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
+					&& !e.getCursor().getType().equals(Material.BOOK)
+					&& !e.getCursor().getType().equals(Material.AIR)) {
+				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
+				e.setCancelled(true);
+			}
+		} catch (NullPointerException ex) {
+
 		}
 	}
 
@@ -191,10 +196,14 @@ public class PlayerListener implements Listener {
 									if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
 										if (CoreUtils.getRandom().nextInt(100) < Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-											e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(),
-													((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand());
-											((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
-													.setAmount(0);
+											if (e.getEntity() instanceof Player) {
+												Item i = e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(),
+														((LivingEntity) e.getEntity()).getEquipment()
+																.getItemInMainHand());
+												i.setPickupDelay(40);
+												((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
+														.setAmount(0);
+											}
 
 										}
 
