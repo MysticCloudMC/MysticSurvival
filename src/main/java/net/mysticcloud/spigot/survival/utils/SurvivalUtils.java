@@ -369,6 +369,8 @@ public class SurvivalUtils {
 		tm.setLore(tlore);
 
 		tool.setItemMeta(tm);
+		
+		finalizeEnhancement(tool, tlore);
 
 		return tool;
 	}
