@@ -225,10 +225,18 @@ public class PlayerListener implements Listener {
 								}
 
 								if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism")) {
-									((LivingEntity) e.getDamager()).setHealth(((LivingEntity) e.getDamager())
-											.getHealth()
-											+ (e.getDamage() * (Integer.parseInt(ChatColor.stripColor(a).split(": ")[1])
-													/ 100)));
+									if (e.getEntity() instanceof Player) {
+										if (CoreUtils.getRandom().nextInt(100) < Integer
+												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
+											((LivingEntity) e.getDamager()).setHealth(
+													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage() / 2));
+										}
+									} else {
+										((LivingEntity) e.getDamager())
+												.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
+														* (Integer.parseInt(ChatColor.stripColor(a).split(": ")[1])
+																/ 10)));
+									}
 								}
 
 							}
