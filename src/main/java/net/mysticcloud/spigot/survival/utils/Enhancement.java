@@ -11,7 +11,7 @@ public enum Enhancement {
 	VAMPIRISM("&4Vampirism&7 Chance: &4&l", true),
 	DODGE("&eDodge&7 Chance: &e&l", true),
 	FIRE("&cFire&7 Damage: &c&l", true),
-	FROST("&aFrost&7 Damage: &a&l", true),
+	FROST("&bFrost&7 Damage: &b&l", true),
 	PROTECTION("&dArmor&7 Modification: &d&l", false);
 	
 	String name;
