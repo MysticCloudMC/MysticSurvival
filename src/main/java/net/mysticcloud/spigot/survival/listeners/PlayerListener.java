@@ -9,18 +9,19 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -131,10 +132,33 @@ public class PlayerListener implements Listener {
 
 		}
 	}
+	
+	@EventHandler
+	public void onProjectileShoot(ProjectileLaunchEvent e) {
+		if (e.getEntity().getShooter() instanceof Player) {
+			if (((Player) e.getEntity().getShooter()).getItemInHand().getItemMeta().hasLore()) {
+				List<String> lore = ((Player) e.getEntity().getShooter()).getItemInHand().getItemMeta().getLore();
+				for (String s : lore) {
+					if (ChatColor.stripColor(s).contains("Fire Damage:")) {
+						e.getEntity().setMetadata("fire", new FixedMetadataValue(Main.getPlugin(),
+								Integer.parseInt(ChatColor.stripColor(s).split(":")[1].replaceAll(" ", ""))));
+					}
+					if (ChatColor.stripColor(s).contains("Frost Damage:")) {
+						e.getEntity().setMetadata("frost", new FixedMetadataValue(Main.getPlugin(),
+								Integer.parseInt(ChatColor.stripColor(s).split(":")[1].replaceAll(" ", ""))));
+					}
+					if (ChatColor.stripColor(s).contains("Vampirism Chance:")) {
+						e.getEntity().setMetadata("vampirism", new FixedMetadataValue(Main.getPlugin(),
+								Integer.parseInt(ChatColor.stripColor(s).split(":")[1].replaceAll(" ", ""))));
+					}
+				}
+			}
+		}
+	}
 
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
-		if (e.getDamager() instanceof Arrow) {
+		if (e.getDamager() instanceof Projectile) {
 			if (e.getDamager().hasMetadata("fire")) {
 				e.getEntity()
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
@@ -235,10 +259,10 @@ public class PlayerListener implements Listener {
 
 								if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism")) {
 									if (e.getEntity() instanceof Player) {
-										if (CoreUtils.getRandom().nextInt(100) < Integer
+										if (CoreUtils.getRandom().nextInt(100) <= Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
 											((LivingEntity) e.getDamager()).setHealth(
-													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage() / 2));
+													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()));
 										}
 									} else {
 										((LivingEntity) e.getDamager())
