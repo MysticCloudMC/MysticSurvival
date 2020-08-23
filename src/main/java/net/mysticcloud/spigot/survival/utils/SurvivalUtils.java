@@ -355,7 +355,7 @@ public class SurvivalUtils {
 			if (tool.getItemMeta().hasLore()) {
 				for (String s : tool.getItemMeta().getLore()) {
 					if (s.contains(":")) {
-						if (ChatColor.stripColor(s).split(":")[0].equals(ChatColor.stripColor(enhance.getName()))) {
+						if (ChatColor.stripColor(s).split(":")[0].equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
 							continue;
 						}
 					}
