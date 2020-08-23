@@ -44,9 +44,9 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&f ");
 		CoreUtils.coreHandleDamage(false);
-		
-		for(Enhancement en : Enhancement.values()) {
-			if(en.isWeapon()) {
+
+		for (Enhancement en : Enhancement.values()) {
+			if (en.isWeapon()) {
 				weaponEnhancements.add(en);
 			} else {
 				armorEnhancements.add(en);
@@ -68,7 +68,6 @@ public class SurvivalUtils {
 		weaponTiers.put(Tier.CELESTIAL, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD,
 				Material.CROSSBOW, Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
 		weaponDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
-
 
 		armorTiers.put(Tier.HUMAN, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
 				Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS });
@@ -355,7 +354,8 @@ public class SurvivalUtils {
 			if (tool.getItemMeta().hasLore()) {
 				for (String s : tool.getItemMeta().getLore()) {
 					if (s.contains(":")) {
-						if (ChatColor.stripColor(s).split(":")[0].equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
+						if (ChatColor.stripColor(s).split(":")[0]
+								.equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
 							continue;
 						}
 					}
@@ -419,11 +419,7 @@ public class SurvivalUtils {
 		tm.setLore(tlore);
 		tool.setItemMeta(tm);
 
-		if (book.getAmount() - 1 >= 1) {
-			book.setAmount(book.getAmount() - 1);
-		} else {
-			book.setType(Material.AIR);
-		}
+		book.setAmount(book.getAmount() - 1);
 
 		finalizeEnhancement(tool, tlore);
 
