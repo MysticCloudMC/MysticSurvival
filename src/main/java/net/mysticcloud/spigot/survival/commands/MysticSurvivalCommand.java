@@ -59,6 +59,20 @@ public class MysticSurvivalCommand implements CommandExecutor {
 								+ "Unknown enhancement. Here's a list of enhancements: " + s);
 					}
 					if (args.length == 3) {
+						if (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("delete")) {
+							try {
+								SurvivalUtils.removeEnhancement(((Player) sender).getEquipment().getItemInMainHand(),
+										Enhancement.valueOf(args[1].toUpperCase()));
+							} catch (IllegalArgumentException ex) {
+								String s = "";
+								for (Enhancement en : Enhancement.values()) {
+									s = (s == "" ? "&f" : "&7,&f ") + en.name().toLowerCase();
+								}
+								s = CoreUtils.colorize(s);
+								sender.sendMessage(CoreUtils.prefixes("admin")
+										+ "Unknown enhancement. Here's a list of enhancements: " + s);
+							}
+						}
 						try {
 							try {
 								SurvivalUtils.enhance(((Player) sender).getEquipment().getItemInMainHand(),
