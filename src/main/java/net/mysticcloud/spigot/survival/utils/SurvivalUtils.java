@@ -151,6 +151,18 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
+				if (en.equals(Enhancement.POWER_ATTACK)) {
+					ItemMeta a = item.getItemMeta();
+					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+					lore.add(CoreUtils.colorize(en.getName()
+							+ ("false")
+							+ "&7"));
+					a.setLore(lore);
+					a.setDisplayName(CoreUtils
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cPower&f"));
+					item.setItemMeta(a);
+					enhanced = true;
+				}
 				if (en.equals(Enhancement.DODGE) && level > Tier.HUMAN.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();

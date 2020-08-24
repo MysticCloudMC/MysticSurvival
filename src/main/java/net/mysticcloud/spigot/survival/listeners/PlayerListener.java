@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -24,7 +25,9 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -35,6 +38,7 @@ import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.core.utils.SpawnReason;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
@@ -78,6 +82,37 @@ public class PlayerListener implements Listener {
 				for (String s : e.getItemDrop().getItemStack().getItemMeta().getLore()) {
 					if (ChatColor.stripColor(s).equalsIgnoreCase("Soulbound")) {
 						e.setCancelled(true);
+					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent e) {
+		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			if ((e.getPlayer()).getEquipment().getItemInMainHand() != null) {
+				if ((e.getPlayer()).getEquipment().getItemInMainHand().hasItemMeta()) {
+					if ((e.getPlayer()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
+						ItemStack s = (e.getPlayer()).getEquipment().getItemInMainHand();
+						List<String> lore = new ArrayList<>();
+						for (String a : s.getItemMeta().getLore()) {
+							if (a.contains(":")) {
+								if (ChatColor.stripColor(a).split(":")[0].equals("Power Attack")) {
+									if (ChatColor.stripColor(a).split(": ")[1].equalsIgnoreCase("false")) {
+										lore.add(Enhancement.POWER_ATTACK.getName() + "true");
+										continue;
+									} else {
+										lore.add(Enhancement.POWER_ATTACK.getName() + "false");
+										continue;
+									}
+								}
+							}
+							lore.add(a);
+						}
+						ItemMeta im = s.getItemMeta();
+						im.setLore(lore);
+						s.setItemMeta(im);
 					}
 				}
 			}
@@ -156,6 +191,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Projectile) {
@@ -165,13 +201,12 @@ public class PlayerListener implements Listener {
 			}
 			if (e.getDamager().hasMetadata("vampirism")) {
 //				if (e.getEntity() instanceof Player) {
-					if (CoreUtils.getRandom().nextInt(
-							100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value())
-									* 20) {
-						((LivingEntity) ((Projectile) e.getDamager()).getShooter())
-								.setHealth(((LivingEntity) ((Projectile) e.getDamager()).getShooter()).getHealth()
-										+ (e.getDamage() / 2));
-					}
+				if (CoreUtils.getRandom().nextInt(
+						100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()) * 20) {
+					((LivingEntity) ((Projectile) e.getDamager()).getShooter())
+							.setHealth(((LivingEntity) ((Projectile) e.getDamager()).getShooter()).getHealth()
+									+ (e.getDamage() / 2));
+				}
 //				} else {
 //					((LivingEntity) e.getDamager())
 //							.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
@@ -199,6 +234,7 @@ public class PlayerListener implements Listener {
 			return;
 		}
 		if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
+			Player player = (Player) e.getDamager();
 			if (e.getEntity() instanceof Monster) {
 				e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 			}
@@ -253,6 +289,15 @@ public class PlayerListener implements Listener {
 									e.getEntity().setFireTicks(
 											Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
 								}
+								if (ChatColor.stripColor(a).split(":")[0].equals("Power Attack")) {
+									if (ChatColor.stripColor(a).split(": ")[1].equalsIgnoreCase("true")) {
+										player.getEquipment().getItemInMainHand().setDurability(
+												(short) (player.getEquipment().getItemInMainHand().getDurability()
+														- 4));
+										e.setDamage(e.getDamage()*3);
+									}
+
+								}
 
 								if (ChatColor.stripColor(a).split(":")[0].equals("Frost Damage")) {
 									((LivingEntity) e.getEntity())
@@ -278,13 +323,14 @@ public class PlayerListener implements Listener {
 										if (CoreUtils.getRandom().nextInt(100) <= Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
 											try {
-												((LivingEntity) e.getDamager()).setHealth(
-														((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()/4));
-											} catch(IllegalArgumentException ex) {
-												((LivingEntity) e.getDamager()).setHealth(
-														((LivingEntity) e.getDamager()).getMaxHealth());
+												((LivingEntity) e.getDamager())
+														.setHealth(((LivingEntity) e.getDamager()).getHealth()
+																+ (e.getDamage() / 4));
+											} catch (IllegalArgumentException ex) {
+												((LivingEntity) e.getDamager())
+														.setHealth(((LivingEntity) e.getDamager()).getMaxHealth());
 											}
-											
+
 										}
 									} else {
 										((LivingEntity) e.getDamager())
