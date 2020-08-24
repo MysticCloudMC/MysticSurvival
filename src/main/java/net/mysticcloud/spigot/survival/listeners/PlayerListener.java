@@ -277,8 +277,14 @@ public class PlayerListener implements Listener {
 									if (e.getEntity() instanceof Player) {
 										if (CoreUtils.getRandom().nextInt(100) <= Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-											((LivingEntity) e.getDamager()).setHealth(
-													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()/4));
+											try {
+												((LivingEntity) e.getDamager()).setHealth(
+														((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()/4));
+											} catch(IllegalArgumentException ex) {
+												((LivingEntity) e.getDamager()).setHealth(
+														((LivingEntity) e.getDamager()).getMaxHealth());
+											}
+											
 										}
 									} else {
 										((LivingEntity) e.getDamager())
