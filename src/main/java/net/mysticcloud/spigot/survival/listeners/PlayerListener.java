@@ -164,13 +164,10 @@ public class PlayerListener implements Listener {
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
 			}
 			if (e.getDamager().hasMetadata("vampirism")) {
-				Bukkit.broadcastMessage("Projectile vampirism.");
 //				if (e.getEntity() instanceof Player) {
-					Bukkit.broadcastMessage("Entity is player.");
 					if (CoreUtils.getRandom().nextInt(
 							100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value())
 									* 20) {
-						Bukkit.broadcastMessage("Chance struck. Removing " + (e.getDamage() / 2) + " health points.");
 						((LivingEntity) ((Projectile) e.getDamager()).getShooter())
 								.setHealth(((LivingEntity) ((Projectile) e.getDamager()).getShooter()).getHealth()
 										+ (e.getDamage() / 2));
@@ -275,12 +272,13 @@ public class PlayerListener implements Listener {
 									}, Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
 								}
 
-								if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism")) {
+								if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism Chance")) {
+									Bukkit.broadcastMessage("Vampirism");
 									if (e.getEntity() instanceof Player) {
 										if (CoreUtils.getRandom().nextInt(100) <= Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
 											((LivingEntity) e.getDamager()).setHealth(
-													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()));
+													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()/4));
 										}
 									} else {
 										((LivingEntity) e.getDamager())
