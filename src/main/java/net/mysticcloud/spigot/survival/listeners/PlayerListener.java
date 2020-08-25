@@ -322,6 +322,9 @@ public class PlayerListener implements Listener {
 									if (e.getEntity() instanceof Player) {
 										if (CoreUtils.getRandom().nextInt(100) <= Integer
 												.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
+											for(int i = 0; i!=10; i++) {
+												new RandomFormat().display(e.getEntity().getLocation(), i);
+											}
 											try {
 												((LivingEntity) e.getDamager())
 														.setHealth(((LivingEntity) e.getDamager()).getHealth()
