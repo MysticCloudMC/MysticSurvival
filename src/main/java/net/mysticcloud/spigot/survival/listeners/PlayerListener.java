@@ -328,7 +328,7 @@ public class PlayerListener implements Listener {
 											format.particle(Particle.REDSTONE);
 											format.setDustOptions(new DustOptions(Color.RED, 2));
 											for(int i = 0; i!=10; i++) {
-												new RandomFormat().display(e.getEntity().getLocation(), i);
+												format.display(e.getEntity().getLocation(), i);
 											}
 											try {
 												((LivingEntity) e.getDamager())
