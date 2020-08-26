@@ -101,6 +101,22 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
+		if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+			if ((e.getPlayer()).getEquipment().getItemInMainHand() == null)
+				return;
+			if (!(e.getPlayer()).getEquipment().getItemInMainHand().hasItemMeta())
+				return;
+			if (!(e.getPlayer()).getEquipment().getItemInMainHand().getItemMeta().hasLore())
+				return;
+			if (!e.getPlayer().getEquipment().getItemInMainHand().getType().equals(Material.STICK))
+				return;
+			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
+			if(player.getStamina() > 10) {
+				player.useStamina(10);
+			} else {
+				e.setCancelled(true);
+			}
+		}
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if ((e.getPlayer()).getEquipment().getItemInMainHand() == null)
 				return;
@@ -115,7 +131,7 @@ public class PlayerListener implements Listener {
 //			List<String> lore = new ArrayList<>();
 			for (String a : s.getItemMeta().getLore()) {
 				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
-					Spell spell = new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0, 1, 0));
+					Spell spell = new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0, 1, 0).setDirection(e.getPlayer().getEyeLocation().getDirection()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
