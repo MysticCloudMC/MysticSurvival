@@ -24,6 +24,8 @@ public class SurvivalPlayer {
 	int stamina = maxStamina;
 	double manaMultiplier = 1;
 	double staminaMultiplier = 1;
+	double staminaModifier = 0;
+	double manaModifier = 0;
 
 	protected SurvivalPlayer(MysticPlayer player) {
 		this.player = player;
@@ -102,13 +104,13 @@ public class SurvivalPlayer {
 	}
 
 	public void replenishMana() {
-		mana = mana + ((int) (1 * manaMultiplier));
+		mana = (int) (mana + ((int) (1 * manaMultiplier)+manaModifier));
 		if (mana > maxMana)
 			mana = maxMana;
 	}
 
 	public void replenishStamina() {
-		stamina = stamina + ((int) (1 * staminaMultiplier));
+		stamina = (int) (stamina + ((int) (1 * staminaMultiplier)+staminaModifier));
 		if (stamina > maxStamina)
 			stamina = maxStamina;
 	}
