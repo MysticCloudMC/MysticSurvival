@@ -62,6 +62,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					lore.add(CoreUtils.colorize("&1&lTeleportation &7Spell"));
 					wm.setLore(lore);
 					wand.setItemMeta(wm);
+					((Player)sender).getInventory().addItem(wand);
 				}
 			}
 			if (args[0].equalsIgnoreCase("division")) {
