@@ -67,6 +67,10 @@ public class MysticSurvivalCommand implements CommandExecutor {
 							wm.setDisplayName(CoreUtils.colorize("&fStaff of &a&lHealing"));
 							lore.add(CoreUtils.colorize("&a&lHeal &7Spell"));
 						}
+						if (args[1].equalsIgnoreCase("3")) {
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &3&lFireballs"));
+							lore.add(CoreUtils.colorize("&3&lFireball &7Spell"));
+						}
 						wm.setLore(lore);
 						wand.setItemMeta(wm);
 						((Player) sender).getInventory().addItem(wand);
