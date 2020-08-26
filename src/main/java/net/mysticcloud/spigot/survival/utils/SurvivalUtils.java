@@ -1,5 +1,8 @@
 package net.mysticcloud.spigot.survival.utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +19,8 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
@@ -23,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
+import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 
 public class SurvivalUtils {
@@ -35,6 +41,8 @@ public class SurvivalUtils {
 	static Map<Tier, Material[]> armorTiers = new HashMap<>();
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
+
+	static Map<UUID, SurvivalPlayer> splayers = new HashMap<>();
 
 	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
@@ -89,6 +97,41 @@ public class SurvivalUtils {
 
 	public static MysticSurvival getPlugin() {
 		return plugin;
+	}
+
+	public static SurvivalPlayer getSurvivalPlayer(UUID uid) {
+		return getSurvivalPlayer(CoreUtils.getMysticPlayer(uid));
+	}
+
+	public static SurvivalPlayer getSurvivalPlayer(Player player) {
+		return getSurvivalPlayer(CoreUtils.getMysticPlayer(player));
+	}
+
+	public static SurvivalPlayer getSurvivalPlayer(MysticPlayer player) {
+
+		if (splayers.containsKey(player.getUUID())) {
+			return splayers.get(player.getUUID());
+		}
+		SurvivalPlayer splayer = new SurvivalPlayer(player);
+
+		File file = new File(getPlugin().getDataFolder().getPath() + "/players/" + player.getUUID() + ".yml");
+		if (!file.exists()) {
+			file.mkdirs();
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
+		if (fc.isSet("Division")) {
+			splayer.setDivision(Division.valueOf(fc.getString("Division")));
+		}
+
+		splayers.put(player.getUUID(), splayer);
+
+		return splayer;
 	}
 
 	/*
@@ -154,12 +197,10 @@ public class SurvivalUtils {
 				if (en.equals(Enhancement.POWER_ATTACK)) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					lore.add(CoreUtils.colorize(en.getName()
-							+ ("false")
-							+ "&7"));
+					lore.add(CoreUtils.colorize(en.getName() + ("false") + "&7"));
 					a.setLore(lore);
-					a.setDisplayName(CoreUtils
-							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cPower&f"));
+					a.setDisplayName(
+							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cPower&f"));
 					item.setItemMeta(a);
 					enhanced = true;
 				}
@@ -358,7 +399,7 @@ public class SurvivalUtils {
 			location.getWorld().dropItemNaturally(location, i);
 		}
 	}
-	
+
 	public static ItemStack removeEnhancement(ItemStack tool, Enhancement enhance) {
 		ItemMeta tm = tool.getItemMeta();
 		List<String> tlore = new ArrayList<>();
@@ -379,7 +420,7 @@ public class SurvivalUtils {
 		tm.setLore(tlore);
 
 		tool.setItemMeta(tm);
-		
+
 		finalizeEnhancement(tool, tlore);
 
 		return tool;
@@ -407,7 +448,7 @@ public class SurvivalUtils {
 		tm.setLore(tlore);
 
 		tool.setItemMeta(tm);
-		
+
 		finalizeEnhancement(tool, tlore);
 
 		return tool;

@@ -1,6 +1,5 @@
 package net.mysticcloud.spigot.survival.commands;
 
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,9 +9,10 @@ import org.bukkit.entity.Player;
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
+import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
-import net.mysticcloud.spigot.survival.utils.polls.PollUtils;
 
 public class MysticSurvivalCommand implements CommandExecutor {
 
@@ -45,6 +45,17 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					((Player) sender).getInventory()
 							.addItem(SurvivalUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
+				}
+			}
+			if (args[0].equalsIgnoreCase("division")) {
+				if(sender instanceof Player) {
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender).getUniqueId());
+					if(args.length == 2) {
+						
+						player.setDivision(Division.valueOf(args[1].toUpperCase()));
+					}
+					sender.sendMessage("Your division is: " + player.getDivision());
+					
 				}
 			}
 			if (args[0].equalsIgnoreCase("enhance")) {
