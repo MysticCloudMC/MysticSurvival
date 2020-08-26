@@ -1,16 +1,14 @@
 package net.mysticcloud.spigot.survival.utils.spells;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 
 public class TeleportSpell extends Spell {
 	
-	Entity entity;
-	Location loc;
-	
-	public TeleportSpell(Entity entity, Location loc) {
+	public TeleportSpell(LivingEntity entity, Location loc) {
 		this.entity = entity;
 		this.loc = loc;
+		cost = 50;
 	}
 	
 	@Override

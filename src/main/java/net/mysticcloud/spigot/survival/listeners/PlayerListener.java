@@ -41,8 +41,10 @@ import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
+import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
+import net.mysticcloud.spigot.survival.utils.spells.Spell;
 import net.mysticcloud.spigot.survival.utils.spells.TeleportSpell;
 
 public class PlayerListener implements Listener {
@@ -112,10 +114,24 @@ public class PlayerListener implements Listener {
 //			List<String> lore = new ArrayList<>();
 			for (String a : s.getItemMeta().getLore()) {
 				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
-					new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0,1,0)).activate();
+					Spell spell = new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0, 1, 0));
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
+					if (player.getMana() >= spell.getCost()) {
+						spell.activate();
+						player.useMana(spell.getCost());
+					} else {
+						player.useMana(0);
+					}
 				}
 				if (ChatColor.stripColor(a).contains("Heal Spell")) {
-					new HealSpell(e.getPlayer()).activate();
+					Spell spell = new HealSpell(e.getPlayer());
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
+					if (player.getMana() >= spell.getCost()) {
+						spell.activate();
+						player.useMana(spell.getCost());
+					} else {
+						player.useMana(0);
+					}
 				}
 //				lore.add(a);
 			}

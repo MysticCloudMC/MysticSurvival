@@ -7,10 +7,10 @@ import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 
 public class HealSpell extends Spell {
 	
-	LivingEntity entity;
 	
 	public HealSpell(LivingEntity entity) {
 		this.entity = entity;
+		cost = 100;
 	}
 	
 	@Override

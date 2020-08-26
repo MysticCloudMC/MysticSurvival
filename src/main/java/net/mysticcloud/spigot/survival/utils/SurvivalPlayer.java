@@ -3,9 +3,13 @@ package net.mysticcloud.spigot.survival.utils;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 
 public class SurvivalPlayer {
@@ -13,12 +17,13 @@ public class SurvivalPlayer {
 	MysticPlayer player;
 	Division division;
 	File file;
+	int maxMana = 100;
+	int mana = maxMana;
 
 	protected SurvivalPlayer(MysticPlayer player) {
 		this.player = player;
 
-		file = new File(
-				SurvivalUtils.getPlugin().getDataFolder().getPath() + "/players/" + player.getUUID() + ".yml");
+		file = new File(SurvivalUtils.getPlugin().getDataFolder().getPath() + "/players/" + player.getUUID() + ".yml");
 		if (!file.exists()) {
 //			file.mkdirs();
 			try {
@@ -38,17 +43,53 @@ public class SurvivalPlayer {
 		this.division = division;
 	}
 
+	public int getMaxMana() {
+		return maxMana;
+	}
+
+	public void setMaxMana(int mana) {
+		this.maxMana = mana;
+	}
+
+	public int getMana() {
+		return mana;
+	}
+
+	public void useMana(int i) {
+		if (mana > i) {
+			mana = mana - i;
+		} else {
+			mana = 0;
+		}
+
+		if (Bukkit.getPlayer(player.getUUID()) != null) {
+			Player p = Bukkit.getPlayer(player.getUUID());
+			String status = "&a";
+			double percent = ((double) (((double) mana) / ((double) maxMana)));
+			int progress = (int) (50*percent);
+			for (int j = 0; j != 50; j++) {
+				if(j==progress) {
+					status = status + "&7";
+				}
+				status = status + "|";
+			}
+			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
+							status)).create());
+		}
+	}
+
 	public Division getDivision() {
 		return division;
 	}
-	
+
 	public int getLevel() {
 		return player.getLevel();
 	}
 
 	public void save() {
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-		if(division != null) {
+		if (division != null) {
 			fc.set("Division", division.name());
 		}
 		try {
@@ -57,7 +98,7 @@ public class SurvivalPlayer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
