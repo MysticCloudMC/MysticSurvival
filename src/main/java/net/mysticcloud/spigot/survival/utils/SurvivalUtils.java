@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.runnables.MainTimer;
 
 public class SurvivalUtils {
 	private static MysticSurvival plugin;
@@ -93,6 +95,8 @@ public class SurvivalUtils {
 				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.NETHERITE_BOOTS });
 		armorDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
+		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new MainTimer(), 2);
+
 	}
 
 	public static MysticSurvival getPlugin() {
@@ -113,7 +117,6 @@ public class SurvivalUtils {
 			return splayers.get(player.getUUID());
 		}
 		SurvivalPlayer splayer = new SurvivalPlayer(player);
-
 
 		splayers.put(player.getUUID(), splayer);
 
@@ -556,6 +559,10 @@ public class SurvivalUtils {
 		item.setItemMeta(a);
 
 		return item;
+	}
+
+	public static Collection<SurvivalPlayer> getAllSurvivalPlayers() {
+		return splayers.values();
 	}
 
 }

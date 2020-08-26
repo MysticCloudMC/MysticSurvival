@@ -19,6 +19,7 @@ public class SurvivalPlayer {
 	File file;
 	int maxMana = 100;
 	int mana = maxMana;
+	double manaMultiplier = 1;
 
 	protected SurvivalPlayer(MysticPlayer player) {
 		this.player = player;
@@ -55,27 +56,35 @@ public class SurvivalPlayer {
 		return mana;
 	}
 
+	public void replenishMana() {
+		mana = mana + ((int) (1 * manaMultiplier));
+		useMana(0);
+	}
+
 	public void useMana(int i) {
-		if (mana > i) {
-			mana = mana - i;
-		} else {
-			mana = 0;
-		}
+		if (mana != 0)
+			if (mana > i) {
+				mana = mana - i;
+			} else {
+				mana = 0;
+			}
 
 		if (Bukkit.getPlayer(player.getUUID()) != null) {
 			Player p = Bukkit.getPlayer(player.getUUID());
-			String status = "&a";
+
 			double percent = ((double) (((double) mana) / ((double) maxMana)));
-			int progress = (int) (50*percent);
+			String status = "&3";
+//			if(percent >=)
+			int progress = (int) (50 * percent);
 			for (int j = 0; j != 50; j++) {
-				if(j==progress) {
+				if (j == progress) {
 					status = status + "&7";
 				}
 				status = status + "|";
 			}
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
-							status)).create());
+					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', status))
+							.create());
 		}
 	}
 
