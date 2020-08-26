@@ -19,6 +19,8 @@ public class SurvivalPlayer {
 	File file;
 	int maxMana = 100;
 	int mana = maxMana;
+	int maxStamina = 100;
+	int stamina = maxStamina;
 	double manaMultiplier = 1;
 
 	protected SurvivalPlayer(MysticPlayer player) {
@@ -56,9 +58,24 @@ public class SurvivalPlayer {
 		return mana;
 	}
 
+	public int getMaxStamina() {
+		return maxStamina;
+	}
+
+	public void setMaxStamina(int stamina) {
+		this.maxStamina = stamina;
+	}
+
+	public int getStamina() {
+		return stamina;
+	}
+
 	public void replenishMana() {
 		mana = mana + ((int) (1 * manaMultiplier));
-		useMana(0);
+	}
+
+	public void replenishStamina() {
+		stamina = stamina + ((int) (1 * manaMultiplier));
 	}
 
 	public void useMana(int i) {
@@ -68,23 +85,45 @@ public class SurvivalPlayer {
 			} else {
 				mana = 0;
 			}
+		showStats();
+	}
 
+	public void useStamina(int i) {
+		if (stamina != 0)
+			if (stamina > i) {
+				stamina = stamina - i;
+			} else {
+				stamina = 0;
+			}
+		showStats();
+	}
+
+	public void showStats() {
 		if (Bukkit.getPlayer(player.getUUID()) != null) {
 			Player p = Bukkit.getPlayer(player.getUUID());
 
-			double percent = ((double) (((double) mana) / ((double) maxMana)));
-			String status = "&3";
-//			if(percent >=)
-			int progress = (int) (50 * percent);
+			double manaper = ((double) (((double) mana) / ((double) maxMana)));
+			String mana = "&3";
+			int manap = (int) (50 * manaper);
 			for (int j = 0; j != 50; j++) {
-				if (j == progress) {
-					status = status + "&7";
+				if (j == manap) {
+					mana = mana + "&7";
 				}
-				status = status + "|";
+				mana = mana + "|";
 			}
-			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', status))
-							.create());
+
+			double stper = ((double) (((double) stamina) / ((double) maxStamina)));
+			String st = "&a";
+			int stp = (int) (50 * stper);
+			for (int j = 0; j != 50; j++) {
+				if (j == stp) {
+					st = st + "&7";
+				}
+				st = st + "|";
+			}
+
+			p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(net.md_5.bungee.api.ChatColor
+					.translateAlternateColorCodes('&', "&7&lMana&7: " + mana + "   &7&lStamina&7: " + st)).create());
 		}
 	}
 
