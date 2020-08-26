@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 
 public class SurvivalPlayer {
@@ -51,18 +52,18 @@ public class SurvivalPlayer {
 	}
 
 	public void setDivision(Division division, boolean loading) {
-		if (this.division == null && !loading) {
+//		if (this.division == null && !loading) {
 			switch (division) {
 			case MAGE:
 				maxMana = maxMana + 100;
 				if(Bukkit.getPlayer(player.getUUID())!=null) {
-					player.sendMessage("&3Olympus", "Boosting your max mana by 100 points for joining the Mages!");
+					player.sendMessage(CoreUtils.colorize("&3Olympus"), "Boosting your max mana by 100 points for joining the Mages!");
 				}
 				break;
 			default:
 				break;
 			}
-		}
+//		}
 		this.division = division;
 	}
 
