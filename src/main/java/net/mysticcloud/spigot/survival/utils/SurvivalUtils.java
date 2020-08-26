@@ -114,20 +114,6 @@ public class SurvivalUtils {
 		}
 		SurvivalPlayer splayer = new SurvivalPlayer(player);
 
-		File file = new File(getPlugin().getDataFolder().getPath() + "/players/" + player.getUUID() + ".yml");
-		if (!file.exists()) {
-			file.mkdirs();
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-		if (fc.isSet("Division")) {
-			splayer.setDivision(Division.valueOf(fc.getString("Division")));
-		}
 
 		splayers.put(player.getUUID(), splayer);
 

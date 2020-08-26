@@ -26,6 +26,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -42,10 +43,16 @@ import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
+
 public class PlayerListener implements Listener {
 
 	public PlayerListener(MysticSurvival plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+	
+	@EventHandler
+	public void onPlayerLeave(PlayerQuitEvent e) {
+		SurvivalUtils.getSurvivalPlayer(e.getPlayer()).save();
 	}
 
 	@EventHandler
@@ -195,7 +202,7 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Projectile) {
-			if (e.getDamager().hasMetadata("fire")) {
+			if (e.getDamager().hasMetadata("fir	e")) {
 				e.getEntity()
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
 			}
