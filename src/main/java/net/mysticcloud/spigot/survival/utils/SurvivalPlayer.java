@@ -41,6 +41,10 @@ public class SurvivalPlayer {
 	public Division getDivision() {
 		return division;
 	}
+	
+	public int getLevel() {
+		return player.getLevel();
+	}
 
 	public void save() {
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);

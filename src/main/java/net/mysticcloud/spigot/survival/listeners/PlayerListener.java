@@ -42,14 +42,14 @@ import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
-
+import net.mysticcloud.spigot.survival.utils.spells.TeleportSpell;
 
 public class PlayerListener implements Listener {
 
 	public PlayerListener(MysticSurvival plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent e) {
 		SurvivalUtils.getSurvivalPlayer(e.getPlayer()).save();
@@ -97,6 +97,29 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
+		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			if ((e.getPlayer()).getEquipment().getItemInMainHand() == null)
+				return;
+			if (!(e.getPlayer()).getEquipment().getItemInMainHand().hasItemMeta())
+				return;
+			if (!(e.getPlayer()).getEquipment().getItemInMainHand().getItemMeta().hasLore())
+				return;
+			if (!e.getPlayer().getEquipment().getItemInMainHand().getType().equals(Material.STICK))
+				return;
+
+			ItemStack s = (e.getPlayer()).getEquipment().getItemInMainHand();
+//			List<String> lore = new ArrayList<>();
+			for (String a : s.getItemMeta().getLore()) {
+				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
+					new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0,1,0)).activate();
+				}
+//				lore.add(a);
+			}
+//			ItemMeta im = s.getItemMeta();
+//			im.setLore(lore);
+//			s.setItemMeta(im);
+
+		}
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if ((e.getPlayer()).getEquipment().getItemInMainHand() != null) {
 				if ((e.getPlayer()).getEquipment().getItemInMainHand().hasItemMeta()) {
@@ -202,7 +225,7 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Projectile) {
-			if (e.getDamager().hasMetadata("fir	e")) {
+			if (e.getDamager().hasMetadata("fire")) {
 				e.getEntity()
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
 			}
@@ -301,7 +324,7 @@ public class PlayerListener implements Listener {
 										player.getEquipment().getItemInMainHand().setDurability(
 												(short) (player.getEquipment().getItemInMainHand().getDurability()
 														- 4));
-										e.setDamage(e.getDamage()*3);
+										e.setDamage(e.getDamage() * 3);
 									}
 
 								}
@@ -331,11 +354,11 @@ public class PlayerListener implements Listener {
 											RandomFormat format = new RandomFormat();
 											format.particle(Particle.REDSTONE);
 											format.setDustOptions(new DustOptions(Color.RED, 2));
-											for(int i = 0; i!=10; i++) {
+											for (int i = 0; i != 10; i++) {
 												format.display(e.getEntity().getLocation(), i);
 												format.display(e.getDamager().getLocation(), i);
 											}
-											
+
 											try {
 												((LivingEntity) e.getDamager())
 														.setHealth(((LivingEntity) e.getDamager()).getHealth()
@@ -350,7 +373,7 @@ public class PlayerListener implements Listener {
 										RandomFormat format = new RandomFormat();
 										format.particle(Particle.REDSTONE);
 										format.setDustOptions(new DustOptions(Color.RED, 2));
-										for(int i = 0; i!=10; i++) {
+										for (int i = 0; i != 10; i++) {
 											format.display(e.getEntity().getLocation(), i);
 											format.display(e.getDamager().getLocation(), i);
 										}

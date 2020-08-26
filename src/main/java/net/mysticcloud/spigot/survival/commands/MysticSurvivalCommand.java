@@ -1,10 +1,16 @@
 package net.mysticcloud.spigot.survival.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
@@ -47,9 +53,15 @@ public class MysticSurvivalCommand implements CommandExecutor {
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
-			if (args[0].equalsIgnoreCase("save")) {
+			if (args[0].equalsIgnoreCase("wand")) {
 				if(sender instanceof Player) {
-					SurvivalUtils.getSurvivalPlayer(((Player) sender).getUniqueId()).save();
+					ItemStack wand = new ItemStack(Material.STICK);
+					ItemMeta wm = wand.getItemMeta();
+					wm.setDisplayName(CoreUtils.colorize("&fStaff of &1&lTeleportation"));
+					List<String> lore = new ArrayList<>();
+					lore.add(CoreUtils.colorize("&1&lTeleportation &7Spell"));
+					wm.setLore(lore);
+					wand.setItemMeta(wm);
 				}
 			}
 			if (args[0].equalsIgnoreCase("division")) {
