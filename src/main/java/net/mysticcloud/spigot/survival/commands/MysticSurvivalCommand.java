@@ -54,26 +54,35 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				}
 			}
 			if (args[0].equalsIgnoreCase("wand")) {
-				if(sender instanceof Player) {
-					ItemStack wand = new ItemStack(Material.STICK);
-					ItemMeta wm = wand.getItemMeta();
-					wm.setDisplayName(CoreUtils.colorize("&fStaff of &1&lTeleportation"));
-					List<String> lore = new ArrayList<>();
-					lore.add(CoreUtils.colorize("&1&lTeleportation &7Spell"));
-					wm.setLore(lore);
-					wand.setItemMeta(wm);
-					((Player)sender).getInventory().addItem(wand);
+				if (sender instanceof Player) {
+					if (args.length == 2) {
+						ItemStack wand = new ItemStack(Material.STICK);
+						ItemMeta wm = wand.getItemMeta();
+						List<String> lore = new ArrayList<>();
+						if (args[1].equalsIgnoreCase("1")) {
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &1&lTeleportation"));
+							lore.add(CoreUtils.colorize("&1&lTeleportation &7Spell"));
+						}
+						if (args[1].equalsIgnoreCase("2")) {
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &a&lHealing"));
+							lore.add(CoreUtils.colorize("&a&lHeal &7Spell"));
+						}
+						wm.setLore(lore);
+						wand.setItemMeta(wm);
+						((Player) sender).getInventory().addItem(wand);
+					}
+
 				}
 			}
 			if (args[0].equalsIgnoreCase("division")) {
-				if(sender instanceof Player) {
+				if (sender instanceof Player) {
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender).getUniqueId());
-					if(args.length == 2) {
-						
+					if (args.length == 2) {
+
 						player.setDivision(Division.valueOf(args[1].toUpperCase()));
 					}
 					sender.sendMessage("Your division is: " + player.getDivision());
-					
+
 				}
 			}
 			if (args[0].equalsIgnoreCase("enhance")) {

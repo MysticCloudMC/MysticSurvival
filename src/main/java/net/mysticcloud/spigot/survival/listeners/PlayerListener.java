@@ -42,6 +42,7 @@ import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
 import net.mysticcloud.spigot.survival.utils.spells.TeleportSpell;
 
 public class PlayerListener implements Listener {
@@ -113,8 +114,12 @@ public class PlayerListener implements Listener {
 				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
 					new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0,1,0)).activate();
 				}
+				if (ChatColor.stripColor(a).contains("Heal Spell")) {
+					new HealSpell(e.getPlayer()).activate();
+				}
 //				lore.add(a);
 			}
+			return;
 //			ItemMeta im = s.getItemMeta();
 //			im.setLore(lore);
 //			s.setItemMeta(im);
