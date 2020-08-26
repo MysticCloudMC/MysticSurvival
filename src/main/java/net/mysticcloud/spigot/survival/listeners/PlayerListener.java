@@ -328,6 +328,7 @@ public class PlayerListener implements Listener {
 												format.display(e.getEntity().getLocation(), i);
 												format.display(e.getDamager().getLocation(), i);
 											}
+											
 											try {
 												((LivingEntity) e.getDamager())
 														.setHealth(((LivingEntity) e.getDamager()).getHealth()
@@ -339,6 +340,13 @@ public class PlayerListener implements Listener {
 
 										}
 									} else {
+										RandomFormat format = new RandomFormat();
+										format.particle(Particle.REDSTONE);
+										format.setDustOptions(new DustOptions(Color.RED, 2));
+										for(int i = 0; i!=10; i++) {
+											format.display(e.getEntity().getLocation(), i);
+											format.display(e.getDamager().getLocation(), i);
+										}
 										((LivingEntity) e.getDamager())
 												.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
 														* (Integer.parseInt(ChatColor.stripColor(a).split(": ")[1])
