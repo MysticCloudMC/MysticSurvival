@@ -7,16 +7,15 @@ import org.bukkit.entity.LivingEntity;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 
 public class FireballSpell extends Spell {
-	
-	
+
 	public FireballSpell(LivingEntity entity) {
 		this.entity = entity;
-		cost = 100;
+		cost = 20;
 	}
-	
+
 	@Override
 	public void activate() {
-		Fireball f = entity.getWorld().spawn(entity.getEyeLocation().add(0,1,0), Fireball.class);
+		Fireball f = entity.getWorld().spawn(entity.getEyeLocation().add(0, 1, 0), Fireball.class);
 		f.setVelocity(entity.getEyeLocation().getDirection());
 	}
 

@@ -101,7 +101,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if ((e.getPlayer()).getEquipment().getItemInMainHand() == null)
 				return;
 			if (!(e.getPlayer()).getEquipment().getItemInMainHand().hasItemMeta())
