@@ -108,8 +108,6 @@ public class PlayerListener implements Listener {
 				return;
 			if (!(e.getPlayer()).getEquipment().getItemInMainHand().getItemMeta().hasLore())
 				return;
-			if (!e.getPlayer().getEquipment().getItemInMainHand().getType().equals(Material.STICK))
-				return;
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 			if(player.getStamina() > 10) {
 				player.useStamina(10);
