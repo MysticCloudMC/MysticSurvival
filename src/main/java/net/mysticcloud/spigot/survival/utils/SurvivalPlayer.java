@@ -44,8 +44,8 @@ public class SurvivalPlayer {
 
 	public void save() {
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-		if (fc.isSet("Division")) {
-			setDivision(Division.valueOf(fc.getString("Division")));
+		if(division != null) {
+			fc.set("Division", division.name());
 		}
 		try {
 			fc.save(file);

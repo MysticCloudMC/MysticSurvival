@@ -47,6 +47,11 @@ public class MysticSurvivalCommand implements CommandExecutor {
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
+			if (args[0].equalsIgnoreCase("save")) {
+				if(sender instanceof Player) {
+					SurvivalUtils.getSurvivalPlayer(((Player) sender).getUniqueId()).save();
+				}
+			}
 			if (args[0].equalsIgnoreCase("division")) {
 				if(sender instanceof Player) {
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender).getUniqueId());
