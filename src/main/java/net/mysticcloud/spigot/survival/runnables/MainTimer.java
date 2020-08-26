@@ -22,7 +22,7 @@ public class MainTimer implements Runnable {
 	@Override
 	public void run() {
 		for(SurvivalPlayer player : SurvivalUtils.getAllSurvivalPlayers()) {
-			if(player.getMana() < player.getMaxMana()) {
+			if(player.getMana() < player.getMaxMana() || player.getStamina() < player.getMaxStamina()) {
 				player.replenishMana();
 				player.replenishStamina();
 				player.showStats();
