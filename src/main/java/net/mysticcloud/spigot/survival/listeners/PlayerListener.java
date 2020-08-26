@@ -15,6 +15,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -112,6 +113,7 @@ public class PlayerListener implements Listener {
 			if(player.getStamina() > 10) {
 				player.useStamina(10);
 			} else {
+				e.setUseItemInHand(Result.DENY);
 				e.setCancelled(true);
 			}
 		}
