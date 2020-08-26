@@ -24,6 +24,8 @@ public class MainTimer implements Runnable {
 		for(SurvivalPlayer player : SurvivalUtils.getAllSurvivalPlayers()) {
 			if(player.getMana() < player.getMaxMana()) {
 				player.replenishMana();
+				player.replenishStamina();
+				player.showStats();
 			}
 		}
 		
