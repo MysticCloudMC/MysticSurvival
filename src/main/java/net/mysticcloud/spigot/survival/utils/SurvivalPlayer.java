@@ -56,8 +56,16 @@ public class SurvivalPlayer {
 			switch (division) {
 			case MAGE:
 				maxMana = maxMana + 100;
+				manaMultiplier = manaMultiplier+0.5;
 				if(Bukkit.getPlayer(player.getUUID())!=null) {
-					player.sendMessage(CoreUtils.colorize("&3Olympus"), "Boosting your max mana by 100 points for joining the Mages!");
+					player.sendMessage("olympus", "Boosting your max mana by 100 points, and your mana multiplier by 0.5 for joining the Mages!");
+				}
+				break;
+			case WARRIER:
+				maxStamina = maxStamina + 100;
+				staminaMultiplier = staminaMultiplier+0.5;
+				if(Bukkit.getPlayer(player.getUUID())!=null) {
+					player.sendMessage("olympus", "Boosting your max stamina by 100 points, and your stamina multiplier by 0.5 for joining the Warriers!");
 				}
 				break;
 			default:
