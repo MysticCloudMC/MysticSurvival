@@ -38,12 +38,31 @@ public class SurvivalPlayer {
 		}
 
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-		if (fc.isSet("Division")) {
-			setDivision(Division.valueOf(fc.getString("Division")));
-		}
+		if (fc.isSet("Division"))
+			setDivision(Division.valueOf(fc.getString("Division")),true);
+		if (fc.isSet("MaxMana"))
+			maxMana = (Integer.parseInt(fc.getString("MaxMana")));
+		if (fc.isSet("MaxStamina"))
+			maxStamina = (Integer.parseInt(fc.getString("MaxStamina")));
+	}
+	
+	public void setDivision(Division division) {
+		setDivision(division,false);
 	}
 
-	public void setDivision(Division division) {
+	public void setDivision(Division division, boolean loading) {
+		if (this.division == null && !loading) {
+			switch (division) {
+			case MAGE:
+				maxMana = maxMana + 100;
+				if(Bukkit.getPlayer(player.getUUID())!=null) {
+					player.sendMessage("&3Olympus", "Boosting your max mana by 100 points for joining the Mages!");
+				}
+				break;
+			default:
+				break;
+			}
+		}
 		this.division = division;
 	}
 
@@ -123,8 +142,9 @@ public class SurvivalPlayer {
 				st = st + "|";
 			}
 
-			p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(net.md_5.bungee.api.ChatColor
-					.translateAlternateColorCodes('&', "&7&lMana&7: " + mana + "   &7&lStamina&7: " + st)).create());
+			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
+							"&3&lMana&7: " + mana + "  &7&l|&r  &a&lStamina&7: " + st)).create());
 		}
 	}
 
@@ -141,6 +161,8 @@ public class SurvivalPlayer {
 		if (division != null) {
 			fc.set("Division", division.name());
 		}
+		fc.set("MaxMana", maxMana);
+		fc.set("MaxStamina", maxStamina);
 		try {
 			fc.save(file);
 		} catch (IOException e) {
