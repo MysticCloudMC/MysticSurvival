@@ -131,7 +131,7 @@ public class PlayerListener implements Listener {
 //			List<String> lore = new ArrayList<>();
 			for (String a : s.getItemMeta().getLore()) {
 				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
-					Spell spell = new TeleportSpell(e.getPlayer(), e.getClickedBlock().getLocation().add(0, 1, 0).setDirection(e.getPlayer().getEyeLocation().getDirection()));
+					Spell spell = new TeleportSpell(e.getPlayer(), e.getPlayer().getTargetBlock(null, 200).getLocation().add(0, 1, 0).setDirection(e.getPlayer().getEyeLocation().getDirection()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();

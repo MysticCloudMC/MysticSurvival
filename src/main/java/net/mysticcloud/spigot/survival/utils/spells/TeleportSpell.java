@@ -18,7 +18,7 @@ public class TeleportSpell extends Spell {
 	@Override
 	public void activate() {
 		ParticleFormat format = new RandomFormat();
-		format.particle(Particle.CLOUD);
+		format.particle(Particle.SPELL_WITCH);
 		for(int i=0;i!=15;i++) {
 			format.display(entity.getLocation(), i);
 			format.display(loc, i);
