@@ -165,10 +165,10 @@ public class SurvivalPlayer {
 			}
 
 			double stper = ((double) (((double) stamina) / ((double) maxStamina)));
-			String st = "&a&l";
+			String st = "&a";
 			for (int j = 0; j != 25; j++) {
 				if (j == (int) (25 * stper)) {
-					st = st + "&7&l";
+					st = st + "&7";
 				}
 				st = st + "\u258C";
 			}
