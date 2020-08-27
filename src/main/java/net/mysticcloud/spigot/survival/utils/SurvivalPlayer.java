@@ -54,28 +54,28 @@ public class SurvivalPlayer {
 	}
 
 	public void setDivision(Division division, boolean loading) {
-//		if (this.division == null && !loading) {
-		switch (division) {
-		case MAGE:
-			maxMana = maxMana + 100;
-			manaMultiplier = manaMultiplier + 0.5;
-			if (Bukkit.getPlayer(player.getUUID()) != null) {
-				player.sendMessage("olympus",
-						"Boosting your max mana by 100 points, and your mana multiplier by 0.5 for joining the Mages!");
+		if (this.division == null && !loading) {
+			switch (division) {
+			case MAGE:
+				maxMana = maxMana + 100;
+				manaMultiplier = manaMultiplier + 0.5;
+				if (Bukkit.getPlayer(player.getUUID()) != null) {
+					player.sendMessage("olympus",
+							"Boosting your max mana by 100 points, and your mana multiplier by 0.5 for joining the Mages!");
+				}
+				break;
+			case WARRIER:
+				maxStamina = maxStamina + 100;
+				staminaMultiplier = staminaMultiplier + 0.5;
+				if (Bukkit.getPlayer(player.getUUID()) != null) {
+					player.sendMessage("olympus",
+							"Boosting your max stamina by 100 points, and your stamina multiplier by 0.5 for joining the Warriers!");
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		case WARRIER:
-			maxStamina = maxStamina + 100;
-			staminaMultiplier = staminaMultiplier + 0.5;
-			if (Bukkit.getPlayer(player.getUUID()) != null) {
-				player.sendMessage("olympus",
-						"Boosting your max stamina by 100 points, and your stamina multiplier by 0.5 for joining the Warriers!");
-			}
-			break;
-		default:
-			break;
 		}
-//		}
 		this.division = division;
 	}
 
@@ -104,13 +104,13 @@ public class SurvivalPlayer {
 	}
 
 	public void replenishMana() {
-		mana = (int) (mana + ((int) (1 * manaMultiplier)+manaModifier));
+		mana = (int) (mana + ((int) (1 * manaMultiplier) + manaModifier));
 		if (mana > maxMana)
 			mana = maxMana;
 	}
 
 	public void replenishStamina() {
-		stamina = (int) (stamina + ((int) (1 * staminaMultiplier)+staminaModifier));
+		stamina = (int) (stamina + ((int) (1 * staminaMultiplier) + staminaModifier));
 		if (stamina > maxStamina)
 			stamina = maxStamina;
 	}
@@ -184,6 +184,8 @@ public class SurvivalPlayer {
 		}
 		fc.set("MaxMana", maxMana);
 		fc.set("MaxStamina", maxStamina);
+		fc.set("StaminaMultiplier", staminaMultiplier);
+		fc.set("ManaMultiplier", manaMultiplier);
 		try {
 			fc.save(file);
 		} catch (IOException e) {
