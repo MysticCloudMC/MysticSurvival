@@ -154,19 +154,20 @@ public class SurvivalPlayer {
 
 			double manaper = ((double) (((double) mana) / ((double) maxMana)));
 			String mana = "&3";
-			int manap = (int) (50 * manaper);
 			for (int j = 0; j != 50; j++) {
-				if (j == manap) {
+				if (j == (int) (50 * manaper)) {
 					mana = mana + "&7";
 				}
-				mana = mana + "|";
+				
+				
+				
+				mana = mana + (j%2==0?"<":">");
 			}
 
 			double stper = ((double) (((double) stamina) / ((double) maxStamina)));
 			String st = "&a";
-			int stp = (int) (50 * stper);
 			for (int j = 0; j != 50; j++) {
-				if (j == stp) {
+				if (j == (int) (50 * stper)) {
 					st = st + "&7";
 				}
 				st = st + "|";
