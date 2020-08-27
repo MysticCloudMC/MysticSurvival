@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 
 public class SurvivalPlayer {
@@ -47,6 +46,16 @@ public class SurvivalPlayer {
 			maxMana = (Integer.parseInt(fc.getString("MaxMana")));
 		if (fc.isSet("MaxStamina"))
 			maxStamina = (Integer.parseInt(fc.getString("MaxStamina")));
+		if (fc.isSet("StaminaMultiplier"))
+			staminaMultiplier = (Integer.parseInt(fc.getString("StaminaMultiplier")));
+		if (fc.isSet("ManaMultiplier"))
+			manaMultiplier = (Integer.parseInt(fc.getString("ManaMultiplier")));
+		
+		mana = maxMana;
+		stamina = maxStamina;
+	}
+	public void sendMessage(String message) {
+		player.sendMessage("olympus",message);
 	}
 
 	public void setDivision(Division division) {
