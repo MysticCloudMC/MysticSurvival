@@ -161,7 +161,7 @@ public class SurvivalPlayer {
 				
 				
 				
-				mana = mana + (j%2==0?"<":">");
+				mana = mana + (j%2==0?"\u25D6":"\u25D7");
 			}
 
 			double stper = ((double) (((double) stamina) / ((double) maxStamina)));
@@ -170,7 +170,7 @@ public class SurvivalPlayer {
 				if (j == (int) (50 * stper)) {
 					st = st + "&7";
 				}
-				st = st + "|";
+				st = st + "\u258C";
 			}
 
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
