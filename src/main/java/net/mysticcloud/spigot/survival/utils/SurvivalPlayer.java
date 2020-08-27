@@ -47,9 +47,9 @@ public class SurvivalPlayer {
 		if (fc.isSet("MaxStamina"))
 			maxStamina = (Integer.parseInt(fc.getString("MaxStamina")));
 		if (fc.isSet("StaminaMultiplier"))
-			staminaMultiplier = (Integer.parseInt(fc.getString("StaminaMultiplier")));
+			staminaMultiplier = (Double.parseDouble(fc.getString("StaminaMultiplier")));
 		if (fc.isSet("ManaMultiplier"))
-			manaMultiplier = (Integer.parseInt(fc.getString("ManaMultiplier")));
+			manaMultiplier = (Double.parseDouble(fc.getString("ManaMultiplier")));
 		
 		mana = maxMana;
 		stamina = maxStamina;
