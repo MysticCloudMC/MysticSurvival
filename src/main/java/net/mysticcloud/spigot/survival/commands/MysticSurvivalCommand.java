@@ -3,6 +3,7 @@ package net.mysticcloud.spigot.survival.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import net.md_5.bungee.api.ChatColor;
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
@@ -52,6 +54,9 @@ public class MysticSurvivalCommand implements CommandExecutor {
 							.addItem(SurvivalUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
 				}
+			}
+			if(args[0].equalsIgnoreCase("color")) {
+				Bukkit.broadcastMessage(ChatColor.of(args[1]) + "Test!");
 			}
 			if (args[0].equalsIgnoreCase("wand")) {
 				if (sender instanceof Player) {
