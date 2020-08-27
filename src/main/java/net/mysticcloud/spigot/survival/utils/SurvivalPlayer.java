@@ -166,11 +166,11 @@ public class SurvivalPlayer {
 
 			double stper = ((double) (((double) stamina) / ((double) maxStamina)));
 			String st = "&a&l";
-			for (int j = 0; j != 50; j++) {
-				if (j == (int) (50 * stper)) {
+			for (int j = 0; j != 25; j++) {
+				if (j == (int) (25 * stper)) {
 					st = st + "&7&l";
 				}
-				st = st + "|";
+				st = st + "\u258C";
 			}
 
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
