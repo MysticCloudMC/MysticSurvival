@@ -154,23 +154,23 @@ public class SurvivalPlayer {
 
 			double manaper = ((double) (((double) mana) / ((double) maxMana)));
 			String mana = "&3";
-			for (int j = 0; j != 50; j++) {
-				if (j == (int) (50 * manaper)) {
+			for (int j = 0; j != 25; j++) {
+				if (j == (int) (25 * manaper)) {
 					mana = mana + "&7";
 				}
 				
 				
-				
-				mana = mana + (j%2==0?"\u25D6":"\u25D7");
+				mana = mana + "\u258C";
+//				mana = mana + (j%2==0?"\u25D6":"\u25D7");
 			}
 
 			double stper = ((double) (((double) stamina) / ((double) maxStamina)));
-			String st = "&a";
+			String st = "&a&l";
 			for (int j = 0; j != 50; j++) {
 				if (j == (int) (50 * stper)) {
-					st = st + "&7";
+					st = st + "&7&l";
 				}
-				st = st + "\u258C";
+				st = st + "|";
 			}
 
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
