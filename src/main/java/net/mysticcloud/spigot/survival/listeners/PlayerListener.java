@@ -326,6 +326,12 @@ public class PlayerListener implements Listener {
 		}
 		if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
 			Player player = (Player) e.getDamager();
+			if(SurvivalUtils.getSurvivalPlayer(player).getStamina()>10) {
+				SurvivalUtils.getSurvivalPlayer(player).useStamina(10);
+			} else {
+				e.setCancelled(true);
+				return;
+			}
 			if (e.getEntity() instanceof Monster) {
 				e.setDamage((e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 			}
