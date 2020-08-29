@@ -175,7 +175,7 @@ public class SurvivalPlayer {
 
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
 					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
-							"&3&lMana&7: " + mana + "  &7&l|&r  &a&lStamina&7: " + st)).create());
+							"&3&lMana&7: " + mana + "  &7 (" + this.maxMana + ") &l|&r  &a&lStamina&7: " + st + "&7(" + this.maxStamina + ")")).create());
 		}
 	}
 

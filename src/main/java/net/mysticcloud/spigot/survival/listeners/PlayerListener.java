@@ -103,21 +103,6 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-			if ((e.getPlayer()).getEquipment().getItemInMainHand() == null)
-				return;
-			if (!(e.getPlayer()).getEquipment().getItemInMainHand().hasItemMeta())
-				return;
-			if (!(e.getPlayer()).getEquipment().getItemInMainHand().getItemMeta().hasLore())
-				return;
-			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
-			if(player.getStamina() > 10) {
-				player.useStamina(10);
-			} else {
-				e.setUseItemInHand(Result.DENY);
-				e.setCancelled(true);
-			}
-		}
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if ((e.getPlayer()).getEquipment().getItemInMainHand() == null)
 				return;
