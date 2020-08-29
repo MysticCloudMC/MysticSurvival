@@ -40,16 +40,26 @@ public class SurvivalPlayer {
 		}
 
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-		if (fc.isSet("Division"))
+		if (fc.isSet("Division")) {
+			Bukkit.broadcastMessage("Division: " + fc.getString("Division"));
 			setDivision(Division.valueOf(fc.getString("Division")), true);
-		if (fc.isSet("MaxMana"))
+		}
+		if (fc.isSet("MaxMana")) {
+			Bukkit.broadcastMessage("MaxMana: " + fc.getString("MaxMana"));
 			maxMana = (Integer.parseInt(fc.getString("MaxMana")));
-		if (fc.isSet("MaxStamina"))
+		}
+		if (fc.isSet("MaxStamina")) {
+			Bukkit.broadcastMessage("MaxStamina: " + fc.getString("MaxStamina"));
 			maxStamina = (Integer.parseInt(fc.getString("MaxStamina")));
-		if (fc.isSet("StaminaMultiplier"))
+		}
+		if (fc.isSet("StaminaMultiplier")) {
+			Bukkit.broadcastMessage("StaminaMultiplier: " + fc.getString("StaminaMultiplier"));
 			staminaMultiplier = (Double.parseDouble(fc.getString("StaminaMultiplier")));
-		if (fc.isSet("ManaMultiplier"))
+		}
+		if (fc.isSet("ManaMultiplier")) {
+			Bukkit.broadcastMessage("ManaMultiplier: " + fc.getString("ManaMultiplier"));
 			manaMultiplier = (Double.parseDouble(fc.getString("ManaMultiplier")));
+		}
 		
 		mana = maxMana;
 		stamina = maxStamina;
@@ -175,7 +185,7 @@ public class SurvivalPlayer {
 
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
 					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
-							"&3&lMana&7: " + mana + "  &7 (" + this.maxMana + ") &l|&r  &a&lStamina&7: " + st + "&7(" + this.maxStamina + ")")).create());
+							"&3&lMana&7: " + mana + "  &7(" + this.maxMana + ") &l|&r  &a&lStamina&7: " + st + " &7(" + this.maxStamina + ")")).create());
 		}
 	}
 
