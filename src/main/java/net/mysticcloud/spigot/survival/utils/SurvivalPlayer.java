@@ -70,6 +70,7 @@ public class SurvivalPlayer {
 	}
 
 	public void addPerk(Perks perk, double power) {
+		Bukkit.broadcastMessage("Adding...");
 		perks.put(perk.getPerk(player.getUUID()), power);
 	}
 
@@ -252,6 +253,7 @@ public class SurvivalPlayer {
 	}
 
 	public void activatePerk(Perks perk) {
+		Bukkit.broadcastMessage("Activating..");
 		getPerk(perk).activate();
 	}
 

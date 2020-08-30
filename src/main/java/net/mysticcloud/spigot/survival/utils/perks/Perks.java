@@ -2,6 +2,8 @@ package net.mysticcloud.spigot.survival.utils.perks;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+
 public enum Perks {
 	
 	ARCHERY_RANGE_I("Archery-RangeI"),
@@ -38,6 +40,7 @@ public enum Perks {
 	}
 	
 	public Perk getPerk(UUID uid) {
+		Bukkit.broadcastMessage("Getting a perk...");
 		switch(name) {
 		case "Archery-RangeI": return new ArcheryPerkRangeI(uid);
 		case "Archery-RangeII": return new ArcheryPerkRangeII(uid);
