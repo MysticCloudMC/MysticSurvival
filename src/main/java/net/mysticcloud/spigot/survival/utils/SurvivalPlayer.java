@@ -2,15 +2,23 @@ package net.mysticcloud.spigot.survival.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
+import net.mysticcloud.spigot.survival.utils.perks.Perk;
+import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class SurvivalPlayer {
 
@@ -25,6 +33,8 @@ public class SurvivalPlayer {
 	double staminaMultiplier = 1;
 	double staminaModifier = 0;
 	double manaModifier = 0;
+
+	Map<Perk, Double> perks = new HashMap<>();
 
 	protected SurvivalPlayer(MysticPlayer player) {
 		this.player = player;
@@ -50,13 +60,45 @@ public class SurvivalPlayer {
 			staminaMultiplier = (Double.parseDouble(fc.getString("StaminaMultiplier")));
 		if (fc.isSet("ManaMultiplier"))
 			manaMultiplier = (Double.parseDouble(fc.getString("ManaMultiplier")));
-		
+
 		mana = maxMana;
 		stamina = maxStamina;
 	}
+
 	public void sendMessage(String message) {
-		player.sendMessage("olympus",message);
+		player.sendMessage("olympus", message);
 	}
+
+	public void addPerk(Perks perk, double power) {
+		perks.put(perk.getPerk(player.getUUID()), power);
+	}
+
+	public List<Perks> getPerks() {
+		List<Perks> perks = new ArrayList<>();
+		for (Perk perk : this.perks.keySet()) {
+			perks.add(Perks.getPerk(Perks.getName(perk)));
+		}
+		return perks;
+	}
+	
+	public boolean hasPerk(Perks perk) {
+		for (Perk p : this.perks.keySet()) {
+			if(Perks.getName(p).equals(perk.name())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Perk getPerk(Perks perk) {
+		for (Perk p : this.perks.keySet()) {
+			if(Perks.getName(p).equals(perk.name())) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
 
 	public void setDivision(Division division) {
 		setDivision(division, false);
@@ -158,8 +200,7 @@ public class SurvivalPlayer {
 				if (j == (int) (25 * manaper)) {
 					mana = mana + "&7";
 				}
-				
-				
+
 				mana = mana + "\u258C";
 //				mana = mana + (j%2==0?"\u25D6":"\u25D7");
 			}
@@ -175,7 +216,8 @@ public class SurvivalPlayer {
 
 			p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
 					new ComponentBuilder(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',
-							"&3&lMana&7: " + mana + "  &7(" + this.maxMana + ") &l|&r  &a&lStamina&7: " + st + " &7(" + this.maxStamina + ")")).create());
+							"&3&lMana&7: " + mana + "  &7(" + this.maxMana + ") &l|&r  &a&lStamina&7: " + st + " &7("
+									+ this.maxStamina + ")")).create());
 		}
 	}
 
@@ -204,5 +246,15 @@ public class SurvivalPlayer {
 		}
 
 	}
+
+	public MysticPlayer getPlayer() {
+		return player;
+	}
+
+	public void activatePerk(Perks perk) {
+		getPerk(perk).activate();
+	}
+
+	
 
 }

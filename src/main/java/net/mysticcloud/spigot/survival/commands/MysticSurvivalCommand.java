@@ -21,6 +21,7 @@ import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class MysticSurvivalCommand implements CommandExecutor {
 
@@ -57,6 +58,14 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			}
 			if(args[0].equalsIgnoreCase("color")) {
 				Bukkit.broadcastMessage(ChatColor.of(args[1]) + "Test!");
+			}
+			if(args[0].equalsIgnoreCase("perk")) {
+				if (sender instanceof Player) {
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player)sender));
+					if(player.hasPerk(Perks.ARCHERY_SEEKER)) {
+						player.activatePerk(Perks.ARCHERY_SEEKER);
+					}
+				}
 			}
 			if (args[0].equalsIgnoreCase("wand")) {
 				if (sender instanceof Player) {

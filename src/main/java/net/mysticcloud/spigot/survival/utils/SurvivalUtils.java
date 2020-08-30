@@ -1,8 +1,5 @@
 package net.mysticcloud.spigot.survival.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,8 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
@@ -32,6 +27,10 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.runnables.MainTimer;
+import net.mysticcloud.spigot.survival.utils.perks.ArcheryPerkRangeI;
+import net.mysticcloud.spigot.survival.utils.perks.ArcheryPerkRangeII;
+import net.mysticcloud.spigot.survival.utils.perks.ArcheryPerkSeeker;
+import net.mysticcloud.spigot.survival.utils.perks.Perk;
 
 public class SurvivalUtils {
 	private static MysticSurvival plugin;
@@ -45,7 +44,7 @@ public class SurvivalUtils {
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
 
 	static Map<UUID, SurvivalPlayer> splayers = new HashMap<>();
-
+	
 	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
 
@@ -54,7 +53,7 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&f ");
 		CoreUtils.coreHandleDamage(false);
-
+		
 		for (Enhancement en : Enhancement.values()) {
 			if (en.isWeapon()) {
 				weaponEnhancements.add(en);
