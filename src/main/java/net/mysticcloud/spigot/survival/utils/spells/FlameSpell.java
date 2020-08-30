@@ -11,9 +11,9 @@ public class FlameSpell extends Spell {
 
 	@Override
 	public void activate() {
-		entity.getWorld().spawnParticle(Particle.FLAME, entity.getEyeLocation(), 1,
+		entity.getWorld().spawnParticle(Particle.FLAME, entity.getEyeLocation(), 0,
 				entity.getEyeLocation().getDirection().getX(), entity.getEyeLocation().getDirection().getY(),
-				entity.getEyeLocation().getDirection().getZ());
+				entity.getEyeLocation().getDirection().getZ(),2);
 	}
 
 }
