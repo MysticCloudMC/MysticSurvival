@@ -15,7 +15,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -45,6 +44,7 @@ import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.spells.FireballSpell;
+import net.mysticcloud.spigot.survival.utils.spells.FlameSpell;
 import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
 import net.mysticcloud.spigot.survival.utils.spells.InvisibilitySpell;
 import net.mysticcloud.spigot.survival.utils.spells.Spell;
@@ -138,6 +138,17 @@ public class PlayerListener implements Listener {
 				}
 				if (ChatColor.stripColor(a).contains("Fireball Spell")) {
 					Spell spell = new FireballSpell(e.getPlayer());
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
+					if (player.getMana() >= spell.getCost()) {
+						spell.activate();
+						player.useMana(spell.getCost());
+					} else {
+						player.useMana(0);
+					}
+				}
+				
+				if (ChatColor.stripColor(a).contains("Flame Spell")) {
+					Spell spell = new FlameSpell(e.getPlayer());
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
