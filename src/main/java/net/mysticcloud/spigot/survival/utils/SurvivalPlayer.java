@@ -40,26 +40,16 @@ public class SurvivalPlayer {
 		}
 
 		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-		if (fc.isSet("Division")) {
-			Bukkit.broadcastMessage("Division: " + fc.getString("Division"));
+		if (fc.isSet("Division"))
 			setDivision(Division.valueOf(fc.getString("Division")), true);
-		}
-		if (fc.isSet("MaxMana")) {
-			Bukkit.broadcastMessage("MaxMana: " + fc.getString("MaxMana"));
+		if (fc.isSet("MaxMana"))
 			maxMana = (Integer.parseInt(fc.getString("MaxMana")));
-		}
-		if (fc.isSet("MaxStamina")) {
-			Bukkit.broadcastMessage("MaxStamina: " + fc.getString("MaxStamina"));
+		if (fc.isSet("MaxStamina"))
 			maxStamina = (Integer.parseInt(fc.getString("MaxStamina")));
-		}
-		if (fc.isSet("StaminaMultiplier")) {
-			Bukkit.broadcastMessage("StaminaMultiplier: " + fc.getString("StaminaMultiplier"));
+		if (fc.isSet("StaminaMultiplier"))
 			staminaMultiplier = (Double.parseDouble(fc.getString("StaminaMultiplier")));
-		}
-		if (fc.isSet("ManaMultiplier")) {
-			Bukkit.broadcastMessage("ManaMultiplier: " + fc.getString("ManaMultiplier"));
+		if (fc.isSet("ManaMultiplier"))
 			manaMultiplier = (Double.parseDouble(fc.getString("ManaMultiplier")));
-		}
 		
 		mana = maxMana;
 		stamina = maxStamina;
@@ -79,7 +69,7 @@ public class SurvivalPlayer {
 				maxMana = maxMana + 100;
 				manaMultiplier = manaMultiplier + 0.5;
 				if (Bukkit.getPlayer(player.getUUID()) != null) {
-					player.sendMessage("olympus",
+					player.sendMessage("survival",
 							"Boosting your max mana by 100 points, and your mana multiplier by 0.5 for joining the Mages!");
 				}
 				break;
@@ -87,7 +77,7 @@ public class SurvivalPlayer {
 				maxStamina = maxStamina + 100;
 				staminaMultiplier = staminaMultiplier + 0.5;
 				if (Bukkit.getPlayer(player.getUUID()) != null) {
-					player.sendMessage("olympus",
+					player.sendMessage("survival",
 							"Boosting your max stamina by 100 points, and your stamina multiplier by 0.5 for joining the Warriers!");
 				}
 				break;

@@ -65,8 +65,8 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						ItemMeta wm = wand.getItemMeta();
 						List<String> lore = new ArrayList<>();
 						if (args[1].equalsIgnoreCase("1")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &1&lTeleportation"));
-							lore.add(CoreUtils.colorize("&1&lTeleportation &7Spell"));
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &5&lTeleportation"));
+							lore.add(CoreUtils.colorize("&5&lTeleportation &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("2")) {
 							wm.setDisplayName(CoreUtils.colorize("&fStaff of &a&lHealing"));
@@ -77,8 +77,12 @@ public class MysticSurvivalCommand implements CommandExecutor {
 							lore.add(CoreUtils.colorize("&6&lFireball &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("4")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &5&lInvisibility"));
-							lore.add(CoreUtils.colorize("&5&lInvisibility &7Spell"));
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &1&lInvisibility"));
+							lore.add(CoreUtils.colorize("&1&lInvisibility &7Spell"));
+						}
+						if (args[1].equalsIgnoreCase("5")) {
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &c&lFlames"));
+							lore.add(CoreUtils.colorize("&c&lFlame &7Spell"));
 						}
 						wm.setLore(lore);
 						wand.setItemMeta(wm);
