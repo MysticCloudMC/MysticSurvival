@@ -30,6 +30,10 @@ public enum Perks {
 		return name;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public static Perks getPerk(String name) {
 		switch(name) {
 		case "Archery-RangeI": return ARCHERY_RANGE_I;
@@ -48,5 +52,7 @@ public enum Perks {
 		default: return new Perk(uid);
 		}
 	}
+
+	
 
 }
