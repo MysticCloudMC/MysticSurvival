@@ -15,14 +15,14 @@ public class FlameSpell extends Spell {
 	@Override
 	public void activate() {
 		for (int i = 0; i != 20; i++) {
-			entity.getWorld().spawnParticle(Particle.FLAME, entity.getEyeLocation(), 0,
+			entity.getWorld().spawnParticle(Particle.FLAME, entity.getEyeLocation().add(0, -0.75, 0), 0,
 					entity.getEyeLocation().getDirection().getX()
 							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
 					entity.getEyeLocation().getDirection().getY()
 							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
 					entity.getEyeLocation().getDirection().getZ()
 							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
-					CoreUtils.getRandom().nextDouble());
+					CoreUtils.getRandom().nextDouble()/2);
 		}
 	}
 
