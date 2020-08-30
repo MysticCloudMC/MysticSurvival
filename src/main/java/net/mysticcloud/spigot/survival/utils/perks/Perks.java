@@ -44,7 +44,6 @@ public enum Perks {
 	}
 	
 	public Perk getPerk(UUID uid) {
-		Bukkit.broadcastMessage("Getting a perk...");
 		switch(name) {
 		case "Archery-RangeI": return new ArcheryPerkRangeI(uid);
 		case "Archery-RangeII": return new ArcheryPerkRangeII(uid);
