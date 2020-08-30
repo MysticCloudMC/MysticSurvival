@@ -13,6 +13,7 @@ public class InvisibilitySpell extends Spell {
 
 	public InvisibilitySpell(LivingEntity entity) {
 		this.entity = entity;
+		cost = 200;
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class InvisibilitySpell extends Spell {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				p.spigot().getHiddenPlayers().add(player);
+				if(!p.equals(player))p.spigot().getHiddenPlayers().add(player);
 			}
 			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
 

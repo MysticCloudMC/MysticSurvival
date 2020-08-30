@@ -2,7 +2,6 @@ package net.mysticcloud.spigot.survival.utils.spells;
 
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.util.Vector;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 
@@ -10,6 +9,7 @@ public class FlameSpell extends Spell {
 
 	public FlameSpell(LivingEntity entity) {
 		this.entity = entity;
+		cost = 2;
 	}
 
 	@Override
