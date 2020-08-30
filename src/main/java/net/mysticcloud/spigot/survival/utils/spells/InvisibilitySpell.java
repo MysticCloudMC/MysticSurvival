@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import net.mysticcloud.spigot.core.utils.particles.ParticleFormat;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
@@ -25,18 +27,19 @@ public class InvisibilitySpell extends Spell {
 		}
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				if(!p.equals(player))p.hidePlayer(player);
-			}
-			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
-
-				@Override
-				public void run() {
-					for (Player p : Bukkit.getOnlinePlayers()) {
-						p.showPlayer(player);
-					}
-				}
-			}, 5 * 20);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100,10), false);
+//			for (Player p : Bukkit.getOnlinePlayers()) {
+//				if(!p.equals(player))p.hidePlayer(player);
+//			}
+//			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					for (Player p : Bukkit.getOnlinePlayers()) {
+//						p.showPlayer(player);
+//					}
+//				}
+//			}, 5 * 20);
 		}
 
 	}
