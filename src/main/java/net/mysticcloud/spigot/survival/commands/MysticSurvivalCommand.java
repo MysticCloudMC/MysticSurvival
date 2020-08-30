@@ -64,6 +64,8 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player)sender));
 					if(player.hasPerk(Perks.ARCHERY_SEEKER)) {
 						player.activatePerk(Perks.ARCHERY_SEEKER);
+					} else {
+						player.addPerk(Perks.ARCHERY_SEEKER, 0.3);
 					}
 				}
 			}
