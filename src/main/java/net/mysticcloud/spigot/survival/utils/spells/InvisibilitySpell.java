@@ -26,14 +26,14 @@ public class InvisibilitySpell extends Spell {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				if(!p.equals(player))p.spigot().getHiddenPlayers().add(player);
+				if(!p.equals(player))p.hidePlayer(player);
 			}
 			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
 
 				@Override
 				public void run() {
 					for (Player p : Bukkit.getOnlinePlayers()) {
-						p.spigot().getHiddenPlayers().remove(player);
+						p.showPlayer(player);
 					}
 				}
 			}, 5 * 20);
