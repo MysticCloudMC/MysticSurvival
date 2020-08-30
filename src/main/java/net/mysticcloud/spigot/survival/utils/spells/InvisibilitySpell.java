@@ -27,19 +27,19 @@ public class InvisibilitySpell extends Spell {
 		}
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100,10), false);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100,10*2), false);
 //			for (Player p : Bukkit.getOnlinePlayers()) {
 //				if(!p.equals(player))p.hidePlayer(player);
 //			}
-//			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					for (Player p : Bukkit.getOnlinePlayers()) {
-//						p.showPlayer(player);
-//					}
-//				}
-//			}, 5 * 20);
+			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
+
+				@Override
+				public void run() {
+					for (int i = 0; i != 100; i++) {
+						format.display(entity.getLocation(), i);
+					}
+				}
+			}, 10 * 20);
 		}
 
 	}
