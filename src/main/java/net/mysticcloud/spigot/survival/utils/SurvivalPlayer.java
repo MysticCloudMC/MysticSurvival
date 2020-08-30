@@ -93,7 +93,7 @@ public class SurvivalPlayer {
 	
 	public Perk getPerk(Perks perk) {
 		for (Perk p : this.perks.keySet()) {
-			if(Perks.getName(p).equals(perk.name())) {
+			if(Perks.getName(p).equals(perk.getName())) {
 				return p;
 			}
 		}
