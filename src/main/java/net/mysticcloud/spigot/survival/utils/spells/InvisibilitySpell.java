@@ -27,7 +27,7 @@ public class InvisibilitySpell extends Spell {
 		}
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100,10*2), false);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,10*20,10*2), false);
 //			for (Player p : Bukkit.getOnlinePlayers()) {
 //				if(!p.equals(player))p.hidePlayer(player);
 //			}
