@@ -265,10 +265,11 @@ public class PlayerListener implements Listener {
 				LivingEntity target = null;
 				for (Entity entity : e.getEntity().getNearbyEntities(20, 20, 20)) {
 					if (entity instanceof LivingEntity) {
-						if (((Player) e.getEntity().getShooter()).hasLineOfSight(entity)) {
-							target = (LivingEntity) entity;
-							break;
-						}
+						if (!entity.equals(e.getEntity().getShooter()))
+							if (((Player) e.getEntity().getShooter()).hasLineOfSight(entity)) {
+								target = (LivingEntity) entity;
+								break;
+							}
 					}
 				}
 				if (target != null) {
