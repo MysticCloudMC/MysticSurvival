@@ -34,5 +34,9 @@ commands:
   poll:
     usage: /poll
     description: Poll command.
+  perk:
+    aliases: ['perks']
+    description: Perks command lol
+    usage: /perk
   
   

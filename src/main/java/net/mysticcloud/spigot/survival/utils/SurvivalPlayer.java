@@ -252,6 +252,15 @@ public class SurvivalPlayer {
 	}
 
 	public void activatePerk(Perks perk) {
+		if(!getPerk(perk).canActivate()) {
+			String s = "";
+			for(String a : getPerk(perk).getRequirements()) {
+				s = s== "" ? a : s + ", " + a;
+			}
+			sendMessage("You don't meet the requirements to activate this perk: " + s);
+			return;
+		}
+		sendMessage("Activating perk...");
 		getPerk(perk).activate();
 	}
 

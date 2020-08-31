@@ -2,6 +2,8 @@ package net.mysticcloud.spigot.survival.utils.perks;
 
 import java.util.UUID;
 
+import net.mysticcloud.spigot.survival.utils.Division;
+
 public enum Perks {
 	
 	ARCHERY_RANGE_I("Archery-RangeI"),
@@ -39,12 +41,12 @@ public enum Perks {
 	}
 	
 	public static Perks getPerk(String name) {
-		switch(name) {
-		case "Archery-RangeI": return ARCHERY_RANGE_I;
-		case "Archery-RangeII": return ARCHERY_RANGE_II;
-		case "Archery-Seeker": return ARCHERY_SEEKER;
-		case "Mage-Swap": return MAGE_SWAP;
-		default: return ARCHERY_RANGE_I;
+		switch(name.toUpperCase()) {
+		case "ARCHERY-RANGEI": return ARCHERY_RANGE_I;
+		case "ARCHERY-RANGEII": return ARCHERY_RANGE_II;
+		case "ARCHERY-SEEKER": return ARCHERY_SEEKER;
+		case "MAGE-SWAP": return MAGE_SWAP;
+		default: return null;
 		}
 	}
 	
@@ -56,6 +58,10 @@ public enum Perks {
 		case "Mage-Swap": return new MagePerkSwap(uid);
 		default: return new Perk(uid);
 		}
+	}
+
+	public static Perks getPerk(Division division, String perk) {
+		return getPerk(division.name() + "-" + perk);
 	}
 
 	

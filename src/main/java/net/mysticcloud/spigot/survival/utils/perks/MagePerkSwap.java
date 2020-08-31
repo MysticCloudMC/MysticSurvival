@@ -1,5 +1,7 @@
 package net.mysticcloud.spigot.survival.utils.perks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -15,10 +17,21 @@ public class MagePerkSwap extends MagePerk {
 
 	public MagePerkSwap(UUID uid) {
 		super(uid);
+		reqs = new String[] {"Target (LivingEntity)"};
 	}
 	
 	public void setTarget(LivingEntity target) {
 		this.target = target;
+		ready = true;
+	}
+	
+	@Override
+	public String[] getRequirements() {
+		List<String> req = new ArrayList<>();
+		if(target == null) {
+			req.add("Target (LivingEntity)");
+		}
+		return (String[]) req.toArray();
 	}
 	
 	@Override

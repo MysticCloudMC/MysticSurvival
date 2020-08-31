@@ -49,6 +49,7 @@ public class MysticSurvival extends JavaPlugin {
 		new HomeCommand(this, "home", "sethome", "removehome");
 		new HomeCommand(this, "playerwarp", "addplayerwarp", "removeplayerwarp");
 		new PollCommand(this,"poll");
+		new PollCommand(this,"perk", "perks");
 		new MysticSurvivalCommand(this,"mysticsurvival", "msurvival", "ms");
 		
 		new PlayerListener(this);
