@@ -268,18 +268,15 @@ public class PlayerListener implements Listener {
 			if (SurvivalUtils
 					.hasSeekers(Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand())) {
 
-				LivingEntity target = player.getPerk(Perks.ARCHERY_SEEKER).getTarget();
-
-				if (target != null) {
-
+				try {
+					LivingEntity target = player.getPerk(Perks.ARCHERY_SEEKER).getTarget();
 					SurvivalUtils.removeSeeker(
 							Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand());
 
 					Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(),
 							new SeekerArrowRunnable((Arrow) e.getEntity(), target), 1);
 					return;
-
-				} else {
+				} catch (NullPointerException ex) {
 					String s = "";
 					for (String a : player.getPerk(Perks.ARCHERY_SEEKER).getRequirements()) {
 						s = s == "" ? a : s + ", " + a;
