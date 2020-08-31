@@ -20,8 +20,8 @@ public class SeekerArrowRunnable implements Runnable {
 	}
 
 	public void run() {
-		Vector newVelocity;
-		double speed = this.arrow.getVelocity().length();
+		
+		
 		if (this.arrow.isOnGround() || this.arrow.isDead() || this.target.isDead()) {
 			return;
 		}
@@ -30,11 +30,9 @@ public class SeekerArrowRunnable implements Runnable {
 		Vector dirVelocity = this.arrow.getVelocity().clone().normalize();
 		Vector dirToTarget = toTarget.clone().normalize();
 		double angle = dirVelocity.angle(dirToTarget);
+		double speed = this.arrow.getVelocity().length();
 		double newSpeed = 0.9D * speed + 0.14D;
-		if (this.target instanceof Player) {
-			if (((Player) target).isBlocking())
-				newSpeed = speed * 0.6D;
-		}
+		Vector newVelocity;
 		if (angle < 0.12D) {
 			newVelocity = dirVelocity.clone().multiply(newSpeed);
 		} else {

@@ -263,7 +263,7 @@ public class PlayerListener implements Listener {
 		if (e.getEntity().getShooter() instanceof Player) {
 			if (SurvivalUtils.hasSeekers(((Player) e.getEntity().getShooter()).getEquipment().getItemInMainHand())) {
 				LivingEntity target = null;
-				for (Entity entity : e.getEntity().getNearbyEntities(20, 20, 20)) {
+				for (Entity entity : e.getEntity().getNearbyEntities(50,50,50)) {
 					if (entity instanceof LivingEntity) {
 //						if (!entity.equals(e.getEntity().getShooter()))
 							if (((Player) e.getEntity().getShooter()).hasLineOfSight(entity)) {
