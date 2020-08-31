@@ -21,6 +21,7 @@ public class SeekerArrowRunnable implements Runnable {
 
 	public void run() {
 		
+		Bukkit.broadcastMessage("Tracking...");
 		
 		if (this.arrow.isOnGround() || this.arrow.isDead() || this.target.isDead()) {
 			return;
