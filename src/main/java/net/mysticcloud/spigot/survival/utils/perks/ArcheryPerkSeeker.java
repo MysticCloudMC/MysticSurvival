@@ -23,14 +23,9 @@ public class ArcheryPerkSeeker extends ArcheryPerk {
 		ItemMeta sm = seeker.getItemMeta();
 		sm.setDisplayName(CoreUtils.colorize("&eSeeker Arrow"));
 		seeker.setItemMeta(sm);
-		ready = false;
 	}
 	
-	@Override
-	public void setTarget(LivingEntity target) {
-		this.target = target;
-		ready = true;
-	}
+	
 
 	@Override
 	public String[] getRequirements() {

@@ -47,6 +47,7 @@ import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.perks.Perks;
 import net.mysticcloud.spigot.survival.utils.spells.FireballSpell;
 import net.mysticcloud.spigot.survival.utils.spells.FlameSpell;
 import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
@@ -263,22 +264,28 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onProjectileShoot(ProjectileLaunchEvent e) {
 		if (e.getEntity().getShooter() instanceof Player) {
-			if (SurvivalUtils.hasSeekers(((Player) e.getEntity().getShooter()).getEquipment().getItemInMainHand())) {
-				LivingEntity target = null;
-				for (Entity entity : e.getEntity().getNearbyEntities(50,50,50)) {
-					if (entity instanceof LivingEntity) {
-						if (!entity.equals((Player)e.getEntity().getShooter()))
-							if (((Player) e.getEntity().getShooter()).hasLineOfSight(entity)) {
-								target = (LivingEntity) entity;
-								break;
-							}
-					}
-				}
+			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getEntity());
+			if (SurvivalUtils
+					.hasSeekers(Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand())) {
+
+				LivingEntity target = player.getPerk(Perks.ARCHERY_SEEKER).getTarget();
+
 				if (target != null) {
-					SurvivalUtils
-							.removeSeeker(((Player) e.getEntity().getShooter()).getEquipment().getItemInMainHand());
+
+					SurvivalUtils.removeSeeker(
+							Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand());
+
 					Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(),
 							new SeekerArrowRunnable((Arrow) e.getEntity(), target), 1);
+					return;
+
+				} else {
+					String s = "";
+					for (String a : player.getPerk(Perks.ARCHERY_SEEKER).getRequirements()) {
+						s = s == "" ? a : s + ", " + a;
+					}
+					player.sendMessage("You don't meet the requirements to activate this perk: " + s);
+					return;
 				}
 			}
 			if (((Player) e.getEntity().getShooter()).getItemInHand().getItemMeta().hasLore()) {
@@ -478,16 +485,18 @@ public class PlayerListener implements Listener {
 		}
 
 	}
-	
+
 	@EventHandler
 	public void onEntityInteractEntity(PlayerInteractEntityEvent e) {
-		if(e.getPlayer().getEquipment().getItemInMainHand() == null) return;
-		if(e.getPlayer().getEquipment().getItemInMainHand().getType().equals(Material.AIR)) return;
-		
+		if (e.getPlayer().getEquipment().getItemInMainHand() == null)
+			return;
+		if (e.getPlayer().getEquipment().getItemInMainHand().getType().equals(Material.AIR))
+			return;
+
 		ItemStack i = e.getPlayer().getEquipment().getItemInMainHand();
-		
-		if(i.getType().equals(Material.STICK)) {
-			if(ChatColor.stripColor(i.getItemMeta().getDisplayName()).equalsIgnoreCase("Targeting Wand")) {
+
+		if (i.getType().equals(Material.STICK)) {
+			if (ChatColor.stripColor(i.getItemMeta().getDisplayName()).equalsIgnoreCase("Targeting Wand")) {
 				SurvivalUtils.getSurvivalPlayer(e.getPlayer()).target((LivingEntity) e.getRightClicked());
 			}
 		}

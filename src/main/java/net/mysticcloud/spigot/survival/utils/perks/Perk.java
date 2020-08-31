@@ -37,4 +37,8 @@ public class Perk {
 		return (Bukkit.getPlayer(uid));
 	}
 
+	public LivingEntity getTarget() {
+		return target;
+	}
+
 }
