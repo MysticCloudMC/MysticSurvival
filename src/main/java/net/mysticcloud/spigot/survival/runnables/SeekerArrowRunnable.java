@@ -1,11 +1,10 @@
 package net.mysticcloud.spigot.survival.runnables;
 
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
 public class SeekerArrowRunnable implements Runnable {
 
@@ -17,18 +16,31 @@ public class SeekerArrowRunnable implements Runnable {
 		this.target = target;
 	}
 
-	@Override
 	public void run() {
-		if (!arrow.isDead()) {
-			
-			
-			arrow.setVelocity(
-					new Vector(((target.getLocation().getX() - arrow.getLocation().getX())),
-							((target.getLocation().getY() - arrow.getLocation().getY())),
-							((target.getLocation().getZ() - arrow.getLocation().getZ()))));
-			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), this, 1);
+		Vector newVelocity;
+		double speed = this.arrow.getVelocity().length();
+		if (this.arrow.isOnGround() || this.arrow.isDead() || this.target.isDead()) {
+			return;
 		}
-
+		Vector toTarget = this.target.getLocation().clone().add(new Vector(0.0D, 0.5D, 0.0D))
+				.subtract(this.arrow.getLocation()).toVector();
+		Vector dirVelocity = this.arrow.getVelocity().clone().normalize();
+		Vector dirToTarget = toTarget.clone().normalize();
+		double angle = dirVelocity.angle(dirToTarget);
+		double newSpeed = 0.9D * speed + 0.14D;
+		if (this.target instanceof Player && this.arrow.getLocation().distance(this.target.getLocation()) < 8.0D) {
+			Player player = (Player) this.target;
+			if (player.isBlocking())
+				newSpeed = speed * 0.6D;
+		}
+		if (angle < 0.12D) {
+			newVelocity = dirVelocity.clone().multiply(newSpeed);
+		} else {
+			Vector newDir = dirVelocity.clone().multiply((angle - 0.12) / angle)
+					.add(dirToTarget.clone().multiply(0.12 / angle));
+			newDir.normalize();
+			newVelocity = newDir.clone().multiply(newSpeed);
+		}
+		this.arrow.setVelocity(newVelocity.add(new Vector(0.0D, 0.03D, 0.0D)));
 	}
-
 }
