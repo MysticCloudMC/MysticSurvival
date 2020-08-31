@@ -20,6 +20,7 @@ public class SeekerArrowRunnable implements Runnable {
 	}
 
 	public void run() {
+		Bukkit.broadcastMessage("Tracking...");
 		Vector newVelocity;
 		double speed = this.arrow.getVelocity().length();
 		if (this.arrow.isOnGround() || this.arrow.isDead() || this.target.isDead()) {
