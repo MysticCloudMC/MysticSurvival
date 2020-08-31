@@ -12,34 +12,37 @@ import net.mysticcloud.spigot.core.utils.particles.ParticleFormat;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 
 public class MagePerkSwap extends MagePerk {
-	
+
 	public MagePerkSwap(UUID uid) {
 		super(uid);
-		reqs = new String[] {"Target (LivingEntity)"};
+		reqs = new String[] { "Target (LivingEntity)" };
 		ready = false;
 	}
-	
+
 	@Override
 	public void setTarget(LivingEntity target) {
 		this.target = target;
 		ready = true;
 	}
-	
+
 	@Override
 	public String[] getRequirements() {
 		List<String> req = new ArrayList<>();
-		if(target == null) {
+		if (target == null) {
 			req.add("Target (LivingEntity)");
 		}
-		return (String[]) req.toArray();
+		String str[] = new String[req.size()];
+		for (int j = 0; j < req.size(); j++)
+			str[j] = req.get(j);
+		return str;
 	}
-	
+
 	@Override
 	public void activate() {
 		Location loc = target.getLocation().clone();
 		ParticleFormat format = new RandomFormat();
 		format.particle(Particle.SPELL_WITCH);
-		for(int i=0;i!=60;i++) {
+		for (int i = 0; i != 60; i++) {
 			format.display(getPlayer().getLocation(), i);
 			format.display(loc, i);
 		}
