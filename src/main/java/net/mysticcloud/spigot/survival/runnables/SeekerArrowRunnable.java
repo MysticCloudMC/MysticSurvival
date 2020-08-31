@@ -19,15 +19,14 @@ public class SeekerArrowRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		if(!arrow.isDead()) {
-			arrow.getLocation().setDirection(
+		if (!arrow.isDead()) {
+			arrow.setVelocity(
 					new Vector(Math.sqrt(Math.pow(target.getLocation().getX() - arrow.getLocation().getX(), 2)),
 							Math.sqrt(Math.pow(target.getLocation().getY() - arrow.getLocation().getY(), 2)),
 							Math.sqrt(Math.pow(target.getLocation().getZ() - arrow.getLocation().getZ(), 2))));
 			Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), this, 1);
 		}
 
-		
 	}
 
 }
