@@ -264,7 +264,7 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onProjectileShoot(ProjectileLaunchEvent e) {
 		if (e.getEntity().getShooter() instanceof Player) {
-			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getEntity());
+			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getEntity().getShooter());
 			if (SurvivalUtils
 					.hasSeekers(Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand())) {
 
