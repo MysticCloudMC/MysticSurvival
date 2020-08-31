@@ -270,6 +270,14 @@ public class PlayerListener implements Listener {
 
 				try {
 					LivingEntity target = player.getPerk(Perks.ARCHERY_SEEKER).getTarget();
+					if(target == null) {
+						String s = "";
+						for (String a : player.getPerk(Perks.ARCHERY_SEEKER).getRequirements()) {
+							s = s == "" ? a : s + ", " + a;
+						}
+						player.sendMessage("You don't meet the requirements to activate this perk: " + s);
+						return;
+					}
 					SurvivalUtils.removeSeeker(
 							Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand());
 
