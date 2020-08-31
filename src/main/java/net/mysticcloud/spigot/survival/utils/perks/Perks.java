@@ -2,13 +2,12 @@ package net.mysticcloud.spigot.survival.utils.perks;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-
 public enum Perks {
 	
 	ARCHERY_RANGE_I("Archery-RangeI"),
 	ARCHERY_RANGE_II("Archery-RangeII"),
-	ARCHERY_SEEKER("Archery-Seeker");
+	ARCHERY_SEEKER("Archery-Seeker"),
+	MAGE_SWAP("Mage-Swap");
 	
 	String name;
 	
@@ -27,6 +26,11 @@ public enum Perks {
 			if(perk instanceof ArcheryPerkSeeker)
 				name = name + "-Seeker";
 		}
+		if(perk instanceof MagePerk) {
+			name = "Mage";
+			if(perk instanceof MagePerkSwap)
+				name = name + "-Swap";
+		}
 		return name;
 	}
 	
@@ -39,6 +43,7 @@ public enum Perks {
 		case "Archery-RangeI": return ARCHERY_RANGE_I;
 		case "Archery-RangeII": return ARCHERY_RANGE_II;
 		case "Archery-Seeker": return ARCHERY_SEEKER;
+		case "Mage-Swap": return MAGE_SWAP;
 		default: return ARCHERY_RANGE_I;
 		}
 	}
@@ -48,6 +53,7 @@ public enum Perks {
 		case "Archery-RangeI": return new ArcheryPerkRangeI(uid);
 		case "Archery-RangeII": return new ArcheryPerkRangeII(uid);
 		case "Archery-Seeker": return new ArcheryPerkSeeker(uid);
+		case "Mage-Swap": return new MagePerkSwap(uid);
 		default: return new Perk(uid);
 		}
 	}

@@ -9,6 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,6 +23,7 @@ import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.perks.MagePerkSwap;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class MysticSurvivalCommand implements CommandExecutor {
@@ -62,14 +65,26 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("perk")) {
 				if (sender instanceof Player) {
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender));
-					if (player.hasPerk(Perks.ARCHERY_SEEKER)) {
-						if (Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand().getType()
-								.equals(Material.BOW)) {
-							player.activatePerk(Perks.ARCHERY_SEEKER);
+					if (player.hasPerk(Perks.MAGE_SWAP)) {
+						LivingEntity target = null;
+						for (Entity entity : Bukkit.getPlayer(player.getPlayer().getUUID()).getNearbyEntities(50,50,50)) {
+							if (entity instanceof LivingEntity) {
+								if (!entity.equals(Bukkit.getPlayer(player.getPlayer().getUUID())))
+									if ((Bukkit.getPlayer(player.getPlayer().getUUID())).hasLineOfSight(entity)) {
+										target = (LivingEntity) entity;
+										break;
+									}
+							}
+						}
+						if (target != null) {
+							MagePerkSwap perk = (MagePerkSwap) player.getPerk(Perks.MAGE_SWAP);
+							perk.setTarget(target);
+							player.activatePerk(Perks.MAGE_SWAP);
 						}
 						
+
 					} else {
-						player.addPerk(Perks.ARCHERY_SEEKER, 0.3);
+						player.addPerk(Perks.MAGE_SWAP, 0.3);
 					}
 				}
 			}
