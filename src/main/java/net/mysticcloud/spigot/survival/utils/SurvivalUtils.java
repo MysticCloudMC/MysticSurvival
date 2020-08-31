@@ -581,13 +581,14 @@ public class SurvivalUtils {
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new ArrayList<>();
 		int arrows = 0;
-		for (String s : meta.getLore()) {
-			if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
-				arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
-				continue;
+		if (meta.hasLore())
+			for (String s : meta.getLore()) {
+				if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
+					arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
+					continue;
+				}
+				lore.add(s);
 			}
-			lore.add(s);
-		}
 		lore.add(CoreUtils.colorize("&e&lSeeker Arrows&7: &e" + (arrows + 1)));
 		meta.setLore(lore);
 		item.setItemMeta(meta);
