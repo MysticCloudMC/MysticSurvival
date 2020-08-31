@@ -78,7 +78,7 @@ public class PerkCommand implements CommandExecutor {
 			if(!player.hasPerk(perks)) {
 				player.addPerk(perks, 2D);
 				player.sendMessage("Added perk.");
-				return false;
+				return true;
 			}
 			player.sendMessage("You already have that perk.");
 		}
@@ -101,7 +101,7 @@ public class PerkCommand implements CommandExecutor {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player)sender));
 			if(!player.hasPerk(perks)) {
 				sender.sendMessage(CoreUtils.prefixes("survival") + "You don't have that perk.");
-				return false;
+				return true;
 			}
 			player.activatePerk(perks);
 		}

@@ -13,13 +13,13 @@ import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 
 public class MagePerkSwap extends MagePerk {
 	
-	LivingEntity target = null;
-
 	public MagePerkSwap(UUID uid) {
 		super(uid);
 		reqs = new String[] {"Target (LivingEntity)"};
+		ready = false;
 	}
 	
+	@Override
 	public void setTarget(LivingEntity target) {
 		this.target = target;
 		ready = true;

@@ -22,10 +22,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -475,6 +477,20 @@ public class PlayerListener implements Listener {
 			}
 		}
 
+	}
+	
+	@EventHandler
+	public void onEntityInteractEntity(PlayerInteractEntityEvent e) {
+		if(e.getPlayer().getEquipment().getItemInMainHand() == null) return;
+		if(e.getPlayer().getEquipment().getItemInMainHand().getType().equals(Material.AIR)) return;
+		
+		ItemStack i = e.getPlayer().getEquipment().getItemInMainHand();
+		
+		if(i.getType().equals(Material.STICK)) {
+			if(ChatColor.stripColor(i.getItemMeta().getDisplayName()).equalsIgnoreCase("Targeting Wand")) {
+				SurvivalUtils.getSurvivalPlayer(e.getPlayer()).target((LivingEntity) e.getRightClicked());
+			}
+		}
 	}
 
 	@EventHandler

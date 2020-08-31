@@ -3,19 +3,16 @@ package net.mysticcloud.spigot.survival.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.utils.perks.Perk;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
@@ -34,7 +31,7 @@ public class SurvivalPlayer {
 	double staminaModifier = 0;
 	double manaModifier = 0;
 
-	Map<Perk, Double> perks = new HashMap<>();
+	List<Perk> perks = new ArrayList<>();
 
 	protected SurvivalPlayer(MysticPlayer player) {
 		this.player = player;
@@ -70,19 +67,23 @@ public class SurvivalPlayer {
 	}
 
 	public void addPerk(Perks perk, double power) {
-		perks.put(perk.getPerk(player.getUUID()), power);
+		addPerk(perk);
+	}
+	
+	public void addPerk(Perks perk) {
+		perks.add(perk.getPerk(player.getUUID()));
 	}
 
 	public List<Perks> getPerks() {
 		List<Perks> perks = new ArrayList<>();
-		for (Perk perk : this.perks.keySet()) {
+		for (Perk perk : this.perks) {
 			perks.add(Perks.getPerk(Perks.getName(perk)));
 		}
 		return perks;
 	}
 	
 	public boolean hasPerk(Perks perk) {
-		for (Perk p : this.perks.keySet()) {
+		for (Perk p : this.perks) {
 			if(Perks.getName(p).equals(perk.getName())) {
 				return true;
 			}
@@ -91,7 +92,7 @@ public class SurvivalPlayer {
 	}
 	
 	public Perk getPerk(Perks perk) {
-		for (Perk p : this.perks.keySet()) {
+		for (Perk p : this.perks) {
 			if(Perks.getName(p).equals(perk.getName())) {
 				return p;
 			}
@@ -262,6 +263,13 @@ public class SurvivalPlayer {
 		}
 		sendMessage("Activating perk...");
 		getPerk(perk).activate();
+	}
+
+	public void target(LivingEntity e) {
+		for(Perk perk : perks) {
+			perk.setTarget(e);
+		}
+		sendMessage("Target set.");
 	}
 
 	
