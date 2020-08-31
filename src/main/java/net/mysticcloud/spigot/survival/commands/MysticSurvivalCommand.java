@@ -56,14 +56,18 @@ public class MysticSurvivalCommand implements CommandExecutor {
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
-			if(args[0].equalsIgnoreCase("color")) {
+			if (args[0].equalsIgnoreCase("color")) {
 				Bukkit.broadcastMessage(ChatColor.of(args[1]) + "Test!");
 			}
-			if(args[0].equalsIgnoreCase("perk")) {
+			if (args[0].equalsIgnoreCase("perk")) {
 				if (sender instanceof Player) {
-					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player)sender));
-					if(player.hasPerk(Perks.ARCHERY_SEEKER)) {
-						player.activatePerk(Perks.ARCHERY_SEEKER);
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender));
+					if (player.hasPerk(Perks.ARCHERY_SEEKER)) {
+						if (Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand().getType()
+								.equals(Material.BOW)) {
+							player.activatePerk(Perks.ARCHERY_SEEKER);
+						}
+						
 					} else {
 						player.addPerk(Perks.ARCHERY_SEEKER, 0.3);
 					}

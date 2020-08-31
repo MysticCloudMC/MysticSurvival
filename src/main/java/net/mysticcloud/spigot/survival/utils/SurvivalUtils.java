@@ -27,10 +27,6 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.runnables.MainTimer;
-import net.mysticcloud.spigot.survival.utils.perks.ArcheryPerkRangeI;
-import net.mysticcloud.spigot.survival.utils.perks.ArcheryPerkRangeII;
-import net.mysticcloud.spigot.survival.utils.perks.ArcheryPerkSeeker;
-import net.mysticcloud.spigot.survival.utils.perks.Perk;
 
 public class SurvivalUtils {
 	private static MysticSurvival plugin;
@@ -44,7 +40,7 @@ public class SurvivalUtils {
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
 
 	static Map<UUID, SurvivalPlayer> splayers = new HashMap<>();
-	
+
 	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
 
@@ -53,7 +49,7 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&f ");
 		CoreUtils.coreHandleDamage(false);
-		
+
 		for (Enhancement en : Enhancement.values()) {
 			if (en.isWeapon()) {
 				weaponEnhancements.add(en);
@@ -562,6 +558,46 @@ public class SurvivalUtils {
 
 	public static Collection<SurvivalPlayer> getAllSurvivalPlayers() {
 		return splayers.values();
+	}
+
+	public static void removeSeeker(ItemStack item) {
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = new ArrayList<>();
+		int arrows = 0;
+		for (String s : meta.getLore()) {
+			if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
+				arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
+				continue;
+			}
+			lore.add(s);
+		}
+		if (!(arrows - 1 >= 0))
+			lore.add(CoreUtils.colorize("&e&lSeeker Arrows&7: &e" + (arrows - 1)));
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+	}
+
+	public static void addSeeker(ItemStack item) {
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = new ArrayList<>();
+		int arrows = 0;
+		for (String s : meta.getLore()) {
+			if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
+				arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
+				continue;
+			}
+			lore.add(s);
+		}
+		lore.add(CoreUtils.colorize("&e&lSeeker Arrows&7: &e" + (arrows + 1)));
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+	}
+
+	public static boolean hasSeekers(ItemStack item) {
+		for (String s : item.getItemMeta().getLore())
+			if (ChatColor.stripColor(s).contains("Seeker Arrows:"))
+				return true;
+		return false;
 	}
 
 }

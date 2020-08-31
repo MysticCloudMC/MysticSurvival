@@ -9,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
@@ -39,6 +40,7 @@ import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.core.utils.SpawnReason;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.runnables.SeekerArrowRunnable;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
@@ -117,7 +119,8 @@ public class PlayerListener implements Listener {
 //			List<String> lore = new ArrayList<>();
 			for (String a : s.getItemMeta().getLore()) {
 				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
-					Spell spell = new TeleportSpell(e.getPlayer(), e.getPlayer().getTargetBlock(null, 200).getLocation().add(0, 1, 0).setDirection(e.getPlayer().getEyeLocation().getDirection()));
+					Spell spell = new TeleportSpell(e.getPlayer(), e.getPlayer().getTargetBlock(null, 200).getLocation()
+							.add(0, 1, 0).setDirection(e.getPlayer().getEyeLocation().getDirection()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
@@ -146,7 +149,7 @@ public class PlayerListener implements Listener {
 						player.useMana(0);
 					}
 				}
-				
+
 				if (ChatColor.stripColor(a).contains("Flame Spell")) {
 					Spell spell = new FlameSpell(e.getPlayer());
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
@@ -157,7 +160,7 @@ public class PlayerListener implements Listener {
 						player.useMana(0);
 					}
 				}
-				
+
 				if (ChatColor.stripColor(a).contains("Invisibility Spell")) {
 					Spell spell = new InvisibilitySpell(e.getPlayer());
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
@@ -168,7 +171,7 @@ public class PlayerListener implements Listener {
 						player.useMana(0);
 					}
 				}
-				
+
 //				lore.add(a);
 			}
 			return;
@@ -258,6 +261,23 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onProjectileShoot(ProjectileLaunchEvent e) {
 		if (e.getEntity().getShooter() instanceof Player) {
+			if (SurvivalUtils.hasSeekers(((Player) e.getEntity().getShooter()).getEquipment().getItemInMainHand())) {
+				LivingEntity target = null;
+				for (Entity entity : e.getEntity().getNearbyEntities(20, 20, 20)) {
+					if (entity instanceof LivingEntity) {
+						if (((Player) e.getEntity().getShooter()).hasLineOfSight(entity)) {
+							target = (LivingEntity) entity;
+							break;
+						}
+					}
+				}
+				if (target != null) {
+					SurvivalUtils
+							.removeSeeker(((Player) e.getEntity().getShooter()).getEquipment().getItemInMainHand());
+					Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(),
+							new SeekerArrowRunnable((Arrow) e.getEntity(), target), 1);
+				}
+			}
 			if (((Player) e.getEntity().getShooter()).getItemInHand().getItemMeta().hasLore()) {
 				List<String> lore = ((Player) e.getEntity().getShooter()).getItemInHand().getItemMeta().getLore();
 				for (String s : lore) {
@@ -322,7 +342,7 @@ public class PlayerListener implements Listener {
 		}
 		if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
 			Player player = (Player) e.getDamager();
-			if(SurvivalUtils.getSurvivalPlayer(player).getStamina()>10) {
+			if (SurvivalUtils.getSurvivalPlayer(player).getStamina() > 10) {
 				SurvivalUtils.getSurvivalPlayer(player).useStamina(10);
 			} else {
 				e.setCancelled(true);
