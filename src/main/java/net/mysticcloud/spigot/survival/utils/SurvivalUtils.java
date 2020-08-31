@@ -564,7 +564,7 @@ public class SurvivalUtils {
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new ArrayList<>();
 		int arrows = 0;
-		if (item.getItemMeta().hasLore())
+		if (meta.hasLore())
 			for (String s : meta.getLore()) {
 				if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
 					arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
@@ -572,7 +572,7 @@ public class SurvivalUtils {
 				}
 				lore.add(s);
 			}
-		if (!(arrows - 1 >= 0))
+		if ((arrows - 1 >= 1))
 			lore.add(CoreUtils.colorize("&e&lSeeker Arrows&7: &e" + (arrows - 1)));
 		meta.setLore(lore);
 		item.setItemMeta(meta);
