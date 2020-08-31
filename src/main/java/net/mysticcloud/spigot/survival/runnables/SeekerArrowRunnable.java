@@ -20,7 +20,6 @@ public class SeekerArrowRunnable implements Runnable {
 	}
 
 	public void run() {
-		Bukkit.broadcastMessage("Tracking...");
 		Vector newVelocity;
 		double speed = this.arrow.getVelocity().length();
 		if (this.arrow.isOnGround() || this.arrow.isDead() || this.target.isDead()) {
@@ -32,9 +31,8 @@ public class SeekerArrowRunnable implements Runnable {
 		Vector dirToTarget = toTarget.clone().normalize();
 		double angle = dirVelocity.angle(dirToTarget);
 		double newSpeed = 0.9D * speed + 0.14D;
-		if (this.target instanceof Player && this.arrow.getLocation().distance(this.target.getLocation()) < 8.0D) {
-			Player player = (Player) this.target;
-			if (player.isBlocking())
+		if (this.target instanceof Player) {
+			if (((Player) target).isBlocking())
 				newSpeed = speed * 0.6D;
 		}
 		if (angle < 0.12D) {
