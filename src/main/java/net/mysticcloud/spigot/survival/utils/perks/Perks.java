@@ -61,7 +61,16 @@ public enum Perks {
 	}
 
 	public static Perks getPerk(Division division, String perk) {
-		return getPerk(division.name() + "-" + perk);
+		String div = "";
+		switch(division.name()) {
+		case "ARCHER":
+			div = "ARCHERY";
+			break;
+		case "MAGE":
+			div = division.name();
+		default: break;
+		}
+		return getPerk(div + "-" + perk);
 	}
 
 	
