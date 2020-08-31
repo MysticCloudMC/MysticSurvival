@@ -564,13 +564,14 @@ public class SurvivalUtils {
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new ArrayList<>();
 		int arrows = 0;
-		for (String s : meta.getLore()) {
-			if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
-				arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
-				continue;
+		if (item.getItemMeta().hasLore())
+			for (String s : meta.getLore()) {
+				if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
+					arrows = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1]);
+					continue;
+				}
+				lore.add(s);
 			}
-			lore.add(s);
-		}
 		if (!(arrows - 1 >= 0))
 			lore.add(CoreUtils.colorize("&e&lSeeker Arrows&7: &e" + (arrows - 1)));
 		meta.setLore(lore);
@@ -581,6 +582,7 @@ public class SurvivalUtils {
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new ArrayList<>();
 		int arrows = 0;
+
 		if (meta.hasLore())
 			for (String s : meta.getLore()) {
 				if (ChatColor.stripColor(s).contains("Seeker Arrows:")) {
@@ -595,9 +597,10 @@ public class SurvivalUtils {
 	}
 
 	public static boolean hasSeekers(ItemStack item) {
-		for (String s : item.getItemMeta().getLore())
-			if (ChatColor.stripColor(s).contains("Seeker Arrows:"))
-				return true;
+		if (item.getItemMeta().hasLore())
+			for (String s : item.getItemMeta().getLore())
+				if (ChatColor.stripColor(s).contains("Seeker Arrows:"))
+					return true;
 		return false;
 	}
 
