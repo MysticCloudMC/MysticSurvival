@@ -1,10 +1,13 @@
 package net.mysticcloud.spigot.survival.runnables;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
 public class SeekerArrowRunnable implements Runnable {
 
@@ -42,5 +45,6 @@ public class SeekerArrowRunnable implements Runnable {
 			newVelocity = newDir.clone().multiply(newSpeed);
 		}
 		this.arrow.setVelocity(newVelocity.add(new Vector(0.0D, 0.03D, 0.0D)));
+		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new SeekerArrowRunnable(arrow, target), 1);
 	}
 }
