@@ -44,9 +44,9 @@ public class PerkCommand implements CommandExecutor {
 			if (args[1].equals("2")) {
 				sender.sendMessage(CoreUtils.prefixes("survival") + "Here's some perk info");
 				sender.sendMessage(CoreUtils.colorize(
-						"&dTargeting&5: You can target an entity with the 'targeting wand' given to you when you joined."));
+						"&dTargeting&5: You can target an entity with the &e&lTargeting Wand&5 given to you when you joined."));
 				sender.sendMessage(CoreUtils.colorize(
-						"&dSwitching Worlds&5: Right click on the &a*lWorld Switcher&5 given to you at after the first quest."));
+						"&dSwitching Worlds&5: Right click on the &a&lWorld Switcher&5 given to you at after the first quest."));
 				return true;
 			}
 		}
@@ -69,7 +69,7 @@ public class PerkCommand implements CommandExecutor {
 				// TODO list divisions
 				return true;
 			}
-			if (Perks.getPerk(Division.valueOf(args[1].toUpperCase()), args[2]) == null) {
+			if (Perks.getPerk(Division.valueOf(args[1].toUpperCase()), args[2]).equals(null)) {
 				sender.sendMessage(CoreUtils.prefixes("survival") + "Unknown perk.");
 				return true;
 			}
@@ -112,12 +112,12 @@ public class PerkCommand implements CommandExecutor {
 						+ "There was an error in your syntax. /perks u[se] <division> <perk>");
 				return true;
 			}
-			if (Division.valueOf(args[1].toUpperCase()) == null) {
+			if (Division.valueOf(args[1].toUpperCase()).equals(null)) {
 				sender.sendMessage(CoreUtils.prefixes("survival") + "Unknown division.");
 				// TODO list divisions
 				return true;
 			}
-			if (Perks.getPerk(Division.valueOf(args[1].toUpperCase()), args[2]) == null) {
+			if (Perks.getPerk(Division.valueOf(args[1].toUpperCase()), args[2]).equals(null)) {
 				sender.sendMessage(CoreUtils.prefixes("survival") + "Unknown perk.");
 				return true;
 			}
