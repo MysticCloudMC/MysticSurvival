@@ -87,10 +87,11 @@ public class PerkCommand implements CommandExecutor {
 			if (args.length == 2) {
 				String s = "";
 				Division d = Division.valueOf(args[1].toUpperCase());
-				for (Perks perk : player.getPerks()) {
-					s = s == "" ? perk.getName() : s + ", " + perk.getName();
+				for (Perks perk : Perks.values()) {
+					if (perk.getName().toUpperCase().startsWith(d.getPerkPrefix().toUpperCase()))
+						s = s == "" ? perk.getName() : s + ", " + perk.getName();
 				}
-				sender.sendMessage(CoreUtils.colorize("&5" + d.name() + "&5: " + s));
+				sender.sendMessage(CoreUtils.colorize("&5" + d.name() + "&d: " + s));
 				return true;
 			}
 			for (Division d : Division.values()) {
@@ -98,7 +99,8 @@ public class PerkCommand implements CommandExecutor {
 				for (Perks perk : player.getPerks()) {
 					s = s == "" ? perk.getName() : s + ", " + perk.getName();
 				}
-				sender.sendMessage(CoreUtils.colorize("&5" + d.name() + "&5: " + s));
+				sender.sendMessage(CoreUtils.colorize("&5" + d.name() + "&d: " + s));
+				return true;
 			}
 
 		}
