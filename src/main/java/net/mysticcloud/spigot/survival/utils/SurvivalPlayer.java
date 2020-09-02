@@ -121,12 +121,12 @@ public class SurvivalPlayer {
 							"Boosting your max mana by 100 points, and your mana multiplier by 0.5 for joining the Mages!");
 				}
 				break;
-			case WARRIER:
+			case WARRIOR:
 				maxStamina = maxStamina + 100;
 				staminaMultiplier = staminaMultiplier + 0.5;
 				if (Bukkit.getPlayer(player.getUUID()) != null) {
 					player.sendMessage("survival",
-							"Boosting your max stamina by 100 points, and your stamina multiplier by 0.5 for joining the Warriers!");
+							"Boosting your max stamina by 100 points, and your stamina multiplier by 0.5 for joining the Warriors!");
 				}
 				break;
 			default:

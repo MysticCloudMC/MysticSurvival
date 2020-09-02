@@ -9,7 +9,8 @@ public enum Perks {
 	ARCHERY_RANGE_I("Archery-RangeI"),
 	ARCHERY_RANGE_II("Archery-RangeII"),
 	ARCHERY_SEEKER("Archery-Seeker"),
-	MAGE_SWAP("Mage-Swap");
+	MAGE_SWAP("Mage-Swap"),
+	WARRIOR_FURY("Warrior-Fury");
 	
 	String name;
 	
@@ -33,6 +34,11 @@ public enum Perks {
 			if(perk instanceof MagePerkSwap)
 				name = name + "-Swap";
 		}
+		if(perk instanceof WarriorPerk) {
+			name = "Warrior";
+			if(perk instanceof WarriorPerkFury)
+				name = name + "-Fury";
+		}
 		return name;
 	}
 	
@@ -46,6 +52,7 @@ public enum Perks {
 		case "ARCHERY-RANGEII": return ARCHERY_RANGE_II;
 		case "ARCHERY-SEEKER": return ARCHERY_SEEKER;
 		case "MAGE-SWAP": return MAGE_SWAP;
+		case "WARRIOR-FURY": return Perks.WARRIOR_FURY;
 		default: return null;
 		}
 	}
@@ -56,6 +63,7 @@ public enum Perks {
 		case "Archery-RangeII": return new ArcheryPerkRangeII(uid);
 		case "Archery-Seeker": return new ArcheryPerkSeeker(uid);
 		case "Mage-Swap": return new MagePerkSwap(uid);
+		case "Warrior-Fury": return new WarriorPerkFury(uid);
 		default: return new Perk(uid);
 		}
 	}
@@ -67,6 +75,7 @@ public enum Perks {
 			div = "ARCHERY";
 			break;
 		case "MAGE":
+		case "WARRIOR":
 			div = division.name();
 		default: break;
 		}

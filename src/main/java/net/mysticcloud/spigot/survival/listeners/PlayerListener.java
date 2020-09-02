@@ -270,7 +270,7 @@ public class PlayerListener implements Listener {
 
 				try {
 					LivingEntity target = player.getPerk(Perks.ARCHERY_SEEKER).getTarget();
-					if(target == null) {
+					if(target == null || target.isDead()) {
 						String s = "";
 						for (String a : player.getPerk(Perks.ARCHERY_SEEKER).getRequirements()) {
 							s = s == "" ? a : s + ", " + a;

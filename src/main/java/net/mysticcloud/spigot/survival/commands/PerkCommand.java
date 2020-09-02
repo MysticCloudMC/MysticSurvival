@@ -97,11 +97,13 @@ public class PerkCommand implements CommandExecutor {
 			for (Division d : Division.values()) {
 				String s = "";
 				for (Perks perk : Perks.values()) {
-					s = s == "" ? perk.getName() : s + ", " + perk.getName();
+					if (perk.getName().toUpperCase().startsWith(d.getPerkPrefix().toUpperCase()))
+						s = s == "" ? perk.getName() : s + ", " + perk.getName();
 				}
 				sender.sendMessage(CoreUtils.colorize("&5" + d.name() + "&d: " + s));
-				return true;
+
 			}
+			return true;
 
 		}
 		if (args[0].equalsIgnoreCase("u") || args[0].equalsIgnoreCase("use")) {
