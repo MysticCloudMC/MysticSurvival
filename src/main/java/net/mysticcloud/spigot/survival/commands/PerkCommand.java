@@ -96,7 +96,7 @@ public class PerkCommand implements CommandExecutor {
 			}
 			for (Division d : Division.values()) {
 				String s = "";
-				for (Perks perk : player.getPerks()) {
+				for (Perks perk : Perks.values()) {
 					s = s == "" ? perk.getName() : s + ", " + perk.getName();
 				}
 				sender.sendMessage(CoreUtils.colorize("&5" + d.name() + "&d: " + s));

@@ -57,6 +57,11 @@ public class SurvivalPlayer {
 			staminaMultiplier = (Double.parseDouble(fc.getString("StaminaMultiplier")));
 		if (fc.isSet("ManaMultiplier"))
 			manaMultiplier = (Double.parseDouble(fc.getString("ManaMultiplier")));
+		if (fc.isSet("Perks")) {
+			for(String s : fc.getStringList("Perks")) {
+				addPerk(Perks.getPerk(s));
+			}
+		}
 
 		mana = maxMana;
 		stamina = maxStamina;
@@ -239,6 +244,13 @@ public class SurvivalPlayer {
 		fc.set("MaxStamina", maxStamina);
 		fc.set("StaminaMultiplier", staminaMultiplier);
 		fc.set("ManaMultiplier", manaMultiplier);
+		if(!perks.isEmpty()) {
+			List<String> p = new ArrayList<>();
+			for(Perk perk : perks) {
+				p.add(Perks.getName(perk));
+			}
+			fc.set("Perks", p);
+		}
 		try {
 			fc.save(file);
 		} catch (IOException e) {
