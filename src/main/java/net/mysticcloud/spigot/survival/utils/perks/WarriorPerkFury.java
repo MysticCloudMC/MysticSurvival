@@ -18,10 +18,11 @@ public class WarriorPerkFury extends WarriorPerk {
 	public WarriorPerkFury(UUID uid) {
 		super(uid);
 	}
-	
+
 	@Override
 	public void activate() {
-		Firework fw = (Firework) Bukkit.getPlayer(uid).getWorld().spawnEntity(Bukkit.getPlayer(uid).getLocation(), EntityType.FIREWORK);
+		Firework fw = (Firework) Bukkit.getPlayer(uid).getWorld()
+				.spawnEntity(Bukkit.getPlayer(uid).getLocation().add(0, 1, 0), EntityType.FIREWORK);
 		FireworkMeta fwm = fw.getFireworkMeta();
 
 		fwm.setPower(2);
@@ -29,8 +30,8 @@ public class WarriorPerkFury extends WarriorPerk {
 
 		fw.setFireworkMeta(fwm);
 		fw.detonate();
-		
-		Bukkit.getPlayer(uid).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, 20));
+
+		Bukkit.getPlayer(uid).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 20));
 
 	}
 

@@ -9,7 +9,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 
 import net.mysticcloud.spigot.core.utils.particles.ParticleFormat;
-import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
+import net.mysticcloud.spigot.core.utils.particles.formats.DoubleHelixFormat;
 
 public class MagePerkSwap extends MagePerk {
 
@@ -40,9 +40,9 @@ public class MagePerkSwap extends MagePerk {
 	@Override
 	public void activate() {
 		Location loc = target.getLocation().clone();
-		ParticleFormat format = new RandomFormat();
+		ParticleFormat format = new DoubleHelixFormat();
 		format.particle(Particle.SPELL_WITCH);
-		for (int i = 0; i != 60; i++) {
+		for (int i = 0; i != 160; i++) {
 			format.display(getPlayer().getLocation(), i);
 			format.display(loc, i);
 		}
