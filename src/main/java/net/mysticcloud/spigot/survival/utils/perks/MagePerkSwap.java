@@ -42,12 +42,13 @@ public class MagePerkSwap extends MagePerk {
 		Location loc = target.getLocation().clone();
 		ParticleFormat format = new DoubleHelixFormat();
 		format.particle(Particle.SPELL_WITCH);
-		for (int i = 0; i != 160; i++) {
+		target.teleport(getPlayer());
+		getPlayer().teleport(loc);
+		for (int i = 0; i != 80; i++) {
 			format.display(getPlayer().getLocation(), i);
 			format.display(loc, i);
 		}
-		target.teleport(getPlayer());
-		getPlayer().teleport(loc);
+		
 	}
 
 }
