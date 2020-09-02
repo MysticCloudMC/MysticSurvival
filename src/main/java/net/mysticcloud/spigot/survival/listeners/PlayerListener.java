@@ -276,21 +276,18 @@ public class PlayerListener implements Listener {
 							s = s == "" ? a : s + ", " + a;
 						}
 						player.sendMessage("You don't meet the requirements to activate this perk: " + s);
-						return;
 					}
 					SurvivalUtils.removeSeeker(
 							Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand());
 
 					Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(),
 							new SeekerArrowRunnable((Arrow) e.getEntity(), target), 1);
-					return;
 				} catch (NullPointerException ex) {
 					String s = "";
 					for (String a : player.getPerk(Perks.ARCHERY_SEEKER).getRequirements()) {
 						s = s == "" ? a : s + ", " + a;
 					}
 					player.sendMessage("You don't meet the requirements to activate this perk: " + s);
-					return;
 				}
 			}
 			if (((Player) e.getEntity().getShooter()).getItemInHand().getItemMeta().hasLore()) {
