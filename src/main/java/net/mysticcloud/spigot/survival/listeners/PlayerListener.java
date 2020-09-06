@@ -82,16 +82,11 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		try {
-			Bukkit.broadcastMessage("Current Item: " + e.getCurrentItem().getType().name());
-			Bukkit.broadcastMessage("Cursor: " + e.getCursor().getType().name());
 			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
 					&& !e.getCursor().getType().equals(Material.BOOK)
 					&& !e.getCursor().getType().equals(Material.AIR)) {
 				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
-				Bukkit.broadcastMessage("------------------");
-				Bukkit.broadcastMessage("Current Item: " + e.getCurrentItem().getType().name());
-				Bukkit.broadcastMessage("Cursor: " + e.getCursor().getType().name());
-				Bukkit.broadcastMessage("------------------");
+				e.getCurrentItem().setAmount(e.getCurrentItem().getAmount()-1);
 				
 			}
 		} catch (NullPointerException ex) {
