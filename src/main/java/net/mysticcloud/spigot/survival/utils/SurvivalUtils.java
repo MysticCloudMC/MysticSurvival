@@ -488,7 +488,7 @@ public class SurvivalUtils {
 		tm.setLore(tlore);
 		tool.setItemMeta(tm);
 
-		book.setAmount(book.getAmount() - 1);
+		
 
 		finalizeEnhancement(tool, tlore);
 
