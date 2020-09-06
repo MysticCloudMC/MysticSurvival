@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.particles.ParticleFormat;
 import net.mysticcloud.spigot.core.utils.particles.formats.DoubleHelixFormat;
 
@@ -39,6 +40,12 @@ public class MagePerkSwap extends MagePerk {
 
 	@Override
 	public void activate() {
+		if(target.isDead()) {
+			ready = false;
+			target = null;
+			getPlayer().sendMessage(CoreUtils.colorize("&cTarget died. You need to select a new one."));
+			return;
+		}
 		Location loc = target.getLocation().clone();
 		ParticleFormat format = new DoubleHelixFormat();
 		format.particle(Particle.SPELL_WITCH);

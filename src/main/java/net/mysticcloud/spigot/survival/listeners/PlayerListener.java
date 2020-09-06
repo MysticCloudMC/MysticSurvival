@@ -89,7 +89,7 @@ public class PlayerListener implements Listener {
 				Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
 					@Override
 					public void run() {
-						e.getCurrentItem().setAmount(e.getCurrentItem().getAmount() - 1);
+						e.getCursor().setAmount(e.getCursor().getAmount() - 1);
 					}
 				}, 10);
 			}
