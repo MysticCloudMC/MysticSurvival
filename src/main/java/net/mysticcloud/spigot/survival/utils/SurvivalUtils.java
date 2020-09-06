@@ -455,8 +455,8 @@ public class SurvivalUtils {
 		}
 
 		if (tool.hasItemMeta()) {
-			if (tool.getItemMeta().hasLore()) {
-				for (String s : tool.getItemMeta().getLore()) {
+			if (tm.hasLore()) {
+				for (String s : tm.getLore()) {
 					tlore.add(s);
 				}
 			}

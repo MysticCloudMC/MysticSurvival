@@ -87,7 +87,6 @@ public class PlayerListener implements Listener {
 			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
 					&& !e.getCursor().getType().equals(Material.BOOK)
 					&& !e.getCursor().getType().equals(Material.AIR)) {
-				e.setCancelled(true);
 				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
 				Bukkit.broadcastMessage("------------------");
 				Bukkit.broadcastMessage("Current Item: " + e.getCurrentItem().getType().name());
