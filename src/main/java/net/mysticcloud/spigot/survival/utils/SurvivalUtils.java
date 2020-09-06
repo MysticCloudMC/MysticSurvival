@@ -361,6 +361,7 @@ public class SurvivalUtils {
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
 
 		a.addItemFlags(ItemFlag.values());
+		
 		item.setItemMeta(a);
 		if (CoreUtils.getRandom().nextBoolean())
 			item = randomizeArmorEnhancements(item, level);
