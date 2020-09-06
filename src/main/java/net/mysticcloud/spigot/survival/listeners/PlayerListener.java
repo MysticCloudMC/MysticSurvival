@@ -86,6 +86,7 @@ public class PlayerListener implements Listener {
 					&& !e.getCursor().getType().equals(Material.BOOK)
 					&& !e.getCursor().getType().equals(Material.AIR)) {
 				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
+				e.setCancelled(true);
 				e.setCurrentItem(new ItemStack(Material.AIR));
 				
 			}
