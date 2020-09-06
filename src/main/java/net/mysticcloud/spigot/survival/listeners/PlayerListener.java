@@ -82,11 +82,14 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		try {
+			Bukkit.broadcastMessage("Current Item: " + e.getCurrentItem().getType().name());
+			Bukkit.broadcastMessage("Cursor: " + e.getCursor().getType().name());
 			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
 					&& !e.getCursor().getType().equals(Material.BOOK)
 					&& !e.getCursor().getType().equals(Material.AIR)) {
-				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
 				e.setCancelled(true);
+				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
+				
 			}
 		} catch (NullPointerException ex) {
 
@@ -542,8 +545,6 @@ public class PlayerListener implements Listener {
 				color = "&5";
 				break;
 			case CAVE_SPIDER:
-				color = "&1";
-				break;
 			case SPIDER:
 				color = "&1";
 				break;

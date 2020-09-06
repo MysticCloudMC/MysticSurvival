@@ -58,37 +58,39 @@ public class SurvivalUtils {
 			}
 		}
 
-		weaponTiers.put(Tier.HUMAN,
+		weaponTiers.put(Tier.FIRST,
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
-		weaponDescriptors.put(Tier.HUMAN, new String[] { "Dull", "Chipped", "Slow", "" });
+		weaponDescriptors.put(Tier.FIRST, new String[] { "Dull", "Chipped", "Slow", "" });
 
-		weaponTiers.put(Tier.WIZARD,
-				new Material[] { Material.STONE_AXE, Material.IRON_SWORD, Material.IRON_AXE, Material.GOLDEN_SWORD });
-		weaponDescriptors.put(Tier.WIZARD, new String[] { "Swift", "Shiny", "Dented" });
+		weaponTiers.put(Tier.SECOND,
+				new Material[] { Material.STONE_AXE, Material.IRON_SWORD, Material.IRON_AXE, Material.GOLDEN_SWORD, Material.IRON_PICKAXE });
+		weaponDescriptors.put(Tier.SECOND, new String[] { "Swift", "Shiny", "Dented" });
 
-		weaponTiers.put(Tier.DEMI_GOD,
+		weaponTiers.put(Tier.THIRD,
 				new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW });
-		weaponDescriptors.put(Tier.DEMI_GOD, new String[] { "Sharp", "Flashing", "Powerful" });
+		weaponDescriptors.put(Tier.THIRD, new String[] { "Sharp", "Flashing", "Powerful" });
 
-		weaponTiers.put(Tier.CELESTIAL, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD,
+		weaponTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD,
 				Material.CROSSBOW, Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
-		weaponDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+		weaponDescriptors.put(Tier.FOURTH, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
-		armorTiers.put(Tier.HUMAN, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
+		
+		
+		armorTiers.put(Tier.FIRST, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
 				Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS });
-		armorDescriptors.put(Tier.HUMAN, new String[] { "Ripped", "Torn", "Dirty", "" });
+		armorDescriptors.put(Tier.FIRST, new String[] { "Ripped", "Torn", "Dirty", "" });
 
-		armorTiers.put(Tier.WIZARD, new Material[] { Material.CHAINMAIL_BOOTS, Material.IRON_CHESTPLATE,
+		armorTiers.put(Tier.SECOND, new Material[] { Material.CHAINMAIL_BOOTS, Material.IRON_CHESTPLATE,
 				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET });
-		armorDescriptors.put(Tier.WIZARD, new String[] { "Protective", "Shiny", "Dented" });
+		armorDescriptors.put(Tier.SECOND, new String[] { "Protective", "Shiny", "Dented" });
 
-		armorTiers.put(Tier.DEMI_GOD, new Material[] { Material.DIAMOND_HELMET, Material.IRON_CHESTPLATE,
+		armorTiers.put(Tier.THIRD, new Material[] { Material.DIAMOND_HELMET, Material.IRON_CHESTPLATE,
 				Material.IRON_HELMET, Material.IRON_LEGGINGS, Material.IRON_BOOTS });
-		armorDescriptors.put(Tier.DEMI_GOD, new String[] { "Strong", "Glistening", "Holy" });
+		armorDescriptors.put(Tier.THIRD, new String[] { "Strong", "Glistening", "Holy" });
 
-		armorTiers.put(Tier.CELESTIAL, new Material[] { Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
+		armorTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
 				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.NETHERITE_BOOTS });
-		armorDescriptors.put(Tier.CELESTIAL, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+		armorDescriptors.put(Tier.FOURTH, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
 		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new MainTimer(), 2);
 
@@ -135,6 +137,8 @@ public class SurvivalUtils {
 	private static String getWeaponType(Material weapon) {
 		if (weapon.name().contains("SWORD"))
 			return "Sword";
+		if (weapon.name().contains("PICKAXE"))
+			return "Pickaxe";
 		if (weapon.name().contains("_AXE"))
 			return "Axe";
 		if (weapon.name().equalsIgnoreCase("TRIDENT"))
@@ -166,7 +170,7 @@ public class SurvivalUtils {
 		for (Enhancement en : weaponEnhancements) {
 
 			if (new Random().nextBoolean()) {
-				if (en.equals(Enhancement.DISARM) && level > Tier.DEMI_GOD.maxLevel) {
+				if (en.equals(Enhancement.DISARM) && level > Tier.THIRD.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize(en.getName()
@@ -188,7 +192,7 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (en.equals(Enhancement.DODGE) && level > Tier.HUMAN.maxLevel) {
+				if (en.equals(Enhancement.DODGE)) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize(en.getName()
@@ -200,7 +204,7 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (en.equals(Enhancement.VAMPIRISM) && level > Tier.HUMAN.maxLevel) {
+				if (en.equals(Enhancement.VAMPIRISM) && level > Tier.FIRST.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize(en.getName()
@@ -212,7 +216,7 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (en.equals(Enhancement.FIRE) && level > Tier.WIZARD.maxLevel) {
+				if (en.equals(Enhancement.FIRE) && level > Tier.SECOND.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize(en.getName()
@@ -224,7 +228,7 @@ public class SurvivalUtils {
 					item.setItemMeta(a);
 					enhanced = true;
 				}
-				if (en.equals(Enhancement.FROST) && level > Tier.HUMAN.maxLevel) {
+				if (en.equals(Enhancement.FROST) && level > Tier.FIRST.maxLevel) {
 					ItemMeta a = item.getItemMeta();
 					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 					lore.add(CoreUtils.colorize(en.getName()
