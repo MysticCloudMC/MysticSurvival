@@ -87,6 +87,7 @@ public class PlayerListener implements Listener {
 					&& !e.getCursor().getType().equals(Material.AIR)) {
 				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
 				e.getCurrentItem().setAmount(e.getCurrentItem().getAmount()-1);
+				SurvivalUtils.removeEnhancedBookLater(e.getCurrentItem());
 				
 			}
 		} catch (NullPointerException ex) {

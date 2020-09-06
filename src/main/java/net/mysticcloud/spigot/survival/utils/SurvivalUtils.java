@@ -609,4 +609,13 @@ public class SurvivalUtils {
 		return false;
 	}
 
+	public static void removeEnhancedBookLater(ItemStack item) {
+		Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
+			@Override
+			public void run() {
+				item.setAmount(item.getAmount()-1);
+			}
+		}, 10);
+	}
+
 }
