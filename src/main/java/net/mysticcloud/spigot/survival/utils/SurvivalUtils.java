@@ -30,6 +30,8 @@ import net.mysticcloud.spigot.survival.runnables.MainTimer;
 
 public class SurvivalUtils {
 	private static MysticSurvival plugin;
+	
+	private static List<UUID> targeters = new ArrayList<>();
 
 	static Map<Tier, Material[]> weaponTiers = new HashMap<>();
 	static Map<Tier, String[]> weaponDescriptors = new HashMap<>();
@@ -609,13 +611,17 @@ public class SurvivalUtils {
 		return false;
 	}
 
-	public static void removeEnhancedBookLater(ItemStack item) {
-		Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
-			@Override
-			public void run() {
-				item.setAmount(item.getAmount()-1);
-			}
-		}, 10);
+	public static void addTargeter(UUID uid) {
+		targeters.add(uid);
 	}
+
+	public static boolean isTargeting(UUID uid) {
+		return targeters.contains(uid);
+	}
+
+	public static void removeTargeter(UUID uid) {
+		targeters.remove(uid);
+	}
+
 
 }

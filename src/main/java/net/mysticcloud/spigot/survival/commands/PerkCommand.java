@@ -39,6 +39,7 @@ public class PerkCommand implements CommandExecutor {
 						.colorize("&d/perks list [division] &5- lists all perks or just perks in a division."));
 				sender.sendMessage(CoreUtils.colorize("&d/perks m[ylist] &5- shows all perks you have."));
 				sender.sendMessage(CoreUtils.colorize("&d/perks u[se] <division> <perk> &5- use or activate a perk."));
+				sender.sendMessage(CoreUtils.colorize("&d/perks t[arget] &5- targets the next living entity you hit with a projectile."));
 				return true;
 			}
 			if (args[1].equals("2")) {
@@ -57,6 +58,9 @@ public class PerkCommand implements CommandExecutor {
 				p = p == "" ? perk.getName() : p + ", " + perk.getName();
 			sender.sendMessage(CoreUtils.colorize(p));
 			return true;
+		}
+		if (args[0].equalsIgnoreCase("t") || args[0].equalsIgnoreCase("target")) {
+			SurvivalUtils.addTargeter(player.getPlayer().getUUID());
 		}
 		if (args[0].equalsIgnoreCase("add")) {
 			if (args.length != 3) {

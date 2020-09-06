@@ -2,6 +2,7 @@ package net.mysticcloud.spigot.survival.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +23,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -86,9 +86,12 @@ public class PlayerListener implements Listener {
 					&& !e.getCursor().getType().equals(Material.BOOK)
 					&& !e.getCursor().getType().equals(Material.AIR)) {
 				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
-				e.getCurrentItem().setAmount(e.getCurrentItem().getAmount()-1);
-				SurvivalUtils.removeEnhancedBookLater(e.getCurrentItem());
-				
+				Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
+					@Override
+					public void run() {
+						e.getCurrentItem().setAmount(e.getCurrentItem().getAmount() - 1);
+					}
+				}, 10);
 			}
 		} catch (NullPointerException ex) {
 
@@ -266,13 +269,17 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onProjectileShoot(ProjectileLaunchEvent e) {
 		if (e.getEntity().getShooter() instanceof Player) {
+			if (SurvivalUtils.isTargeting(((Player) e.getEntity().getShooter()).getUniqueId())) {
+				e.getEntity().setMetadata("targeting", new FixedMetadataValue(SurvivalUtils.getPlugin(),
+						((Player) e.getEntity().getShooter()).getUniqueId()));
+			}
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getEntity().getShooter());
 			if (SurvivalUtils
 					.hasSeekers(Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand())) {
 
 				try {
 					LivingEntity target = player.getPerk(Perks.ARCHERY_SEEKER).getTarget();
-					if(target == null || target.isDead()) {
+					if (target == null || target.isDead()) {
 						String s = "";
 						for (String a : player.getPerk(Perks.ARCHERY_SEEKER).getRequirements()) {
 							s = s == "" ? a : s + ", " + a;
@@ -316,6 +323,13 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Projectile) {
+			if (e.getDamager().hasMetadata("targeting") && e.getEntity() instanceof LivingEntity) {
+				SurvivalUtils
+						.getSurvivalPlayer(
+								Bukkit.getPlayer((UUID) e.getDamager().getMetadata("targeting").get(0).value()))
+						.target((LivingEntity)e.getEntity());
+				SurvivalUtils.removeTargeter((UUID) e.getDamager().getMetadata("targeting").get(0).value());
+			}
 			if (e.getDamager().hasMetadata("fire")) {
 				e.getEntity()
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
