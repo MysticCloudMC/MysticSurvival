@@ -15,6 +15,7 @@ public class MagePerkManaBoost extends MagePerk {
 
 	public MagePerkManaBoost(UUID uid) {
 		super(uid);
+		reqs = new String[] {"Cooldown"};
 	}
 
 	@Override
@@ -28,10 +29,12 @@ public class MagePerkManaBoost extends MagePerk {
 		for (int i = 0; i != 50; i++) {
 			format.display(getPlayer().getLocation(), i);
 		}
+		ready = false;
 		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
 			@Override
 			public void run() {
 				player.setMaxMana(mana);
+				ready = true;
 			}
 		}, 20*20);
 	}
