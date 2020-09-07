@@ -335,18 +335,12 @@ public class PlayerListener implements Listener {
 						.setFireTicks(Integer.parseInt("" + e.getDamager().getMetadata("fire").get(0).value()) * 20);
 			}
 			if (e.getDamager().hasMetadata("vampirism")) {
-//				if (e.getEntity() instanceof Player) {
 				if (CoreUtils.getRandom().nextInt(
 						100) <= Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()) * 20) {
 					((LivingEntity) ((Projectile) e.getDamager()).getShooter())
 							.setHealth(((LivingEntity) ((Projectile) e.getDamager()).getShooter()).getHealth()
 									+ (e.getDamage() / 2));
 				}
-//				} else {
-//					((LivingEntity) e.getDamager())
-//							.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
-//									* (Integer.parseInt("" + e.getDamager().getMetadata("vampirism").get(0).value()))));
-//				}
 			}
 			if (e.getDamager().hasMetadata("frost")) {
 				if (e.getEntity() instanceof LivingEntity) {

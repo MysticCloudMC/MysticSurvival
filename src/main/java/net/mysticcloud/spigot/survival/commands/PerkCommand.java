@@ -45,7 +45,7 @@ public class PerkCommand implements CommandExecutor {
 			if (args[1].equals("2")) {
 				sender.sendMessage(CoreUtils.prefixes("survival") + "Here's some perk info");
 				sender.sendMessage(CoreUtils.colorize(
-						"&dTargeting&5: You can target an entity with the &e&lTargeting Wand&5 given to you when you joined."));
+						"&dTargeting&5: You can target an entity with the &e&lTargeting Wand&5 given to you when you joined, or you can use the /perk target command and hit and entity with a projectile."));
 				sender.sendMessage(CoreUtils.colorize(
 						"&dSwitching Worlds&5: Right click on the &a&lWorld Switcher&5 given to you at after the first quest."));
 				return true;

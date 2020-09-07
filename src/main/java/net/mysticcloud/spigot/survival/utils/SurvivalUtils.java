@@ -30,7 +30,7 @@ import net.mysticcloud.spigot.survival.runnables.MainTimer;
 
 public class SurvivalUtils {
 	private static MysticSurvival plugin;
-	
+
 	private static List<UUID> targeters = new ArrayList<>();
 
 	static Map<Tier, Material[]> weaponTiers = new HashMap<>();
@@ -64,20 +64,17 @@ public class SurvivalUtils {
 				new Material[] { Material.WOODEN_AXE, Material.WOODEN_SWORD, Material.BOW, Material.STONE_AXE });
 		weaponDescriptors.put(Tier.FIRST, new String[] { "Dull", "Chipped", "Slow", "" });
 
-		weaponTiers.put(Tier.SECOND,
-				new Material[] { Material.STONE_AXE, Material.IRON_SWORD, Material.IRON_AXE, Material.GOLDEN_SWORD, Material.IRON_PICKAXE });
+		weaponTiers.put(Tier.SECOND, new Material[] { Material.STONE_AXE, Material.IRON_SWORD, Material.IRON_AXE,
+				Material.GOLDEN_SWORD, Material.IRON_PICKAXE });
 		weaponDescriptors.put(Tier.SECOND, new String[] { "Swift", "Shiny", "Dented" });
 
-		weaponTiers.put(Tier.THIRD,
-				new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW });
+		weaponTiers.put(Tier.THIRD, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW });
 		weaponDescriptors.put(Tier.THIRD, new String[] { "Sharp", "Flashing", "Powerful" });
 
-		weaponTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD,
-				Material.CROSSBOW, Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
+		weaponTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW,
+				Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
 		weaponDescriptors.put(Tier.FOURTH, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
 
-		
-		
 		armorTiers.put(Tier.FIRST, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
 				Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS });
 		armorDescriptors.put(Tier.FIRST, new String[] { "Ripped", "Torn", "Dirty", "" });
@@ -363,7 +360,7 @@ public class SurvivalUtils {
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
 
 		a.addItemFlags(ItemFlag.values());
-		
+
 		item.setItemMeta(a);
 		if (CoreUtils.getRandom().nextBoolean())
 			item = randomizeArmorEnhancements(item, level);
@@ -491,8 +488,6 @@ public class SurvivalUtils {
 		tm.setLore(tlore);
 		tool.setItemMeta(tm);
 
-		
-
 		finalizeEnhancement(tool, tlore);
 
 		return tool;
@@ -612,7 +607,10 @@ public class SurvivalUtils {
 	}
 
 	public static void addTargeter(UUID uid) {
-		targeters.add(uid);
+		if (isTargeting(uid))
+			Bukkit.getPlayer(uid).sendMessage(net.md_5.bungee.api.ChatColor.RED + "You are already targeting.");
+		else
+			targeters.add(uid);
 	}
 
 	public static boolean isTargeting(UUID uid) {
@@ -622,6 +620,5 @@ public class SurvivalUtils {
 	public static void removeTargeter(UUID uid) {
 		targeters.remove(uid);
 	}
-
 
 }

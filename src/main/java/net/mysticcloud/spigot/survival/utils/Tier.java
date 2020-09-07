@@ -1,7 +1,7 @@
 package net.mysticcloud.spigot.survival.utils;
 
 public enum Tier {
-	FIRST(0, 10), SECOND(11, 30), THIRD(31, 50), FOURTH(51, 100);
+	FIRST(0, 9), SECOND(10, 19), THIRD(20, 29), FOURTH(30, 39), FIFTH(40, 49), SIXTH(50, Integer.MAX_VALUE);
 
 	int minLevel;
 	int maxLevel;
@@ -9,6 +9,7 @@ public enum Tier {
 	Tier(int minLevel, int maxLevel) {
 		this.minLevel = minLevel;
 		this.maxLevel = maxLevel;
+
 	}
 
 	public static Tier getTier(int level) {
@@ -22,12 +23,16 @@ public enum Tier {
 	public String getName() {
 		switch (name()) {
 		case "FIRST":
-			return "&e&lWarrier";
+			return "&e&lHuman";
 		case "SECOND":
-			return "&5&lMage";
+			return "&2&lSoldier";
 		case "THIRD":
-			return "&b&lDemi-God";
+			return "&7&lKnight";
 		case "FOURTH":
+			return "&d&lWizard";
+		case "FIFTH":
+			return "&b&lDemi-God";
+		case "SIXTH":
 			return "&c&lCelestial";
 		default:
 			return name();

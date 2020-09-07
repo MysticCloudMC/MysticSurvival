@@ -142,6 +142,7 @@ public class SurvivalPlayer {
 
 	public void setMaxMana(int mana) {
 		this.maxMana = mana;
+		this.mana = mana;
 	}
 
 	public int getMana() {
@@ -154,6 +155,7 @@ public class SurvivalPlayer {
 
 	public void setMaxStamina(int stamina) {
 		this.maxStamina = stamina;
+		this.stamina = stamina;
 	}
 
 	public int getStamina() {
