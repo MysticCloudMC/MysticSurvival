@@ -5,13 +5,14 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import net.mysticcloud.spigot.core.utils.CoreUtils;
 
 public class WarriorPerkFury extends WarriorPerk {
 
@@ -21,17 +22,35 @@ public class WarriorPerkFury extends WarriorPerk {
 
 	@Override
 	public void activate() {
-		Firework fw = (Firework) Bukkit.getPlayer(uid).getWorld()
-				.spawnEntity(Bukkit.getPlayer(uid).getLocation().add(0, 1, 0), EntityType.FIREWORK);
+		Firework fw = (Firework) getPlayer().getWorld().spawnEntity(getPlayer().getLocation().add(0, 1, 0),
+				EntityType.FIREWORK);
 		FireworkMeta fwm = fw.getFireworkMeta();
 
 		fwm.setPower(2);
-		fwm.addEffect(FireworkEffect.builder().withColor(Color.RED).flicker(true).build());
+		fwm.addEffect(FireworkEffect.builder().with(Type.BALL_LARGE).withColor(Color.RED).flicker(false).build());
 
 		fw.setFireworkMeta(fwm);
 		fw.detonate();
 
-		Bukkit.getPlayer(uid).addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 20));
+		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 20));
+
+		for (Entity entity : getPlayer().getNearbyEntities(5, 5, 5)) {
+			if (!entity.equals(getPlayer())) {
+				if (entity instanceof LivingEntity) {
+					Firework fw2 = (Firework) getPlayer().getWorld().spawnEntity(getPlayer().getLocation().add(0, 1, 0),
+							EntityType.FIREWORK);
+					FireworkMeta fwm2 = fw2.getFireworkMeta();
+
+					fwm2.setPower(2);
+					fwm2.addEffect(
+							FireworkEffect.builder().withColor(Color.RED).with(Type.BURST).flicker(false).build());
+
+					fw2.setFireworkMeta(fwm2);
+					fw2.detonate();
+					((LivingEntity) entity).damage(2, getPlayer());
+				}
+			}
+		}
 
 	}
 
