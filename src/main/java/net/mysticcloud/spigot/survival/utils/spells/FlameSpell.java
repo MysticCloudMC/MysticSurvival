@@ -22,7 +22,7 @@ public class FlameSpell extends Spell {
 							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
 					entity.getEyeLocation().getDirection().getZ()
 							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
-					CoreUtils.getRandom().nextDouble()/2);
+					CoreUtils.getRandom().nextDouble()/1.5);
 		}
 	}
 

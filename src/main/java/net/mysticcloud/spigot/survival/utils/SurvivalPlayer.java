@@ -141,8 +141,9 @@ public class SurvivalPlayer {
 	}
 
 	public void setMaxMana(int mana) {
+		if(this.maxMana < mana) 
+			this.mana = mana;
 		this.maxMana = mana;
-		this.mana = mana;
 	}
 
 	public int getMana() {
