@@ -13,6 +13,9 @@ import net.mysticcloud.spigot.survival.commands.HomeCommand;
 import net.mysticcloud.spigot.survival.commands.MysticSurvivalCommand;
 import net.mysticcloud.spigot.survival.commands.PerkCommand;
 import net.mysticcloud.spigot.survival.commands.PollCommand;
+import net.mysticcloud.spigot.survival.listeners.EntityListener;
+import net.mysticcloud.spigot.survival.listeners.PlayerAttackListener;
+import net.mysticcloud.spigot.survival.listeners.PlayerInteractListener;
 import net.mysticcloud.spigot.survival.listeners.PlayerListener;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
@@ -54,6 +57,9 @@ public class MysticSurvival extends JavaPlugin {
 		new MysticSurvivalCommand(this,"mysticsurvival", "msurvival", "ms");
 		
 		new PlayerListener(this);
+		new PlayerAttackListener(this);
+		new PlayerInteractListener(this);
+		new EntityListener(this);
 	}
 
 }

@@ -82,6 +82,7 @@ public class SurvivalUtils {
 		armorTiers.put(Tier.SECOND, new Material[] { Material.CHAINMAIL_BOOTS, Material.IRON_CHESTPLATE,
 				Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET });
 		armorDescriptors.put(Tier.SECOND, new String[] { "Protective", "Shiny", "Dented" });
+		
 
 		armorTiers.put(Tier.THIRD, new Material[] { Material.DIAMOND_HELMET, Material.IRON_CHESTPLATE,
 				Material.IRON_HELMET, Material.IRON_LEGGINGS, Material.IRON_BOOTS });
@@ -90,6 +91,12 @@ public class SurvivalUtils {
 		armorTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
 				Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.NETHERITE_BOOTS });
 		armorDescriptors.put(Tier.FOURTH, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+		
+		armorTiers.put(Tier.FIFTH, armorTiers.get(Tier.FOURTH));
+		armorDescriptors.put(Tier.FIFTH, armorDescriptors.get(Tier.FOURTH));
+		
+		armorTiers.put(Tier.SIXTH, armorTiers.get(Tier.FOURTH));
+		armorDescriptors.put(Tier.SIXTH, armorDescriptors.get(Tier.FOURTH));
 
 		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new MainTimer(), 2);
 
@@ -299,6 +306,7 @@ public class SurvivalUtils {
 
 		double damage = (level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5);
 		double speed = (level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5);
+		double dur = ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5))*10.0;
 
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
 				EquipmentSlot.HAND);
@@ -312,6 +320,7 @@ public class SurvivalUtils {
 
 		lore.add(CoreUtils.colorize("&7Damage: " + ((int) damage)));
 		lore.add(CoreUtils.colorize("&7Speed: " + ((int) speed)));
+		lore.add(CoreUtils.colorize("&7Durability: " + ((int) dur)) + "&f/&7" + ((int) dur));
 		lore.add(CoreUtils.colorize("&7------------------"));
 		a.setLore(lore);
 
