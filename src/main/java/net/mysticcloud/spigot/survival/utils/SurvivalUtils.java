@@ -320,7 +320,7 @@ public class SurvivalUtils {
 
 		lore.add(CoreUtils.colorize("&7Damage: " + ((int) damage)));
 		lore.add(CoreUtils.colorize("&7Speed: " + ((int) speed)));
-		lore.add(CoreUtils.colorize("&7Durability: " + ((int) dur)) + "&f/&7" + ((int) dur));
+		lore.add(CoreUtils.colorize("&7Durability: " + ((int) dur) + "&f/&7" + ((int) dur)));
 		lore.add(CoreUtils.colorize("&7------------------"));
 		a.setLore(lore);
 
