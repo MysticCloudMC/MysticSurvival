@@ -74,6 +74,15 @@ public class SurvivalUtils {
 		weaponTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW,
 				Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
 		weaponDescriptors.put(Tier.FOURTH, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
+		
+		weaponTiers.put(Tier.FIFTH, weaponTiers.get(Tier.FOURTH));
+		weaponDescriptors.put(Tier.FIFTH, weaponDescriptors.get(Tier.FOURTH));
+		
+		weaponTiers.put(Tier.SIXTH, weaponTiers.get(Tier.FOURTH));
+		weaponDescriptors.put(Tier.SIXTH, weaponDescriptors.get(Tier.FOURTH));
+		
+		weaponTiers.put(Tier.SEVENTH, weaponTiers.get(Tier.FOURTH));
+		weaponDescriptors.put(Tier.SEVENTH, weaponDescriptors.get(Tier.FOURTH));
 
 		armorTiers.put(Tier.FIRST, new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE,
 				Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS });
@@ -96,6 +105,9 @@ public class SurvivalUtils {
 
 		armorTiers.put(Tier.SIXTH, armorTiers.get(Tier.FOURTH));
 		armorDescriptors.put(Tier.SIXTH, armorDescriptors.get(Tier.FOURTH));
+		
+		armorTiers.put(Tier.SEVENTH, armorTiers.get(Tier.FOURTH));
+		armorDescriptors.put(Tier.SEVENTH, armorDescriptors.get(Tier.FOURTH));
 
 		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new MainTimer(), 2);
 
