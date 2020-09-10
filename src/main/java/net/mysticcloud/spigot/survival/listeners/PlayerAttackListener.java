@@ -1,5 +1,9 @@
 package net.mysticcloud.spigot.survival.listeners;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -16,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -111,14 +116,15 @@ public class PlayerAttackListener implements Listener {
 				if (((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta()) {
 					if (((Player) e.getDamager()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
 						ItemStack s = ((Player) e.getDamager()).getEquipment().getItemInMainHand();
-
+						Map<String, String> replacements = new HashMap<>();
 						for (String a : s.getItemMeta().getLore()) {
 							if (a.contains(":")) {
 								if (ChatColor.stripColor(a).split(":")[0].equals("Durability")) {
-									String dur = ChatColor.stripColor(a).split(": ")[1].split("/")[0];
-									String max = ChatColor.stripColor(a).split(": ")[1].split("/")[1];
-									Bukkit.broadcastMessage("Durability: " + dur);
-									Bukkit.broadcastMessage("Max: " + max);
+									int dur = Integer.parseInt(ChatColor.stripColor(a).split(": ")[1].split("/")[0]);
+									int max = Integer.parseInt(ChatColor.stripColor(a).split(": ")[1].split("/")[1]);
+									replacements.put(a, CoreUtils.colorize("&7Durability: " + (dur-1) + "&f/&7" + max));
+									
+									
 								}
 								if (ChatColor.stripColor(a).split(":")[0].equals("Disarm Chance")) {
 									if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
@@ -209,6 +215,16 @@ public class PlayerAttackListener implements Listener {
 
 							}
 						}
+						if(!replacements.isEmpty()) {
+							List<String> lore = s.getItemMeta().getLore();
+							for(Entry<String, String> entry : replacements.entrySet()) {
+								lore.set(lore.indexOf(entry.getKey()), entry.getValue());
+							}
+							ItemMeta m = s.getItemMeta();
+							m.setLore(lore);
+							s.setItemMeta(m);
+						}
+						
 					}
 				}
 			}
