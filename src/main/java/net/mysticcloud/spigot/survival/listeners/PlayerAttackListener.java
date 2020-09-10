@@ -19,6 +19,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -34,6 +35,25 @@ public class PlayerAttackListener implements Listener {
 
 	public PlayerAttackListener(MysticSurvival plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
+	
+	@EventHandler
+	public void onItemDamage(PlayerItemDamageEvent e) {
+		if(!e.getItem().hasItemMeta()) return;
+		if(!e.getItem().getItemMeta().hasLore()) return;
+		ItemStack i = e.getItem();
+		ItemMeta m = i.getItemMeta();
+		List<String> lore = m.getLore();
+		Map<String, String> replacements = new HashMap<>();
+		for(String s : lore) {
+			if(s.contains(":")) {
+				if(ChatColor.stripColor(s).contains("Durability")) {
+					int dur = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[0]);
+					int max = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[1]);
+					lore.set(lore.indexOf(s), SurvivalUtils.getDurabilityString(dur-1,max));
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -116,16 +136,8 @@ public class PlayerAttackListener implements Listener {
 				if (((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta()) {
 					if (((Player) e.getDamager()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
 						ItemStack s = ((Player) e.getDamager()).getEquipment().getItemInMainHand();
-						Map<String, String> replacements = new HashMap<>();
 						for (String a : s.getItemMeta().getLore()) {
 							if (a.contains(":")) {
-								if (ChatColor.stripColor(a).split(":")[0].equals("Durability")) {
-									int dur = Integer.parseInt(ChatColor.stripColor(a).split(": ")[1].split("/")[0]);
-									int max = Integer.parseInt(ChatColor.stripColor(a).split(": ")[1].split("/")[1]);
-									replacements.put(a, CoreUtils.colorize("&7Durability: " + (dur-1) + "&f/&7" + max));
-									
-									
-								}
 								if (ChatColor.stripColor(a).split(":")[0].equals("Disarm Chance")) {
 									if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
 										if (CoreUtils.getRandom().nextInt(100) < Integer
@@ -215,16 +227,6 @@ public class PlayerAttackListener implements Listener {
 
 							}
 						}
-						if(!replacements.isEmpty()) {
-							List<String> lore = s.getItemMeta().getLore();
-							for(Entry<String, String> entry : replacements.entrySet()) {
-								lore.set(lore.indexOf(entry.getKey()), entry.getValue());
-							}
-							ItemMeta m = s.getItemMeta();
-							m.setLore(lore);
-							s.setItemMeta(m);
-						}
-						
 					}
 				}
 			}
