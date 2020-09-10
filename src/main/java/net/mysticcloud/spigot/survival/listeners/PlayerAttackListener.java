@@ -50,10 +50,15 @@ public class PlayerAttackListener implements Listener {
 				if(ChatColor.stripColor(s).contains("Durability")) {
 					int dur = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[0]);
 					int max = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[1]);
-					lore.set(lore.indexOf(s), SurvivalUtils.getDurabilityString(dur-1,max));
+					replacements.put(s, SurvivalUtils.getDurabilityString(dur-1,max));
 				}
 			}
 		}
+		for(Entry<String, String> entry : replacements.entrySet()) {
+			lore.set(lore.indexOf(entry.getKey()), entry.getValue());
+		}
+		m.setLore(lore);
+		i.setItemMeta(m);
 	}
 
 	@SuppressWarnings("deprecation")
