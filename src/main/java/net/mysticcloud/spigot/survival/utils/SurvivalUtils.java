@@ -630,7 +630,7 @@ public class SurvivalUtils {
 	}
 
 	public static String getDurabilityString(int dur, int max) {
-		double percent = (dur + 0.0) / (max + 0.0);
+		double percent = (dur + 0.0) / (max + 0.0)*100.0;
 		String sdur = "";
 		if (percent >= 66.66)
 			sdur = "&a&l" + dur;

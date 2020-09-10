@@ -51,6 +51,7 @@ public class PlayerAttackListener implements Listener {
 					int dur = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[0]);
 					int max = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[1]);
 					replacements.put(s, SurvivalUtils.getDurabilityString(dur-1,max));
+					e.setDamage(0);
 				}
 			}
 		}
