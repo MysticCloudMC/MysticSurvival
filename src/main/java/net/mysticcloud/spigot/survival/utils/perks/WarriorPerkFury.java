@@ -35,8 +35,8 @@ public class WarriorPerkFury extends WarriorPerk {
 		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 5 * 20, 20));
 
 		for (Entity entity : getPlayer().getNearbyEntities(9, 9, 9)) {
-			if (!entity.equals(getPlayer())) {
-				if (entity instanceof LivingEntity) {
+			if (entity instanceof LivingEntity) {
+				if (!entity.equals(getPlayer())) {
 					Firework fw2 = (Firework) getPlayer().getWorld().spawnEntity(entity.getLocation().add(0, 1, 0),
 							EntityType.FIREWORK);
 					FireworkMeta fwm2 = fw2.getFireworkMeta();

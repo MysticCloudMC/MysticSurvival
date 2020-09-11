@@ -217,7 +217,7 @@ public class SurvivalUtils {
 							+ "&7"));
 					a.setLore(lore);
 					a.setDisplayName(CoreUtils
-							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &cDodging&f"));
+							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &eDodging&f"));
 					item.setItemMeta(a);
 					enhanced = true;
 				}
@@ -496,8 +496,11 @@ public class SurvivalUtils {
 		}
 		for (Entry<String, String> en : chgs.entrySet()) {
 			blore.remove(en.getValue());
-			tlore.remove(en.getKey());
-			tlore.add(en.getValue());
+			
+			tlore.set(tlore.indexOf(en.getKey()), en.getValue());
+			
+//			tlore.remove(en.getKey());
+//			tlore.add(en.getValue());
 
 		}
 
@@ -565,6 +568,7 @@ public class SurvivalUtils {
 			}
 
 		}
+		tool.setItemMeta(tm);
 		return tool;
 	}
 
