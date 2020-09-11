@@ -139,6 +139,12 @@ public class MysticSurvivalCommand implements CommandExecutor {
 
 				}
 			}
+			
+			if (args[0].equalsIgnoreCase("craft")) {
+				if (sender instanceof Player) {
+					SurvivalUtils.openCraftingBench(((Player)sender));
+				}
+			}
 			if (args[0].equalsIgnoreCase("enhance")) {
 				if (sender instanceof Player) {
 					if (args.length == 2) {

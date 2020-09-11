@@ -19,11 +19,14 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
+import net.mysticcloud.spigot.core.utils.GUIManager;
+import net.mysticcloud.spigot.core.utils.InventoryCreator;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.runnables.MainTimer;
@@ -45,12 +48,28 @@ public class SurvivalUtils {
 
 	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
+	
+	static Inventory bench = null;
 
 	public static void start(MysticSurvival main) {
 		plugin = main;
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
-		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&f ");
+		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&e ");
 		CoreUtils.coreHandleDamage(false);
+		
+
+		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 36);
+		inv.addItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), "", 'X');
+		inv.addItem(new ItemStack(Material.AIR), 'O');
+		inv.setConfiguration(new char[] {
+				'X','O','O','O','X','X','X','X','X',
+				'X','O','O','O','X','X','O','X','X',
+				'X','O','O','O','X','X','X','X','X'
+		});
+		
+		bench = inv.getInventory();
+		
+	
 
 		for (Enhancement en : Enhancement.values()) {
 			if (en.isWeapon()) {
@@ -656,6 +675,10 @@ public class SurvivalUtils {
 			sdur = "&c&l" + dur;
 
 		return CoreUtils.colorize("&7Durability: " + sdur + "&7/" + max);
+	}
+	
+	public static void openCraftingBench(Player player) {
+		GUIManager.openInventory(player, bench, "CraftingBench");
 	}
 
 }

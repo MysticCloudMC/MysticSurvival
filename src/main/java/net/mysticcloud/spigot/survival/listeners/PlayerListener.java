@@ -34,24 +34,7 @@ public class PlayerListener implements Listener {
 		SurvivalUtils.getSurvivalPlayer(e.getPlayer()).save();
 	}
 
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent e) {
-		try {
-			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
-					&& !e.getCursor().getType().equals(Material.BOOK)
-					&& !e.getCursor().getType().equals(Material.AIR)) {
-				SurvivalUtils.enhanceInInventory(e.getCursor(), e.getCurrentItem());
-				Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {
-					@Override
-					public void run() {
-						e.getCursor().setAmount(e.getCursor().getAmount() - 1);
-					}
-				}, 10);
-			}
-		} catch (NullPointerException ex) {
-
-		}
-	}
+	
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
