@@ -124,7 +124,8 @@ public class PlayerAttackListener implements Listener {
 											.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
 										e.setCancelled(true);
 										((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
-										((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
+										if (e.getDamager() instanceof Player)
+											((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
 										break;
 									}
 
