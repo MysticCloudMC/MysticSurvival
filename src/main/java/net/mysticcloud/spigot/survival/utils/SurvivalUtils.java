@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -687,10 +688,17 @@ public class SurvivalUtils {
 	}
 
 	public static void getReicpe(Inventory inv) {
+		LinkedList<ItemStack> items = new LinkedList<>();
 		for (int i : reicpeNums) {
 			if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR))
-				Bukkit.broadcastMessage("Item #" + i + ": " + inv.getItem(i).getType().name());
+				items.add(inv.getItem(i));
+			else
+				items.add(new ItemStack(Material.AIR));
 		}
+		if(items.get(4).getType().equals(Material.PAPER)) {
+			Bukkit.broadcastMessage("We can get started.");
+		}
+		
 	}
 
 }
