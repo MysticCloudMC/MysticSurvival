@@ -699,7 +699,7 @@ public class SurvivalUtils {
 		if (items.get(4).getType().equals(Material.BOOK)) {
 			Bukkit.broadcastMessage("Item #4 is a book");
 			for (ItemStack item : items) {
-				if(!item.getType().equals(Material.BOOK)) {
+				if(!item.getType().equals(Material.BOOK) && !item.getType().equals(Material.AIR)) {
 					Bukkit.broadcastMessage("Found another item: " + item.getType().name());
 					result = enhanceInInventory(item, items.get(4));
 					Bukkit.broadcastMessage("Got result aborting loop.");
