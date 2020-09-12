@@ -1,5 +1,6 @@
 package net.mysticcloud.spigot.survival.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +27,7 @@ public class InventoryListener implements Listener {
 			if (e.getCurrentItem().getType().equals(Material.AIR)
 					|| e.getCurrentItem().getType().equals(Material.GRAY_STAINED_GLASS_PANE))
 				return;
+			Bukkit.broadcastMessage(e.getCurrentItem().getType().name());
 			for(Division div : Division.values()) {
 				if(e.getCurrentItem().getType().equals(div.getGUIItem())) {
 					InventoryUtils.openPerksMenu((Player)e.getWhoClicked(), div);
