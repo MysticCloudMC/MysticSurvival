@@ -20,6 +20,8 @@ public class InventoryListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if(GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("CraftingBench")) {
+			if(e.getCurrentItem() == null) return;
+			if(e.getCurrentItem().getType().equals(Material.AIR)) return;
 			if (e.getCurrentItem().getType().equals(Material.BLACK_STAINED_GLASS_PANE)) {
 				e.setCancelled(true);
 				
