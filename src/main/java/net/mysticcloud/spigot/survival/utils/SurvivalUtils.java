@@ -48,10 +48,10 @@ public class SurvivalUtils {
 
 	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
-	
+
 	static Inventory bench = null;
-	
-	private static int[] reicpeNums = new int[] {10,11,12,19,20,21,28,19,30};
+
+	private static int[] reicpeNums = new int[] { 10, 11, 12, 19, 20, 21, 28, 19, 30 };
 	private static int resultNum = 24;
 
 	public static void start(MysticSurvival main) {
@@ -59,22 +59,15 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&e ");
 		CoreUtils.coreHandleDamage(false);
-		
 
 		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 45);
 		inv.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " ", 'X');
 		inv.addItem(new ItemStack(Material.AIR), 'O');
-		inv.setConfiguration(new char[] {
-				'X','X','X','X','X','X','X','X','X',
-				'X','O','O','O','X','X','X','X','X',
-				'X','O','O','O','X','X','O','X','X',
-				'X','O','O','O','X','X','X','X','X',
-				'X','X','X','X','X','X','X','X','X'
-		});
-		
+		inv.setConfiguration(new char[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X',
+				'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
+				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' });
+
 		bench = inv.getInventory();
-		
-	
 
 		for (Enhancement en : Enhancement.values()) {
 			if (en.isWeapon()) {
@@ -98,13 +91,13 @@ public class SurvivalUtils {
 		weaponTiers.put(Tier.FOURTH, new Material[] { Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.CROSSBOW,
 				Material.TRIDENT, Material.DIAMOND_AXE, Material.IRON_SWORD });
 		weaponDescriptors.put(Tier.FOURTH, new String[] { "Hellish", "Heavenly", "Xelphor's", "Satan's" });
-		
+
 		weaponTiers.put(Tier.FIFTH, weaponTiers.get(Tier.FOURTH));
 		weaponDescriptors.put(Tier.FIFTH, weaponDescriptors.get(Tier.FOURTH));
-		
+
 		weaponTiers.put(Tier.SIXTH, weaponTiers.get(Tier.FOURTH));
 		weaponDescriptors.put(Tier.SIXTH, weaponDescriptors.get(Tier.FOURTH));
-		
+
 		weaponTiers.put(Tier.SEVENTH, weaponTiers.get(Tier.FOURTH));
 		weaponDescriptors.put(Tier.SEVENTH, weaponDescriptors.get(Tier.FOURTH));
 
@@ -129,7 +122,7 @@ public class SurvivalUtils {
 
 		armorTiers.put(Tier.SIXTH, armorTiers.get(Tier.FOURTH));
 		armorDescriptors.put(Tier.SIXTH, armorDescriptors.get(Tier.FOURTH));
-		
+
 		armorTiers.put(Tier.SEVENTH, armorTiers.get(Tier.FOURTH));
 		armorDescriptors.put(Tier.SEVENTH, armorDescriptors.get(Tier.FOURTH));
 
@@ -520,9 +513,9 @@ public class SurvivalUtils {
 		}
 		for (Entry<String, String> en : chgs.entrySet()) {
 			blore.remove(en.getValue());
-			
+
 			tlore.set(tlore.indexOf(en.getKey()), en.getValue());
-			
+
 //			tlore.remove(en.getKey());
 //			tlore.add(en.getValue());
 
@@ -670,7 +663,7 @@ public class SurvivalUtils {
 	}
 
 	public static String getDurabilityString(int dur, int max) {
-		double percent = (dur + 0.0) / (max + 0.0)*100.0;
+		double percent = (dur + 0.0) / (max + 0.0) * 100.0;
 		String sdur = "";
 		if (percent >= 66.66)
 			sdur = "&a&l" + dur;
@@ -681,14 +674,15 @@ public class SurvivalUtils {
 
 		return CoreUtils.colorize("&7Durability: " + sdur + "&7/" + max);
 	}
-	
+
 	public static void openCraftingBench(Player player) {
 		GUIManager.openInventory(player, bench, "CraftingBench");
 	}
 
 	public static void getReicpe(Inventory inv) {
-		for(int i : reicpeNums) {
-			Bukkit.broadcastMessage("Item #" + i + ": " + inv.getItem(i).getType().name());
+		for (int i : reicpeNums) {
+			if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR))
+				Bukkit.broadcastMessage("Item #" + i + ": " + inv.getItem(i).getType().name());
 		}
 	}
 
