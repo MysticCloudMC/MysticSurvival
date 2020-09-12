@@ -27,6 +27,9 @@ public class InventoryListener implements Listener {
 			if(e.getCurrentItem().getType().equals(Material.CRAFTING_TABLE)) {
 				InventoryUtils.openCraftingBench((Player)e.getWhoClicked());
 			}
+			if(e.getCurrentItem().getType().equals(Material.NETHER_STAR)) {
+				InventoryUtils.openPerksMenu((Player)e.getWhoClicked());
+			}
 		}
 		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("CraftingBench")) {
 			if (e.getCurrentItem() == null)
