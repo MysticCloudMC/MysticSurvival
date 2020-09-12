@@ -106,7 +106,7 @@ public class InventoryUtils {
 				perks.addItem(new ItemStack(Material.DIAMOND), Perks.getPerks(div).get(i).getName(),
 						(char) i);
 				conf.add((char) i);
-			} catch (ArrayIndexOutOfBoundsException ex) {
+			} catch (IndexOutOfBoundsException ex) {
 				conf.add('X');
 			}
 		}
