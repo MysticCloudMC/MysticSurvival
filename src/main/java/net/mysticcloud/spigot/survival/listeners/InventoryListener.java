@@ -22,9 +22,10 @@ public class InventoryListener implements Listener {
 		if(GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("CraftingBench")) {
 			if (e.getCurrentItem().getType().equals(Material.BLACK_STAINED_GLASS_PANE)) {
 				e.setCancelled(true);
-				SurvivalUtils.getReicpe(e.getClickedInventory());
+				
 				return;
 			}
+			SurvivalUtils.getReicpe(e.getClickedInventory());
 		}
 		try {
 			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
