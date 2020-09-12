@@ -60,12 +60,19 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&e ");
 		CoreUtils.coreHandleDamage(false);
 
-		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 45);
+		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 54);
 		inv.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " ", 'X');
 		inv.addItem(new ItemStack(Material.AIR), 'O');
-		inv.setConfiguration(new char[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X',
-				'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
-				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' });
+		inv.addItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), "&a&lCraft", 'A');
+		
+		inv.setConfiguration(new char[] { 
+				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
+				'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
+				'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X',
+				'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
+				'X', 'X', 'X', 'X', 'X', 'X', 'A', 'X', 'X',
+				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' 
+				});
 
 		bench = inv.getInventory();
 
