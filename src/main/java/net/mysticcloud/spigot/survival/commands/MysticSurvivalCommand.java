@@ -92,7 +92,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("wand")) {
 				if (sender instanceof Player) {
 					if (args.length == 2) {
-						ItemStack wand = new ItemStack(Material.STICK);
+						ItemStack wand = new ItemStack(Material.PAPER);
 						ItemMeta wm = wand.getItemMeta();
 						List<String> lore = new ArrayList<>();
 						if (args[1].equalsIgnoreCase("1")) {

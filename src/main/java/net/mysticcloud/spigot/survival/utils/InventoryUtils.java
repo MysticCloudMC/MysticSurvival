@@ -132,6 +132,14 @@ public class InventoryUtils {
 
 	private static ItemStack getResult(LinkedList<ItemStack> items) {
 		ItemStack result = new ItemStack(Material.AIR);
+		if (items.get(4).getType().equals(Material.PAPER)) {
+			for (ItemStack item : items) {
+				if (item.getType().equals(Material.STICK)) {
+					result = SurvivalUtils.enhanceInInventory(item, items.get(4));
+					break;
+				}
+			}
+		}
 		if (items.get(4).getType().equals(Material.BOOK)) {
 			for (ItemStack item : items) {
 				if (!item.getType().equals(Material.BOOK) && !item.getType().equals(Material.AIR)) {
