@@ -28,7 +28,7 @@ public class InventoryListener implements Listener {
 			}
 			if(e.getCurrentItem().getType().equals(Material.LIME_STAINED_GLASS_PANE)) {
 				e.setCancelled(true);
-				SurvivalUtils.getReicpe(e.getClickedInventory());
+				SurvivalUtils.craft(e.getClickedInventory());
 				return;
 			}
 			

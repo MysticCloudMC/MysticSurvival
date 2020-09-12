@@ -65,15 +65,10 @@ public class SurvivalUtils {
 		inv.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " ", 'X');
 		inv.addItem(new ItemStack(Material.AIR), 'O');
 		inv.addItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&a&lCraft", 'A');
-		
-		inv.setConfiguration(new char[] { 
-				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-				'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
-				'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X',
-				'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
-				'X', 'X', 'X', 'X', 'X', 'X', 'A', 'X', 'X',
-				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' 
-				});
+
+		inv.setConfiguration(new char[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X',
+				'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
+				'X', 'X', 'X', 'X', 'X', 'X', 'A', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' });
 
 		bench = inv.getInventory();
 
@@ -687,7 +682,33 @@ public class SurvivalUtils {
 		GUIManager.openInventory(player, bench, "CraftingBench");
 	}
 
-	public static void getReicpe(Inventory inv) {
+	public static void craft(Inventory inv) {
+		LinkedList<ItemStack> reicpe = getReicpe(inv);
+		ItemStack result = getResult(reicpe);
+		if (inv.getItem(resultNum) == null
+				|| inv.getItem(resultNum).getType().equals(Material.AIR) && !result.getType().equals(Material.AIR)) {
+			for (int i : reicpeNums) {
+				inv.setItem(i, new ItemStack(Material.AIR));
+			}
+			inv.setItem(resultNum, result);
+		}
+	}
+
+	private static ItemStack getResult(LinkedList<ItemStack> items) {
+		ItemStack result = new ItemStack(Material.AIR);
+		if (items.get(4).getType().equals(Material.BOOK)) {
+			for (ItemStack item : items) {
+				if(!item.getType().equals(Material.BOOK)) {
+					result = enhanceInInventory(item, items.get(4));
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	private static LinkedList<ItemStack> getReicpe(Inventory inv) {
 		LinkedList<ItemStack> items = new LinkedList<>();
 		for (int i : reicpeNums) {
 			if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR))
@@ -695,10 +716,8 @@ public class SurvivalUtils {
 			else
 				items.add(new ItemStack(Material.AIR));
 		}
-		if(items.get(4).getType().equals(Material.PAPER)) {
-			Bukkit.broadcastMessage("We can get started.");
-		}
-		
+		return items;
+
 	}
 
 }
