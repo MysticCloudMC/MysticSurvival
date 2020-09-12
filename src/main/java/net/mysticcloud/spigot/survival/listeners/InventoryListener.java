@@ -20,6 +20,13 @@ public class InventoryListener implements Listener {
 	public void onInventoryClick(InventoryClickEvent e) {
 		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("Menu")) {
 			e.setCancelled(true);
+			if (e.getCurrentItem() == null)
+				return;
+			if (e.getCurrentItem().getType().equals(Material.AIR))
+				return;
+			if(e.getCurrentItem().getType().equals(Material.CRAFTING_TABLE)) {
+				InventoryUtils.openCraftingBench((Player)e.getWhoClicked());
+			}
 		}
 		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("CraftingBench")) {
 			if (e.getCurrentItem() == null)
