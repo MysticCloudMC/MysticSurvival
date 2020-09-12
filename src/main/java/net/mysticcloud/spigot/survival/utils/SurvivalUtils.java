@@ -685,8 +685,8 @@ public class SurvivalUtils {
 	public static void craft(Inventory inv) {
 		LinkedList<ItemStack> reicpe = getReicpe(inv);
 		ItemStack result = getResult(reicpe);
-		if (inv.getItem(resultNum) == null
-				|| inv.getItem(resultNum).getType().equals(Material.AIR) && !result.getType().equals(Material.AIR)) {
+		if ((inv.getItem(resultNum) == null
+				|| inv.getItem(resultNum).getType().equals(Material.AIR)) && !result.getType().equals(Material.AIR)) {
 			for (int i : reicpeNums) {
 				inv.setItem(i, new ItemStack(Material.AIR));
 			}
@@ -699,6 +699,7 @@ public class SurvivalUtils {
 		if (items.get(4).getType().equals(Material.BOOK)) {
 			Bukkit.broadcastMessage("Item #4 is a book");
 			for (ItemStack item : items) {
+				Bukkit.broadcastMessage("Item..." + item.getType().name());
 				if(!item.getType().equals(Material.BOOK) && !item.getType().equals(Material.AIR)) {
 					Bukkit.broadcastMessage("Found another item: " + item.getType().name());
 					result = enhanceInInventory(item, items.get(4));
