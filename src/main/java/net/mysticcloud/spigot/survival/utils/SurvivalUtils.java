@@ -50,6 +50,9 @@ public class SurvivalUtils {
 //	static String[] descriptors = new String[] {"Xelphor's", "Shiny", "Swift", "Dull", "Chipped", "Hardy", "Sharp", "Hellish"};
 	
 	static Inventory bench = null;
+	
+	private static int[] reicpeNums = new int[] {10,11,12,19,20,21,28,19,30};
+	private static int resultNum = 24;
 
 	public static void start(MysticSurvival main) {
 		plugin = main;
@@ -58,13 +61,15 @@ public class SurvivalUtils {
 		CoreUtils.coreHandleDamage(false);
 		
 
-		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 27);
-		inv.addItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), "", 'X');
+		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 45);
+		inv.addItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " ", 'X');
 		inv.addItem(new ItemStack(Material.AIR), 'O');
 		inv.setConfiguration(new char[] {
+				'X','X','X','X','X','X','X','X','X',
 				'X','O','O','O','X','X','X','X','X',
 				'X','O','O','O','X','X','O','X','X',
-				'X','O','O','O','X','X','X','X','X'
+				'X','O','O','O','X','X','X','X','X',
+				'X','X','X','X','X','X','X','X','X'
 		});
 		
 		bench = inv.getInventory();
@@ -679,6 +684,12 @@ public class SurvivalUtils {
 	
 	public static void openCraftingBench(Player player) {
 		GUIManager.openInventory(player, bench, "CraftingBench");
+	}
+
+	public static void getReicpe(Inventory inv) {
+		for(int i : reicpeNums) {
+			Bukkit.broadcastMessage("Item #" + i + ": " + inv.getItem(i).getType().name());
+		}
 	}
 
 }
