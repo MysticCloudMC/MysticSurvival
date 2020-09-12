@@ -63,7 +63,7 @@ public class SurvivalUtils {
 		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 54);
 		inv.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " ", 'X');
 		inv.addItem(new ItemStack(Material.AIR), 'O');
-		inv.addItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), "&a&lCraft", 'A');
+		inv.addItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&a&lCraft", 'A');
 		
 		inv.setConfiguration(new char[] { 
 				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',

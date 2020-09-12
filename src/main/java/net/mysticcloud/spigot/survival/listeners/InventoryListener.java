@@ -24,10 +24,14 @@ public class InventoryListener implements Listener {
 			if(e.getCurrentItem().getType().equals(Material.AIR)) return;
 			if (e.getCurrentItem().getType().equals(Material.BLACK_STAINED_GLASS_PANE)) {
 				e.setCancelled(true);
-				
 				return;
 			}
-			SurvivalUtils.getReicpe(e.getClickedInventory());
+			if(e.getCurrentItem().getType().equals(Material.LIME_STAINED_GLASS_PANE)) {
+				e.setCancelled(true);
+				SurvivalUtils.getReicpe(e.getClickedInventory());
+				return;
+			}
+			
 		}
 		try {
 			if (e.getCurrentItem().getType().equals(Material.BOOK) && e.getCursor() != null
