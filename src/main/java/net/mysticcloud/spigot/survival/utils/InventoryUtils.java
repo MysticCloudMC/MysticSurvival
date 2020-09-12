@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -33,19 +34,17 @@ public class InventoryUtils {
 		bench = benchInv.getInventory();
 
 		InventoryCreator menuInv = new InventoryCreator("&3&lMenu", null, 54);
-		
+
 		menuInv.addItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), "&7Click an option", 'X');
-		
+
 		menuInv.addItem(new ItemStack(Material.CRAFTING_TABLE), "&e&lCrafting", 'A', new String[] {
 				"&7- Craft custom items", "&7- Enhance your weapons and armor", "&7- Create spells and potions" });
-		
+
 		menuInv.addItem(new ItemStack(Material.NETHER_STAR), "&5&lPerks", 'B',
 				new String[] { "&7- Access the perk menus" });
-		
-		
-		menuInv.addItem(new ItemStack(Material.BLACK_CONCRETE), "&c&lComing soon", 'Z',
-				new String[] { "&7- &o???" });
-		
+
+		menuInv.addItem(new ItemStack(Material.BLACK_CONCRETE), "&c&lComing soon", 'Z', new String[] { "&7- &o???" });
+
 		menuInv.addItem(new ItemStack(Material.AIR), 'O');
 
 		menuInv.setConfiguration(new char[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'A', 'X', 'B', 'X', 'Z',
@@ -68,30 +67,55 @@ public class InventoryUtils {
 		else
 			GUIManager.switchInventory(player, menu, "Menu");
 	}
-	
+
 	public static void openPerksMenu(Player player) {
-		
+
 		InventoryCreator perks = new InventoryCreator("&5&lPerks", null, 9);
-		
-		
+
 		ArrayList<Character> conf = new ArrayList<>();
-		
+
 		perks.addItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), "&c&lComing Soon", 'X');
-		
-		for(int i=0;i!=9;i++) {
+
+		for (int i = 0; i != 9; i++) {
 			try {
-				perks.addItem(new ItemStack(Division.values()[i].getGUIItem()), Division.values()[i].getDisplayName(), (char)i);
-				conf.add((char)i);
-			} catch(ArrayIndexOutOfBoundsException ex) {
+				perks.addItem(new ItemStack(Division.values()[i].getGUIItem()), Division.values()[i].getDisplayName(),
+						(char) i);
+				conf.add((char) i);
+			} catch (ArrayIndexOutOfBoundsException ex) {
 				conf.add('X');
 			}
 		}
 		perks.setConfiguration(conf);
-		
+
 		if (GUIManager.getOpenInventory(player).equals("none"))
 			GUIManager.openInventory(player, perks.getInventory(), "Perks");
 		else
 			GUIManager.switchInventory(player, perks.getInventory(), "Perks");
+	}
+
+	public static void openPerksMenu(Player player, Division div) {
+		String name = div.getPerkPrefix() + " Perks";
+		InventoryCreator perks = new InventoryCreator("&5&l" + name, null, 27);
+
+		ArrayList<Character> conf = new ArrayList<>();
+
+		perks.addItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), "&c&lComing Soon", 'X');
+
+		for (int i = 0; i != 27; i++) {
+			try {
+				perks.addItem(new ItemStack(Material.DIAMOND), Perks.getPerks(div).get(i).getName(),
+						(char) i);
+				conf.add((char) i);
+			} catch (ArrayIndexOutOfBoundsException ex) {
+				conf.add('X');
+			}
+		}
+		perks.setConfiguration(conf);
+
+		if (GUIManager.getOpenInventory(player).equals("none"))
+			GUIManager.openInventory(player, perks.getInventory(), name);
+		else
+			GUIManager.switchInventory(player, perks.getInventory(), name);
 	}
 
 	public static void craft(Inventory inv) {
