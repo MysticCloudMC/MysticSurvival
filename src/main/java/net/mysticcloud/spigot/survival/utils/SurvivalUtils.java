@@ -52,25 +52,14 @@ public class SurvivalUtils {
 
 	static Inventory bench = null;
 
-	private static int[] reicpeNums = new int[] { 10, 11, 12, 19, 20, 21, 28, 19, 30 };
-	private static int resultNum = 24;
-
+	
 	public static void start(MysticSurvival main) {
 		plugin = main;
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&e ");
 		CoreUtils.coreHandleDamage(false);
 
-		InventoryCreator inv = new InventoryCreator("&6Crafting", null, 54);
-		inv.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " ", 'X');
-		inv.addItem(new ItemStack(Material.AIR), 'O');
-		inv.addItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&a&lCraft", 'A');
-
-		inv.setConfiguration(new char[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X',
-				'X', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X', 'X', 'X', 'X',
-				'X', 'X', 'X', 'X', 'X', 'X', 'A', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' });
-
-		bench = inv.getInventory();
+		InventoryUtils.start();
 
 		for (Enhancement en : Enhancement.values()) {
 			if (en.isWeapon()) {
@@ -678,50 +667,6 @@ public class SurvivalUtils {
 		return CoreUtils.colorize("&7Durability: " + sdur + "&7/" + max);
 	}
 
-	public static void openCraftingBench(Player player) {
-		GUIManager.openInventory(player, bench, "CraftingBench");
-	}
-
-	public static void craft(Inventory inv) {
-		LinkedList<ItemStack> reicpe = getReicpe(inv);
-		ItemStack result = getResult(reicpe);
-		if ((inv.getItem(resultNum) == null
-				|| inv.getItem(resultNum).getType().equals(Material.AIR)) && !result.getType().equals(Material.AIR)) {
-			for (int i : reicpeNums) {
-				inv.setItem(i, new ItemStack(Material.AIR));
-			}
-			inv.setItem(resultNum, result);
-		}
-	}
-
-	private static ItemStack getResult(LinkedList<ItemStack> items) {
-		ItemStack result = new ItemStack(Material.AIR);
-		if (items.get(4).getType().equals(Material.BOOK)) {
-			Bukkit.broadcastMessage("Item #4 is a book");
-			for (ItemStack item : items) {
-				Bukkit.broadcastMessage("Item..." + item.getType().name());
-				if(!item.getType().equals(Material.BOOK) && !item.getType().equals(Material.AIR)) {
-					Bukkit.broadcastMessage("Found another item: " + item.getType().name());
-					result = enhanceInInventory(item, items.get(4));
-					Bukkit.broadcastMessage("Got result aborting loop.");
-					break;
-				}
-			}
-		}
-
-		return result;
-	}
-
-	private static LinkedList<ItemStack> getReicpe(Inventory inv) {
-		LinkedList<ItemStack> items = new LinkedList<>();
-		for (int i : reicpeNums) {
-			if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR))
-				items.add(inv.getItem(i));
-			else
-				items.add(new ItemStack(Material.AIR));
-		}
-		return items;
-
-	}
+	
 
 }

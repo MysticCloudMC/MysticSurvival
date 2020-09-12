@@ -21,6 +21,7 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
+import net.mysticcloud.spigot.survival.utils.InventoryUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.perks.MagePerkSwap;
@@ -142,7 +143,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 			
 			if (args[0].equalsIgnoreCase("craft")) {
 				if (sender instanceof Player) {
-					SurvivalUtils.openCraftingBench(((Player)sender));
+					InventoryUtils.openCraftingBench(((Player)sender));
 				}
 			}
 			if (args[0].equalsIgnoreCase("enhance")) {

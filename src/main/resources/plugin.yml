@@ -31,9 +31,9 @@ commands:
     aliases: ['msurvival','ms']
     usage: /mysticsurvival <sub-command> [args]
     description: Remove a Player Warp from the database.
-  poll:
-    usage: /poll
-    description: Poll command.
+  menu:
+    usage: /menu
+    description: access your menu. You can access perks, crafting, enhancing, and spell and potion making.
   perk:
     aliases: ['perks']
     description: Perks command lol
