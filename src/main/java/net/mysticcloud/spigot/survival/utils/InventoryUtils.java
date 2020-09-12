@@ -82,7 +82,7 @@ public class InventoryUtils {
 			try {
 				perks.addItem(new ItemStack(Division.values()[i].getGUIItem()), Division.values()[i].getDisplayName(), (char)i);
 				conf.add((char)i);
-			} catch(NullPointerException ex) {
+			} catch(ArrayIndexOutOfBoundsException ex) {
 				conf.add('X');
 			}
 		}
