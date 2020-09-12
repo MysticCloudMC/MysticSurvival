@@ -35,11 +35,16 @@ public class InventoryUtils {
 		menuInv.addItem(new ItemStack(Material.CRAFTING_TABLE), "&e&lCrafting", 'A', new String[] {
 				"&7- Craft custom items", "&7- Enhance your weapons and armor", "&7- Create spells and potions" });
 		menuInv.addItem(new ItemStack(Material.NETHER_STAR), "&5&lPerks", 'B', new String[] {"&7- Access the perk menus"});
+		menuInv.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), "&c&lComing soon", 'C', new String[] {"&7- &o???"});
 		menuInv.addItem(new ItemStack(Material.AIR), 'O');
 
-		menuInv.setConfiguration(new char[] { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' });
+		menuInv.setConfiguration(new char[] { 
+				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 
+				'X', 'A', 'X', 'B', 'X', 'C', 'X', 'C', 'X', 
+				'X', 'X', 'C', 'X', 'C', 'X', 'C', 'X', 'X',
+				'X', 'C', 'X', 'C', 'X', 'C', 'X', 'C', 'X',
+				'X', 'X', 'C', 'X', 'C', 'X', 'C', 'X', 'X',
+				'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' });
 
 		menu = menuInv.getInventory();
 	}
