@@ -24,6 +24,7 @@ import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.InventoryUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.Item;
 import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.MagePerkSwap;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
@@ -175,8 +176,11 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						}
 						try {
 							try {
-								ItemUtils.getItem(((Player) sender).getEquipment().getItemInMainHand())
-										.enhance(Enhancement.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]));
+								ItemStack hand = ((Player) sender).getEquipment().getItemInMainHand();
+								Item item = ItemUtils.getItem(hand);
+								item.enhance(Enhancement.valueOf(args[1].toUpperCase()),
+										Integer.parseInt(args[2]));
+								hand.setItemMeta(item.getItem().getItemMeta());
 							} catch (NumberFormatException ex) {
 								sender.sendMessage(
 										CoreUtils.prefixes("admin") + "You didn't use a number for the level.");

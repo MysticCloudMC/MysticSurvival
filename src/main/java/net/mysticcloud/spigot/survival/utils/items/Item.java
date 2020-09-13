@@ -183,4 +183,8 @@ public class Item {
 		}
 	}
 
+	public ItemStack getItem() {
+		return item;
+	}
+
 }
