@@ -48,6 +48,7 @@ public class SurvivalUtils {
 		CoreUtils.coreHandleDamage(false);
 
 		InventoryUtils.start();
+		ItemUtils.start();
 
 		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new MainTimer(), 2);
 
