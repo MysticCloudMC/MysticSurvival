@@ -22,6 +22,7 @@ import net.mysticcloud.spigot.core.utils.SpawnReason;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 
 public class EntityListener implements Listener {
 
@@ -144,7 +145,7 @@ public class EntityListener implements Listener {
 					.gainXP(CoreUtils.getMoneyFormat(((double) level / 100) * CoreUtils.getRandom().nextInt(25)));
 			// Drops?
 
-			SurvivalUtils.handleDrops(level, e.getEntity().getLocation());
+			ItemUtils.handleDrops(level, e.getEntity().getLocation());
 		}
 	}
 }

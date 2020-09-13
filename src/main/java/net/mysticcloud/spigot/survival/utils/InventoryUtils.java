@@ -2,9 +2,7 @@ package net.mysticcloud.spigot.survival.utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -12,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.core.utils.InventoryCreator;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class InventoryUtils {
@@ -132,10 +131,22 @@ public class InventoryUtils {
 
 	private static ItemStack getResult(LinkedList<ItemStack> items) {
 		ItemStack result = new ItemStack(Material.AIR);
+		
+//		0,1,2,
+//		3,4,5,
+//		6,7,8
+		
+		if (items.get(7).getType().equals(Material.STICK)) {
+			if (items.get(1).getType().equals(Material.IRON_INGOT) && items.get(2).getType().equals(Material.IRON_INGOT)) {
+				result = new ItemStack(Material.IRON_SWORD);
+				
+			}
+			
+		}
 		if (items.get(4).getType().equals(Material.PAPER)) {
 			for (ItemStack item : items) {
 				if (item.getType().equals(Material.STICK)) {
-					result = SurvivalUtils.enhanceInInventory(item, items.get(4));
+					result = ItemUtils.enhanceInInventory(item, items.get(4));
 					break;
 				}
 			}
@@ -143,7 +154,7 @@ public class InventoryUtils {
 		if (items.get(4).getType().equals(Material.BOOK)) {
 			for (ItemStack item : items) {
 				if (!item.getType().equals(Material.BOOK) && !item.getType().equals(Material.AIR)) {
-					result = SurvivalUtils.enhanceInInventory(item, items.get(4));
+					result = ItemUtils.enhanceInInventory(item, items.get(4));
 					break;
 				}
 			}

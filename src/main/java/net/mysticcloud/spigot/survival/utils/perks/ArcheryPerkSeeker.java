@@ -6,16 +6,15 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
-import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 
 public class ArcheryPerkSeeker extends ArcheryPerk {
-	
+
 	ItemStack seeker = new ItemStack(Material.ARROW);
 
 	public ArcheryPerkSeeker(UUID uid) {
@@ -24,8 +23,6 @@ public class ArcheryPerkSeeker extends ArcheryPerk {
 		sm.setDisplayName(CoreUtils.colorize("&eSeeker Arrow"));
 		seeker.setItemMeta(sm);
 	}
-	
-	
 
 	@Override
 	public String[] getRequirements() {
@@ -38,12 +35,12 @@ public class ArcheryPerkSeeker extends ArcheryPerk {
 			str[j] = req.get(j);
 		return str;
 	}
-	
+
 	@Override
 	public void activate() {
 		Player player = Bukkit.getPlayer(uid);
-		if(player.getEquipment().getItemInMainHand().getType().equals(Material.BOW)) {
-			SurvivalUtils.addSeeker(player.getEquipment().getItemInMainHand());
+		if (player.getEquipment().getItemInMainHand().getType().equals(Material.BOW)) {
+			ItemUtils.addSeeker(player.getEquipment().getItemInMainHand());
 		}
 	}
 

@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -21,6 +19,7 @@ import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.runnables.SeekerArrowRunnable;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class PlayerListener implements Listener {
@@ -33,8 +32,6 @@ public class PlayerListener implements Listener {
 	public void onPlayerLeave(PlayerQuitEvent e) {
 		SurvivalUtils.getSurvivalPlayer(e.getPlayer()).save();
 	}
-
-	
 
 	@EventHandler
 	public void onItemDrop(PlayerDropItemEvent e) {
@@ -57,7 +54,7 @@ public class PlayerListener implements Listener {
 						((Player) e.getEntity().getShooter()).getUniqueId()));
 			}
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getEntity().getShooter());
-			if (SurvivalUtils
+			if (ItemUtils
 					.hasSeekers(Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand())) {
 
 				try {
@@ -69,7 +66,7 @@ public class PlayerListener implements Listener {
 						}
 						player.sendMessage("You don't meet the requirements to activate this perk: " + s);
 					}
-					SurvivalUtils.removeSeeker(
+					ItemUtils.removeSeeker(
 							Bukkit.getPlayer(player.getPlayer().getUUID()).getEquipment().getItemInMainHand());
 
 					Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(),

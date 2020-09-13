@@ -24,6 +24,7 @@ import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.InventoryUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.MagePerkSwap;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
@@ -56,7 +57,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				if (sender instanceof Player) {
 					sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random book...");
 					((Player) sender).getInventory()
-							.addItem(SurvivalUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
+							.addItem(ItemUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
@@ -68,7 +69,8 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender));
 					if (player.hasPerk(Perks.MAGE_SWAP)) {
 						LivingEntity target = null;
-						for (Entity entity : Bukkit.getPlayer(player.getPlayer().getUUID()).getNearbyEntities(50,50,50)) {
+						for (Entity entity : Bukkit.getPlayer(player.getPlayer().getUUID()).getNearbyEntities(50, 50,
+								50)) {
 							if (entity instanceof LivingEntity) {
 								if (!entity.equals(Bukkit.getPlayer(player.getPlayer().getUUID())))
 									if ((Bukkit.getPlayer(player.getPlayer().getUUID())).hasLineOfSight(entity)) {
@@ -82,7 +84,6 @@ public class MysticSurvivalCommand implements CommandExecutor {
 							perk.setTarget(target);
 							player.activatePerk(Perks.MAGE_SWAP);
 						}
-						
 
 					} else {
 						player.addPerk(Perks.MAGE_SWAP, 0.3);
@@ -140,10 +141,10 @@ public class MysticSurvivalCommand implements CommandExecutor {
 
 				}
 			}
-			
+
 			if (args[0].equalsIgnoreCase("craft")) {
 				if (sender instanceof Player) {
-					InventoryUtils.openCraftingBench(((Player)sender));
+					InventoryUtils.openCraftingBench(((Player) sender));
 				}
 			}
 			if (args[0].equalsIgnoreCase("enhance")) {
@@ -160,7 +161,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					if (args.length == 3) {
 						if (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("delete")) {
 							try {
-								SurvivalUtils.removeEnhancement(((Player) sender).getEquipment().getItemInMainHand(),
+								ItemUtils.removeEnhancement(((Player) sender).getEquipment().getItemInMainHand(),
 										Enhancement.valueOf(args[2].toUpperCase()));
 							} catch (IllegalArgumentException ex) {
 								String s = "";
@@ -174,8 +175,8 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						}
 						try {
 							try {
-								SurvivalUtils.enhance(((Player) sender).getEquipment().getItemInMainHand(),
-										Enhancement.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]));
+								ItemUtils.getItem(((Player) sender).getEquipment().getItemInMainHand())
+										.enhance(Enhancement.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]));
 							} catch (NumberFormatException ex) {
 								sender.sendMessage(
 										CoreUtils.prefixes("admin") + "You didn't use a number for the level.");
@@ -203,7 +204,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				if (sender instanceof Player) {
 					sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random armor...");
 					((Player) sender).getInventory()
-							.addItem(SurvivalUtils.armorGenerator(args.length == 2 ? Integer.parseInt(args[1])
+							.addItem(ItemUtils.armorGenerator(args.length == 2 ? Integer.parseInt(args[1])
 									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
@@ -211,14 +212,14 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random weapon...");
 				if (sender instanceof Player) {
 					((Player) sender).getInventory()
-							.addItem(SurvivalUtils.weaponGenerator(args.length == 2 ? Integer.parseInt(args[1])
+							.addItem(ItemUtils.weaponGenerator(args.length == 2 ? Integer.parseInt(args[1])
 									: (CoreUtils.getMysticPlayer(((Player) sender)).getLevel())));
 				}
 			}
 			if (args[0].equalsIgnoreCase("soulbind")) {
 				sender.sendMessage(CoreUtils.prefixes("admin") + "Binding...");
 				if (sender instanceof Player && ((Player) sender).getItemInHand() != null) {
-					SurvivalUtils.soulbind((Player) sender, ((Player) sender).getItemInHand());
+					ItemUtils.soulbind((Player) sender, ((Player) sender).getItemInHand());
 				}
 			}
 

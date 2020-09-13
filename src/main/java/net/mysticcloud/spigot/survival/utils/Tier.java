@@ -20,6 +20,13 @@ public enum Tier {
 		}
 		return FIRST;
 	}
+	
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+	public int getMinimumLevel() {
+		return minLevel;
+	}
 
 	public String getName() {
 		switch (name()) {

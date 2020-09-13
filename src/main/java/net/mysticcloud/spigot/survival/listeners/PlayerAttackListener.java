@@ -30,6 +30,7 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 
 public class PlayerAttackListener implements Listener {
 
@@ -56,7 +57,7 @@ public class PlayerAttackListener implements Listener {
 						i.setAmount(0);
 						return;
 					}
-					replacements.put(s, SurvivalUtils.getDurabilityString(dur - 1, max));
+					replacements.put(s, ItemUtils.getDurabilityString(dur - 1, max));
 					e.setDamage(0);
 				}
 			}
