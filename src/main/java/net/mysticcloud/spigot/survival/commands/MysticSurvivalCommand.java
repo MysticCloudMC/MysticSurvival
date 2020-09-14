@@ -180,7 +180,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 								Item item = ItemUtils.getItem(hand);
 								item.enhance(Enhancement.valueOf(args[1].toUpperCase()),
 										Integer.parseInt(args[2]));
-								hand.setItemMeta(item.getItem().getItemMeta());
+								item.updateItem(hand);
 							} catch (NumberFormatException ex) {
 								sender.sendMessage(
 										CoreUtils.prefixes("admin") + "You didn't use a number for the level.");

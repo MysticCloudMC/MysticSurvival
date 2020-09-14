@@ -186,5 +186,33 @@ public class Item {
 	public ItemStack getItem() {
 		return item;
 	}
+	
+	public void updateItem(ItemStack item) {
+		item = this.item;
+	}
+
+	public void damage(int o) {
+		ItemMeta m = item.getItemMeta();
+		List<String> lore = m.getLore();
+		Map<String, String> replacements = new HashMap<>();
+		for (String s : lore) {
+			if (s.contains(":")) {
+				if (ChatColor.stripColor(s).contains("Durability")) {
+					int dur = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[0]);
+					int max = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[1]);
+					if (dur - o < 0) {
+						item.setAmount(0);
+						return;
+					}
+					replacements.put(s, ItemUtils.getDurabilityString(dur - o, max));
+				}
+			}
+		}
+		for (Entry<String, String> entry : replacements.entrySet()) {
+			lore.set(lore.indexOf(entry.getKey()), entry.getValue());
+		}
+		m.setLore(lore);
+		item.setItemMeta(m);
+	}
 
 }

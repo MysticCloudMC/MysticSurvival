@@ -44,29 +44,10 @@ public class PlayerAttackListener implements Listener {
 			return;
 		if (!e.getItem().getItemMeta().hasLore())
 			return;
-		ItemStack i = e.getItem();
-		ItemMeta m = i.getItemMeta();
-		List<String> lore = m.getLore();
-		Map<String, String> replacements = new HashMap<>();
-		for (String s : lore) {
-			if (s.contains(":")) {
-				if (ChatColor.stripColor(s).contains("Durability")) {
-					int dur = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[0]);
-					int max = Integer.parseInt(ChatColor.stripColor(s).split(": ")[1].split("/")[1]);
-					if (dur - 1 < 0) {
-						i.setAmount(0);
-						return;
-					}
-					replacements.put(s, ItemUtils.getDurabilityString(dur - 1, max));
-					e.setDamage(0);
-				}
-			}
-		}
-		for (Entry<String, String> entry : replacements.entrySet()) {
-			lore.set(lore.indexOf(entry.getKey()), entry.getValue());
-		}
-		m.setLore(lore);
-		i.setItemMeta(m);
+		net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(e.getItem());
+		i.damage(1);
+		e.setDamage(0);
+		
 	}
 
 	@SuppressWarnings("deprecation")
