@@ -1,7 +1,8 @@
 package net.mysticcloud.spigot.survival.utils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -119,7 +120,7 @@ public class InventoryUtils {
 	}
 
 	public static void craft(Inventory inv) {
-		LinkedList<ItemStack> reicpe = getRecipe(inv);
+		LinkedHashMap<Integer,ItemStack> reicpe = getRecipe(inv);
 		ItemStack result = getResult(reicpe);
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
 				&& !result.getType().equals(Material.AIR)) {
@@ -130,15 +131,15 @@ public class InventoryUtils {
 		}
 	}
 
-	private static ItemStack getResult(LinkedList<ItemStack> items) {
+	private static ItemStack getResult(LinkedHashMap<Integer,ItemStack> items) {
 		ItemStack result = new ItemStack(Material.AIR);
 		
 //		0,1,2,
 //		3,4,5,
 //		6,7,8
 		
-		for(ItemStack item : items) {
-			Bukkit.broadcastMessage("#" + items.indexOf(item) + " - " + item.getType());
+		for(Entry<Integer,ItemStack> entry : items.entrySet()) {
+			Bukkit.broadcastMessage("#" + entry.getKey() + " - " + entry.getValue().getType());
 		}
 		
 		if (items.get(7).getType().equals(Material.STICK)) {
@@ -149,17 +150,17 @@ public class InventoryUtils {
 			
 		}
 		if (items.get(4).getType().equals(Material.PAPER)) {
-			for (ItemStack item : items) {
-				if (item.getType().equals(Material.STICK)) {
-					result = ItemUtils.enhanceInInventory(item, items.get(4));
+			for (Entry<Integer,ItemStack> entry : items.entrySet()) {
+				if (entry.getValue().getType().equals(Material.STICK)) {
+					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
 					break;
 				}
 			}
 		}
 		if (items.get(4).getType().equals(Material.BOOK)) {
-			for (ItemStack item : items) {
-				if (!item.getType().equals(Material.BOOK) && !item.getType().equals(Material.AIR)) {
-					result = ItemUtils.enhanceInInventory(item, items.get(4));
+			for (Entry<Integer,ItemStack> entry : items.entrySet()) {
+				if (!entry.getValue().getType().equals(Material.BOOK) && !entry.getValue().getType().equals(Material.AIR)) {
+					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
 					break;
 				}
 			}
@@ -168,13 +169,13 @@ public class InventoryUtils {
 		return result;
 	}
 
-	private static LinkedList<ItemStack> getRecipe(Inventory inv) {
-		LinkedList<ItemStack> items = new LinkedList<>();
+	private static LinkedHashMap<Integer, ItemStack> getRecipe(Inventory inv) {
+		LinkedHashMap<Integer,ItemStack> items = new LinkedHashMap<>();
 		for (int i : recipeNums) {
-			if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR))
-				items.add(inv.getItem(i));
+			if (inv.getItem(i) != null)
+				items.put(items.size(),inv.getItem(i));
 			else
-				items.add(new ItemStack(Material.AIR));
+				items.put(items.size(),new ItemStack(Material.AIR));
 		}
 		return items;
 
