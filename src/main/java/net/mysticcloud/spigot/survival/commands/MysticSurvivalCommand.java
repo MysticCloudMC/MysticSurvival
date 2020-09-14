@@ -177,7 +177,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						try {
 							try {
 								ItemStack hand = ((Player) sender).getEquipment().getItemInMainHand();
-								Item item = ItemUtils.getItem(hand);
+								Item item = new Item(hand);
 								item.enhance(Enhancement.valueOf(args[1].toUpperCase()),
 										Integer.parseInt(args[2]));
 								item.updateItem(hand);

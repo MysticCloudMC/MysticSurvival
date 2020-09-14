@@ -35,9 +35,6 @@ public class ItemUtils {
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
 	
-	static Map<ItemStack, Item> items = new HashMap<>();
-	
-
 	public static void start() {
 
 		for (Enhancement en : Enhancement.values()) {
@@ -99,19 +96,7 @@ public class ItemUtils {
 
 	}
 	
-	public static Item getItem(ItemStack item) {
-		return getItem(item, 1);
-	}
 	
-	public static Item getItem(ItemStack item, int level) {
-		if(items.containsKey(item)) {
-			return items.get(item);
-		} else {
-			Item i = new Item(item.getType(),level);
-			items.put(item,i);
-			return i;
-		}
-	}
 
 	public static String getDurabilityString(int dur, int max) {
 		double percent = (dur + 0.0) / (max + 0.0) * 100.0;
