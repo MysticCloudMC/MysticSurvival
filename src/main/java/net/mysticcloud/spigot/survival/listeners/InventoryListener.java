@@ -11,6 +11,7 @@ import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.InventoryUtils;
+import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 
 public class InventoryListener implements Listener {
 
@@ -28,9 +29,9 @@ public class InventoryListener implements Listener {
 					|| e.getCurrentItem().getType().equals(Material.GRAY_STAINED_GLASS_PANE))
 				return;
 			Bukkit.broadcastMessage(e.getCurrentItem().getType().name());
-			for(Division div : Division.values()) {
-				if(e.getCurrentItem().getType().equals(div.getGUIItem())) {
-					InventoryUtils.openPerksMenu((Player)e.getWhoClicked(), div);
+			for (Division div : Division.values()) {
+				if (e.getCurrentItem().getType().equals(div.getGUIItem())) {
+					InventoryUtils.openPerksMenu((Player) e.getWhoClicked(), div);
 					return;
 				}
 			}
@@ -60,7 +61,8 @@ public class InventoryListener implements Listener {
 			}
 			if (e.getCurrentItem().getType().equals(Material.LIME_STAINED_GLASS_PANE)) {
 				e.setCancelled(true);
-				InventoryUtils.craft(e.getClickedInventory());
+				InventoryUtils.craft(SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked()),
+						e.getClickedInventory());
 				return;
 			}
 
