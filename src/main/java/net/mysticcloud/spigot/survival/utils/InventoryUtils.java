@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.core.utils.InventoryCreator;
+import net.mysticcloud.spigot.survival.utils.items.Item;
 import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
@@ -144,7 +145,7 @@ public class InventoryUtils {
 		
 		if (items.get(7).getType().equals(Material.STICK)) {
 			if (items.get(1).getType().equals(Material.IRON_INGOT) && items.get(4).getType().equals(Material.IRON_INGOT)) {
-				result = new ItemStack(Material.IRON_SWORD);
+				result = new Item(Material.IRON_SWORD,1).getItem();
 				
 			}
 			
