@@ -434,59 +434,7 @@ public class ItemUtils {
 		}
 	}
 
-	public static ItemStack removeEnhancement(ItemStack tool, Enhancement enhance) {
-		ItemMeta tm = tool.getItemMeta();
-		List<String> tlore = new ArrayList<>();
-		if (tool.hasItemMeta()) {
-			if (tool.getItemMeta().hasLore()) {
-				for (String s : tool.getItemMeta().getLore()) {
-					if (s.contains(":")) {
-						if (ChatColor.stripColor(s).split(":")[0]
-								.equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
-							continue;
-						}
-					}
-					tlore.add(s);
-				}
-			}
-		}
 
-		tm.setLore(tlore);
-
-		tool.setItemMeta(tm);
-
-		finalizeEnhancement(tool, tlore);
-
-		return tool;
-	}
-
-	public static ItemStack enhance(ItemStack tool, Enhancement enhance, int power) {
-		ItemMeta tm = tool.getItemMeta();
-		List<String> tlore = new ArrayList<>();
-		if (tool.hasItemMeta()) {
-			if (tool.getItemMeta().hasLore()) {
-				for (String s : tool.getItemMeta().getLore()) {
-					if (s.contains(":")) {
-						if (ChatColor.stripColor(s).split(":")[0]
-								.equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
-							continue;
-						}
-					}
-					tlore.add(s);
-				}
-			}
-		}
-
-		tlore.add(enhance.getName() + power);
-
-		tm.setLore(tlore);
-
-		tool.setItemMeta(tm);
-
-		finalizeEnhancement(tool, tlore);
-
-		return tool;
-	}
 	
 	
 

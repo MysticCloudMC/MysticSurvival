@@ -162,8 +162,9 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					if (args.length == 3) {
 						if (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("delete")) {
 							try {
-								ItemUtils.removeEnhancement(((Player) sender).getEquipment().getItemInMainHand(),
-										Enhancement.valueOf(args[2].toUpperCase()));
+								ItemStack hand = ((Player) sender).getEquipment().getItemInMainHand();
+								Item item = new Item(hand);
+								item.removeEnhancement(Enhancement.valueOf(args[2].toUpperCase()));
 							} catch (IllegalArgumentException ex) {
 								String s = "";
 								for (Enhancement en : Enhancement.values()) {
@@ -178,8 +179,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 							try {
 								ItemStack hand = ((Player) sender).getEquipment().getItemInMainHand();
 								Item item = new Item(hand);
-								item.enhance(Enhancement.valueOf(args[1].toUpperCase()),
-										Integer.parseInt(args[2]));
+								item.enhance(Enhancement.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]));
 								item.updateItem(hand);
 							} catch (NumberFormatException ex) {
 								sender.sendMessage(

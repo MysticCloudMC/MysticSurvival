@@ -3,6 +3,7 @@ package net.mysticcloud.spigot.survival.utils;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -136,8 +137,12 @@ public class InventoryUtils {
 //		3,4,5,
 //		6,7,8
 		
+		for(ItemStack item : items) {
+			Bukkit.broadcastMessage("#" + items.indexOf(item) + " - " + item.getType());
+		}
+		
 		if (items.get(7).getType().equals(Material.STICK)) {
-			if (items.get(1).getType().equals(Material.IRON_INGOT) && items.get(2).getType().equals(Material.IRON_INGOT)) {
+			if (items.get(1).getType().equals(Material.IRON_INGOT) && items.get(4).getType().equals(Material.IRON_INGOT)) {
 				result = new ItemStack(Material.IRON_SWORD);
 				
 			}

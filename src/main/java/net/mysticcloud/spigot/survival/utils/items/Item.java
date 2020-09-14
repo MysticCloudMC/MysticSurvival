@@ -153,6 +153,35 @@ public class Item {
 		finalizeEnhancements();
 
 	}
+	
+	public void removeEnhancement(Enhancement e) {
+
+		ItemMeta tm = item.getItemMeta();
+		List<String> tlore = new ArrayList<>();
+		if (item.hasItemMeta()) {
+			if (item.getItemMeta().hasLore()) {
+				for (String s : item.getItemMeta().getLore()) {
+					if (s.contains(":")) {
+						if (ChatColor.stripColor(s).split(":")[0]
+								.equals(ChatColor.stripColor(e.getName()).split(":")[0])) {
+							continue;
+						}
+					}
+					tlore.add(s);
+				}
+			}
+		}
+
+		tm.setLore(tlore);
+
+		item.setItemMeta(tm);
+		
+		enhancements.remove(e);
+
+		finalizeEnhancements();
+
+	
+	}
 
 	private void setDamage(int damage) {
 		this.damage = damage;
