@@ -188,7 +188,8 @@ public class Item {
 	}
 	
 	public void updateItem(ItemStack item) {
-		item = this.item;
+		item.setAmount(this.item.getAmount());
+		item.setItemMeta(this.item.getItemMeta());
 	}
 
 	public void damage(int o) {
