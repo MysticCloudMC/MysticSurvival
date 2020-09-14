@@ -19,7 +19,7 @@ public class InventoryUtils {
 
 	static Inventory bench = null;
 	static Inventory menu = null;
-	private static int[] recipeNums = new int[] { 10, 11, 12, 19, 20, 21, 28, 19, 30 };
+	private static int[] recipeNums = new int[] { 10, 11, 12, 19, 20, 21, 28, 29, 30 };
 	private static int resultNum = 24;
 
 	public static void start() {
