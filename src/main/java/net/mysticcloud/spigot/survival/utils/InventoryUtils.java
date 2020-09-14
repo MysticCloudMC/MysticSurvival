@@ -120,9 +120,9 @@ public class InventoryUtils {
 			GUIManager.switchInventory(player, perks.getInventory(), name);
 	}
 
-	public static void craft(Inventory inv) {
+	public static void craft(SurvivalPlayer player,Inventory inv) {
 		LinkedHashMap<Integer,ItemStack> reicpe = getRecipe(inv);
-		ItemStack result = getResult(reicpe);
+		ItemStack result = getResult(reicpe,player);
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
 				&& !result.getType().equals(Material.AIR)) {
 			for (int i : recipeNums) {
@@ -132,7 +132,7 @@ public class InventoryUtils {
 		}
 	}
 
-	private static ItemStack getResult(LinkedHashMap<Integer,ItemStack> items) {
+	private static ItemStack getResult(LinkedHashMap<Integer,ItemStack> items, SurvivalPlayer player) {
 		ItemStack result = new ItemStack(Material.AIR);
 		
 //		0,1,2,
@@ -145,7 +145,7 @@ public class InventoryUtils {
 		
 		if (items.get(7).getType().equals(Material.STICK)) {
 			if (items.get(1).getType().equals(Material.IRON_INGOT) && items.get(4).getType().equals(Material.IRON_INGOT)) {
-				result = new Item(Material.IRON_SWORD,1).getItem();
+				result = new Item(Material.IRON_SWORD,player.getLevel()).getItem();
 				
 			}
 			
