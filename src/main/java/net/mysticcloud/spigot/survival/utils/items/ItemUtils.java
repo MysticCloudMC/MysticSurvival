@@ -329,10 +329,13 @@ public class ItemUtils {
 	}
 
 	public static ItemStack weaponGenerator(int level) {
+		
 
 		Tier tier = Tier.getTier(level);
 		ItemStack item = new ItemStack(weaponTiers.get(tier)[new Random().nextInt(weaponTiers.get(tier).length)]);
-
+		
+		return new Item(item.getType(),level).getItem();
+/*
 		String name = getWeaponDescriptor(tier) + " " + getWeaponType(item.getType());
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
@@ -365,6 +368,7 @@ public class ItemUtils {
 		item = randomizeWeaponEnhancements(item, level);
 
 		return item;
+		*/
 	}
 
 	public static ItemStack armorGenerator(int level) {

@@ -237,4 +237,12 @@ public class Item {
 		item.setItemMeta(m);
 	}
 
+	public boolean hasEnhancement(Enhancement enhancement) {
+		return enhancements.containsKey(enhancement);
+	}
+
+	public int getEnhancementPower(Enhancement enhancement) {
+		return enhancements.get(enhancement);
+	}
+
 }

@@ -1,9 +1,5 @@
 package net.mysticcloud.spigot.survival.listeners;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -21,7 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -29,8 +24,8 @@ import net.mysticcloud.spigot.core.Main;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
+import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
-import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 
 public class PlayerAttackListener implements Listener {
 
@@ -44,10 +39,11 @@ public class PlayerAttackListener implements Listener {
 			return;
 		if (!e.getItem().getItemMeta().hasLore())
 			return;
-		net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(e.getItem());
+		net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
+				e.getItem());
 		i.damage(1);
 		e.setDamage(0);
-		
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -99,19 +95,13 @@ public class PlayerAttackListener implements Listener {
 				if (((Player) e.getEntity()).getEquipment().getItemInMainHand() != null) {
 					if (((Player) e.getEntity()).getEquipment().getItemInMainHand().hasItemMeta()) {
 						if (((Player) e.getEntity()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
-							ItemStack s = ((Player) e.getEntity()).getEquipment().getItemInMainHand();
-							for (String a : s.getItemMeta().getLore()) {
-								if (ChatColor.stripColor(a).split(":")[0].equals("Dodge Chance")) {
-									if (CoreUtils.getRandom().nextInt(100) < Integer
-											.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-										e.setCancelled(true);
-										((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
-										if (e.getDamager() instanceof Player)
-											((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
-										break;
-									}
-
-								}
+							net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
+									((Player) e.getEntity()).getEquipment().getItemInMainHand());
+							if (i.hasEnhancement(Enhancement.DODGE)) {
+								e.setCancelled(true);
+								((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
+								if (e.getDamager() instanceof Player)
+									((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
 							}
 						}
 					}
@@ -133,96 +123,77 @@ public class PlayerAttackListener implements Listener {
 				if (((Player) e.getDamager()).getEquipment().getItemInMainHand() != null) {
 					if (((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta()) {
 						if (((Player) e.getDamager()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
-							ItemStack s = ((Player) e.getDamager()).getEquipment().getItemInMainHand();
-							for (String a : s.getItemMeta().getLore()) {
-								if (a.contains(":")) {
-									if (ChatColor.stripColor(a).split(":")[0].equals("Disarm Chance")) {
-										if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
-											if (CoreUtils.getRandom().nextInt(100) < Integer
-													.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-												if (e.getEntity() instanceof Player) {
-													Item i = e.getEntity().getWorld().dropItemNaturally(
-															e.getEntity().getLocation(), ((LivingEntity) e.getEntity())
-																	.getEquipment().getItemInMainHand());
-													i.setPickupDelay(40);
-													((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
-															.setAmount(0);
-												}
+							net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
+									((Player) e.getEntity()).getEquipment().getItemInMainHand());
 
-											}
-
-										}
-									}
-
-									if (ChatColor.stripColor(a).split(":")[0].equals("Fire Damage")) {
-										e.getEntity().setFireTicks(
-												Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
-									}
-									if (ChatColor.stripColor(a).split(":")[0].equals("Power Attack")) {
-										if (ChatColor.stripColor(a).split(": ")[1].equalsIgnoreCase("true")) {
-											player.getEquipment().getItemInMainHand().setDurability(
-													(short) (player.getEquipment().getItemInMainHand().getDurability()
-															- 4));
-											e.setDamage(e.getDamage() * 3);
+							if (i.hasEnhancement(Enhancement.DISARM)) {
+								if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
+									if (CoreUtils.getRandom().nextInt(100) < i
+											.getEnhancementPower(Enhancement.DISARM)) {
+										if (e.getEntity() instanceof Player) {
+											Item it = e.getEntity().getWorld().dropItemNaturally(
+													e.getEntity().getLocation(),
+													((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand());
+											it.setPickupDelay(40);
+											((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
+													.setAmount(0);
 										}
 
 									}
 
-									if (ChatColor.stripColor(a).split(":")[0].equals("Frost Damage")) {
-										((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(
-												PotionEffectType.SLOW,
-												Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20, 1));
+								}
+							}
+							if (i.hasEnhancement(Enhancement.FIRE)) {
+								e.getEntity().setFireTicks(i.getEnhancementPower(Enhancement.FIRE) * 20);
+							}
+							if (i.hasEnhancement(Enhancement.FROST)) {
+								((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
+										i.getEnhancementPower(Enhancement.FROST) * 20, 1));
+								RandomFormat format = new RandomFormat();
+								format.particle(Particle.REDSTONE);
+								format.setDustOptions(new DustOptions(Color.AQUA, 1));
+								CoreUtils.particles.put(e.getEntity().getUniqueId(), format);
+								Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
+
+									@Override
+									public void run() {
+										CoreUtils.particles__remove.add(e.getEntity().getUniqueId());
+									}
+
+								}, i.getEnhancementPower(Enhancement.FROST) * 20);
+							}
+							if (i.hasEnhancement(Enhancement.VAMPIRISM)) {
+								if (e.getEntity() instanceof Player) {
+									if (CoreUtils.getRandom().nextInt(100) <= i
+											.getEnhancementPower(Enhancement.VAMPIRISM)) {
 										RandomFormat format = new RandomFormat();
 										format.particle(Particle.REDSTONE);
-										format.setDustOptions(new DustOptions(Color.AQUA, 1));
-										CoreUtils.particles.put(e.getEntity().getUniqueId(), format);
-										Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
-
-											@Override
-											public void run() {
-												CoreUtils.particles__remove.add(e.getEntity().getUniqueId());
-											}
-
-										}, Integer.parseInt(ChatColor.stripColor(a).split(": ")[1]) * 20);
-									}
-
-									if (ChatColor.stripColor(a).split(":")[0].equals("Vampirism Chance")) {
-										if (e.getEntity() instanceof Player) {
-											if (CoreUtils.getRandom().nextInt(100) <= Integer
-													.parseInt(ChatColor.stripColor(a).split(": ")[1])) {
-												RandomFormat format = new RandomFormat();
-												format.particle(Particle.REDSTONE);
-												format.setDustOptions(new DustOptions(Color.RED, 2));
-												for (int i = 0; i != 10; i++) {
-													format.display(e.getEntity().getLocation(), i);
-													format.display(e.getDamager().getLocation(), i);
-												}
-
-												try {
-													((LivingEntity) e.getDamager())
-															.setHealth(((LivingEntity) e.getDamager()).getHealth()
-																	+ (e.getDamage() / 4));
-												} catch (IllegalArgumentException ex) {
-													((LivingEntity) e.getDamager())
-															.setHealth(((LivingEntity) e.getDamager()).getMaxHealth());
-												}
-
-											}
-										} else {
-											RandomFormat format = new RandomFormat();
-											format.particle(Particle.REDSTONE);
-											format.setDustOptions(new DustOptions(Color.RED, 2));
-											for (int i = 0; i != 10; i++) {
-												format.display(e.getEntity().getLocation(), i);
-												format.display(e.getDamager().getLocation(), i);
-											}
-											((LivingEntity) e.getDamager()).setHealth(
-													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage()
-															* (Integer.parseInt(ChatColor.stripColor(a).split(": ")[1])
-																	/ 10)));
+										format.setDustOptions(new DustOptions(Color.RED, 2));
+										for (int f = 0; f != 10; f++) {
+											format.display(e.getEntity().getLocation(), f);
+											format.display(e.getDamager().getLocation(), f);
 										}
-									}
 
+										try {
+											((LivingEntity) e.getDamager()).setHealth(
+													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage() / 4));
+										} catch (IllegalArgumentException ex) {
+											((LivingEntity) e.getDamager())
+													.setHealth(((LivingEntity) e.getDamager()).getMaxHealth());
+										}
+
+									}
+								} else {
+									RandomFormat format = new RandomFormat();
+									format.particle(Particle.REDSTONE);
+									format.setDustOptions(new DustOptions(Color.RED, 2));
+									for (int f = 0; f != 10; f++) {
+										format.display(e.getEntity().getLocation(), f);
+										format.display(e.getDamager().getLocation(), f);
+									}
+									((LivingEntity) e.getDamager()).setHealth(((LivingEntity) e.getDamager())
+											.getHealth()
+											+ (e.getDamage() * (i.getEnhancementPower(Enhancement.VAMPIRISM)) / 10));
 								}
 							}
 						}
