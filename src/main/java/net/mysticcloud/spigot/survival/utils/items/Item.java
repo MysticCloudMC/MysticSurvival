@@ -69,13 +69,34 @@ public class Item {
 					weight = Integer.parseInt(a.split(": ")[1]);
 				if (a.contains("Damage:"))
 					damage = Integer.parseInt(a.split(": ")[1]);
-				if (a.contains("Tier:"))
-					tier = Tier.valueOf(a.split(": ")[1].toUpperCase());
-				if (a.contains("Speed Modifier:")) {
-
+				if (a.contains("Disarm Chance:")) 
+					enhancements.put(Enhancement.DISARM, Integer.parseInt(a.split(": ")[1]));
+				if (a.contains("Fire Damage:")) 
+					enhancements.put(Enhancement.FIRE, Integer.parseInt(a.split(": ")[1]));
+				if (a.contains("Frost Damage:")) 
+					enhancements.put(Enhancement.FROST, Integer.parseInt(a.split(": ")[1]));
+				if (a.contains("Dodge Chance:")) 
+					enhancements.put(Enhancement.DODGE, Integer.parseInt(a.split(": ")[1]));
+				if (a.contains("Vampirism Chance:")) 
+					enhancements.put(Enhancement.VAMPIRISM, Integer.parseInt(a.split(": ")[1]));
+				if (a.contains("Speed Modifier:")) 
+					enhancements.put(Enhancement.SPEED, Integer.parseInt(a.split(": ")[1]));
+				if (a.contains("Armor Modifier:")) 
+					enhancements.put(Enhancement.PROTECTION, Integer.parseInt(a.split(": ")[1]));
+				
+				if (a.contains("Tier:")) {
+					for(Tier tier : Tier.values()) {
+						if(ChatColor.stripColor(tier.getName()).equals(a.split(": ")[1])) {
+							this.tier = tier;
+						}
+					}
+				}
+				if(tier == null) {
+					tier = Tier.FIRST;
 				}
 			}
 		}
+		finalizeEnhancements();
 
 	}
 
