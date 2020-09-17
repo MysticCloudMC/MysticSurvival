@@ -54,7 +54,7 @@ public class PlayerListener implements Listener {
 	public void onCraft(CraftItemEvent e) {
 		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			e.getClickedInventory().setItem(e.getSlot(),
-					new Item(Material.IRON_SWORD, CoreUtils.getMysticPlayer((Player) e.getWhoClicked()).getLevel())
+					new Item(e.getRecipe().getResult().getType(), CoreUtils.getMysticPlayer((Player) e.getWhoClicked()).getLevel())
 							.getItem());
 
 		}
