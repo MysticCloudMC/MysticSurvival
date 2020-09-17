@@ -15,8 +15,8 @@ import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.InventoryUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
-import net.mysticcloud.spigot.survival.utils.items.Item;
 import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
+import net.mysticcloud.spigot.survival.utils.items.Weapon;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class InventoryListener implements Listener {
@@ -29,7 +29,7 @@ public class InventoryListener implements Listener {
 	public void onCraft(CraftItemEvent e) {
 		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-			Item i = new Item(e.getRecipe().getResult().getType(),
+			Weapon i = new Weapon(e.getRecipe().getResult().getType(),
 					player.getSubSkill("crafting"));
 			player.gainSubSkill("crafting", 1);
 			

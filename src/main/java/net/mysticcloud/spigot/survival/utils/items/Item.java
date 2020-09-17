@@ -19,22 +19,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
-import net.mysticcloud.spigot.survival.utils.Tier;
 
 public class Item {
 
-	Tier tier;
-	int speed;
 	int durability;
 	int maxDurability;
+	int speed;
+
 	int damage;
-	int weight;
 	Map<Enhancement, Integer> enhancements = new HashMap<>();
 	String name;
 	ItemStack item;
 
 	public Item(Material material, int level) {
-		tier = Tier.getTier(level);
 		item = new ItemStack(material);
 		generateInfo(material, level);
 	}
@@ -65,147 +62,30 @@ public class Item {
 				}
 				if (a.contains("Speed:"))
 					speed = Integer.parseInt(a.split(": ")[1]);
-				if (a.contains("Weight:"))
-					weight = Integer.parseInt(a.split(": ")[1]);
 				if (a.contains("Damage:"))
 					damage = Integer.parseInt(a.split(": ")[1]);
-				if (a.contains("Disarm Chance:")) 
+				if (a.contains("Disarm Chance:"))
 					enhancements.put(Enhancement.DISARM, Integer.parseInt(a.split(": ")[1]));
-				if (a.contains("Fire Damage:")) 
+				if (a.contains("Fire Damage:"))
 					enhancements.put(Enhancement.FIRE, Integer.parseInt(a.split(": ")[1]));
-				if (a.contains("Frost Damage:")) 
+				if (a.contains("Frost Damage:"))
 					enhancements.put(Enhancement.FROST, Integer.parseInt(a.split(": ")[1]));
-				if (a.contains("Dodge Chance:")) 
+				if (a.contains("Dodge Chance:"))
 					enhancements.put(Enhancement.DODGE, Integer.parseInt(a.split(": ")[1]));
-				if (a.contains("Vampirism Chance:")) 
+				if (a.contains("Vampirism Chance:"))
 					enhancements.put(Enhancement.VAMPIRISM, Integer.parseInt(a.split(": ")[1]));
-				if (a.contains("Speed Modifier:")) 
+				if (a.contains("Speed Modifier:"))
 					enhancements.put(Enhancement.SPEED, Integer.parseInt(a.split(": ")[1]));
-				if (a.contains("Armor Modifier:")) 
+				if (a.contains("Armor Modifier:"))
 					enhancements.put(Enhancement.PROTECTION, Integer.parseInt(a.split(": ")[1]));
-				
-				if (a.contains("Tier:")) {
-					for(Tier tier : Tier.values()) {
-						if(ChatColor.stripColor(tier.getName()).equals(a.split(": ")[1])) {
-							this.tier = tier;
-						}
-					}
-				}
-				if(tier == null) {
-					tier = Tier.FIRST;
-				}
+
 			}
 		}
 		finalizeEnhancements();
 
 	}
 
-	private void generateInfo(Material type, int level) {
-		name = ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType());
-		ItemMeta a = item.getItemMeta();
-		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-		setDamage((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)));
-		setSpeed((int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)));
-		durability = (int) (((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) * 10.0);
-		maxDurability = durability;
-		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
-				EquipmentSlot.HAND);
-		a.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
-		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", speed, Operation.ADD_NUMBER,
-				EquipmentSlot.HAND);
-		a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
-		lore.add(CoreUtils.colorize("&7Tier: " + tier.getName()));
-		lore.add(CoreUtils.colorize("&7Damage: " + damage));
-		lore.add(CoreUtils.colorize("&7Speed: " + speed));
-		lore.add(ItemUtils.getDurabilityString(durability, durability));
-		lore.add(CoreUtils.colorize("&7------------------"));
-		a.setLore(lore);
-		a.setDisplayName(CoreUtils.colorize("&f" + name));
-		a.addItemFlags(ItemFlag.values());
-		item.setItemMeta(a);
-	}
-
-	public void enhance(Enhancement enhance, int power) {
-		ItemMeta tm = item.getItemMeta();
-		List<String> tlore = new ArrayList<>();
-		if (item.hasItemMeta()) {
-			if (item.getItemMeta().hasLore()) {
-				for (String s : item.getItemMeta().getLore()) {
-					if (s.contains(":")) {
-						if (ChatColor.stripColor(s).split(":")[0]
-								.equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
-							continue;
-						}
-					}
-					tlore.add(s);
-				}
-			}
-		}
-
-		tlore.add(enhance.getName() + power);
-
-		tm.setLore(tlore);
-
-		item.setItemMeta(tm);
-
-		enhancements.put(enhance, power);
-
-		finalizeEnhancements();
-
-	}
-	
-	public void removeEnhancement(Enhancement e) {
-
-		ItemMeta tm = item.getItemMeta();
-		List<String> tlore = new ArrayList<>();
-		if (item.hasItemMeta()) {
-			if (item.getItemMeta().hasLore()) {
-				for (String s : item.getItemMeta().getLore()) {
-					if (s.contains(":")) {
-						if (ChatColor.stripColor(s).split(":")[0]
-								.equals(ChatColor.stripColor(e.getName()).split(":")[0])) {
-							continue;
-						}
-					}
-					tlore.add(s);
-				}
-			}
-		}
-
-		tm.setLore(tlore);
-
-		item.setItemMeta(tm);
-		
-		enhancements.remove(e);
-
-		finalizeEnhancements();
-
-	
-	}
-
-	private void setDamage(int damage) {
-		this.damage = damage;
-		ItemMeta tm = item.getItemMeta();
-		tm.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
-		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
-				EquipmentSlot.HAND);
-		tm.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
-
-		item.setItemMeta(tm);
-	}
-
-	private void setSpeed(int speed) {
-		this.speed = speed;
-		ItemMeta tm = item.getItemMeta();
-		tm.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
-		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", speed, Operation.ADD_NUMBER,
-				EquipmentSlot.HAND);
-		tm.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
-
-		item.setItemMeta(tm);
-	}
-
-	private void finalizeEnhancements() {
+	public void finalizeEnhancements() {
 		ItemMeta tm = item.getItemMeta();
 		AttributeModifier am;
 		for (Entry<Enhancement, Integer> entry : enhancements.entrySet()) {
@@ -236,7 +116,7 @@ public class Item {
 	public ItemStack getItem() {
 		return item;
 	}
-	
+
 	public void updateItem(ItemStack item) {
 		item.setAmount(this.item.getAmount());
 		item.setItemMeta(this.item.getItemMeta());
@@ -274,4 +154,78 @@ public class Item {
 		return enhancements.get(enhancement);
 	}
 
+	public void generateInfo(Material type, int level) {
+		name = ItemUtils.getWeaponType(item.getType());
+		ItemMeta a = item.getItemMeta();
+		a.setDisplayName(CoreUtils.colorize("&f" + name));
+		a.addItemFlags(ItemFlag.values());
+		item.setItemMeta(a);
+	}
+
+	public void enhance(Enhancement enhance, int power) {
+		ItemMeta tm = item.getItemMeta();
+		List<String> tlore = new ArrayList<>();
+		if (item.hasItemMeta()) {
+			if (item.getItemMeta().hasLore()) {
+				for (String s : item.getItemMeta().getLore()) {
+					if (s.contains(":")) {
+						if (ChatColor.stripColor(s).split(":")[0]
+								.equals(ChatColor.stripColor(enhance.getName()).split(":")[0])) {
+							continue;
+						}
+					}
+					tlore.add(s);
+				}
+			}
+		}
+		tlore.add(enhance.getName() + power);
+		tm.setLore(tlore);
+		item.setItemMeta(tm);
+		enhancements.put(enhance, power);
+		finalizeEnhancements();
+	}
+
+	public void removeEnhancement(Enhancement e) {
+		ItemMeta tm = item.getItemMeta();
+		List<String> tlore = new ArrayList<>();
+		if (item.hasItemMeta()) {
+			if (item.getItemMeta().hasLore()) {
+				for (String s : item.getItemMeta().getLore()) {
+					if (s.contains(":")) {
+						if (ChatColor.stripColor(s).split(":")[0]
+								.equals(ChatColor.stripColor(e.getName()).split(":")[0])) {
+							continue;
+						}
+					}
+					tlore.add(s);
+				}
+			}
+		}
+		tm.setLore(tlore);
+		item.setItemMeta(tm);
+		enhancements.remove(e);
+		finalizeEnhancements();
+
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+		ItemMeta tm = item.getItemMeta();
+		tm.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
+		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
+				EquipmentSlot.HAND);
+		tm.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
+		item.setItemMeta(tm);
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+		ItemMeta tm = item.getItemMeta();
+		tm.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
+		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", speed, Operation.ADD_NUMBER,
+				EquipmentSlot.HAND);
+		tm.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
+
+		item.setItemMeta(tm);
+	}
 }
