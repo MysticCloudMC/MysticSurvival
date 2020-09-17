@@ -296,7 +296,7 @@ public class SurvivalPlayer {
 	}
 
 	public void gainSubSkill(String key, int i) {
-		subSkills.put(key,subSkills.get(key)+i);
+		subSkills.put(key,getSubSkill(key)+i);
 	}
 
 	
