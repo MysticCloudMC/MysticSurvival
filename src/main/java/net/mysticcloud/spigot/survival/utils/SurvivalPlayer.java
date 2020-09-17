@@ -3,7 +3,9 @@ package net.mysticcloud.spigot.survival.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,6 +32,8 @@ public class SurvivalPlayer {
 	double staminaMultiplier = 1;
 	double staminaModifier = 0;
 	double manaModifier = 0;
+	
+	private Map<String,Integer> subSkills = new HashMap<>();
 
 	List<Perk> perks = new ArrayList<>();
 
@@ -285,6 +289,14 @@ public class SurvivalPlayer {
 			perk.setTarget(e);
 		}
 		sendMessage("Target set.");
+	}
+	
+	public int getSubSkill(String key) {
+		return subSkills.containsKey(key) ? subSkills.get(key) : 0;
+	}
+
+	public void gainSubSkill(String key, int i) {
+		subSkills.put(key,subSkills.get(key)+i);
 	}
 
 	

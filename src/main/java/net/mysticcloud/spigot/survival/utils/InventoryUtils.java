@@ -144,22 +144,12 @@ public class InventoryUtils {
 //		3,4,5,
 //		6,7,8
 
-		for (Entry<Integer, ItemStack> entry : items.entrySet()) {
-			Bukkit.broadcastMessage("#" + entry.getKey() + " - " + entry.getValue().getType());
-		}
 
-		if (items.get(7).getType().equals(Material.STICK)) {
-			if (items.get(1).getType().equals(Material.IRON_INGOT)
-					&& items.get(4).getType().equals(Material.IRON_INGOT)) {
-				result = new Item(Material.IRON_SWORD, player.getLevel()).getItem();
-
-			}
-
-		}
 		if (items.get(4).getType().equals(Material.PAPER)) {
 			for (Entry<Integer, ItemStack> entry : items.entrySet()) {
 				if (entry.getValue().getType().equals(Material.STICK)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
+					player.gainSubSkill("spell",1);
 					break;
 				}
 			}
@@ -169,6 +159,7 @@ public class InventoryUtils {
 				if (!entry.getValue().getType().equals(Material.BOOK)
 						&& !entry.getValue().getType().equals(Material.AIR)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
+					player.gainSubSkill("enhance",1);
 					break;
 				}
 			}

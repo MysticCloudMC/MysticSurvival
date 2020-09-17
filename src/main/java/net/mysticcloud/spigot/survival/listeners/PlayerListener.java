@@ -50,15 +50,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onCraft(CraftItemEvent e) {
-		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
-			e.getClickedInventory().setItem(e.getSlot(),
-					new Item(e.getRecipe().getResult().getType(), CoreUtils.getMysticPlayer((Player) e.getWhoClicked()).getLevel())
-							.getItem());
-
-		}
-	}
+	
 
 	@EventHandler
 	public void onProjectileShoot(ProjectileLaunchEvent e) {
