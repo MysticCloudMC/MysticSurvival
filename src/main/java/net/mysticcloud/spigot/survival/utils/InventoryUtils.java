@@ -102,13 +102,17 @@ public class InventoryUtils {
 
 		ArrayList<Character> conf = new ArrayList<>();
 
-		perks.addItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), "&c&lComing Soon", 'X');
+		perks.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), "&7Click an option.", 'X');
+
+		perks.addItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), "&c&lLocked", 'O');
 
 		for (int i = 0; i != 27; i++) {
 			try {
-				perks.addItem(new ItemStack(Material.DIAMOND), Perks.getPerks(div).get(i).getName(),
-						(char) i);
-				conf.add((char) i);
+				if (SurvivalUtils.getSurvivalPlayer(player).hasPerk(Perks.getPerks(div).get(i))) {
+					perks.addItem(new ItemStack(Material.DIAMOND), Perks.getPerks(div).get(i).getName(), (char) i);
+					conf.add((char) i);
+				} else
+					conf.add('O');
 			} catch (IndexOutOfBoundsException ex) {
 				conf.add('X');
 			}
@@ -121,9 +125,9 @@ public class InventoryUtils {
 			GUIManager.switchInventory(player, perks.getInventory(), ChatColor.stripColor(name));
 	}
 
-	public static void craft(SurvivalPlayer player,Inventory inv) {
-		LinkedHashMap<Integer,ItemStack> reicpe = getRecipe(inv);
-		ItemStack result = getResult(reicpe,player);
+	public static void craft(SurvivalPlayer player, Inventory inv) {
+		LinkedHashMap<Integer, ItemStack> reicpe = getRecipe(inv);
+		ItemStack result = getResult(reicpe, player);
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
 				&& !result.getType().equals(Material.AIR)) {
 			for (int i : recipeNums) {
@@ -133,26 +137,27 @@ public class InventoryUtils {
 		}
 	}
 
-	private static ItemStack getResult(LinkedHashMap<Integer,ItemStack> items, SurvivalPlayer player) {
+	private static ItemStack getResult(LinkedHashMap<Integer, ItemStack> items, SurvivalPlayer player) {
 		ItemStack result = new ItemStack(Material.AIR);
-		
+
 //		0,1,2,
 //		3,4,5,
 //		6,7,8
-		
-		for(Entry<Integer,ItemStack> entry : items.entrySet()) {
+
+		for (Entry<Integer, ItemStack> entry : items.entrySet()) {
 			Bukkit.broadcastMessage("#" + entry.getKey() + " - " + entry.getValue().getType());
 		}
-		
+
 		if (items.get(7).getType().equals(Material.STICK)) {
-			if (items.get(1).getType().equals(Material.IRON_INGOT) && items.get(4).getType().equals(Material.IRON_INGOT)) {
-				result = new Item(Material.IRON_SWORD,player.getLevel()).getItem();
-				
+			if (items.get(1).getType().equals(Material.IRON_INGOT)
+					&& items.get(4).getType().equals(Material.IRON_INGOT)) {
+				result = new Item(Material.IRON_SWORD, player.getLevel()).getItem();
+
 			}
-			
+
 		}
 		if (items.get(4).getType().equals(Material.PAPER)) {
-			for (Entry<Integer,ItemStack> entry : items.entrySet()) {
+			for (Entry<Integer, ItemStack> entry : items.entrySet()) {
 				if (entry.getValue().getType().equals(Material.STICK)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
 					break;
@@ -160,8 +165,9 @@ public class InventoryUtils {
 			}
 		}
 		if (items.get(4).getType().equals(Material.BOOK)) {
-			for (Entry<Integer,ItemStack> entry : items.entrySet()) {
-				if (!entry.getValue().getType().equals(Material.BOOK) && !entry.getValue().getType().equals(Material.AIR)) {
+			for (Entry<Integer, ItemStack> entry : items.entrySet()) {
+				if (!entry.getValue().getType().equals(Material.BOOK)
+						&& !entry.getValue().getType().equals(Material.AIR)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
 					break;
 				}
@@ -172,12 +178,12 @@ public class InventoryUtils {
 	}
 
 	private static LinkedHashMap<Integer, ItemStack> getRecipe(Inventory inv) {
-		LinkedHashMap<Integer,ItemStack> items = new LinkedHashMap<>();
+		LinkedHashMap<Integer, ItemStack> items = new LinkedHashMap<>();
 		for (int i : recipeNums) {
 			if (inv.getItem(i) != null)
-				items.put(items.size(),inv.getItem(i));
+				items.put(items.size(), inv.getItem(i));
 			else
-				items.put(items.size(),new ItemStack(Material.AIR));
+				items.put(items.size(), new ItemStack(Material.AIR));
 		}
 		return items;
 
