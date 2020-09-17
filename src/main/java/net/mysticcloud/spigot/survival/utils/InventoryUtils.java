@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import net.md_5.bungee.api.ChatColor;
 import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.core.utils.InventoryCreator;
 import net.mysticcloud.spigot.survival.utils.items.Item;
@@ -90,9 +91,9 @@ public class InventoryUtils {
 		perks.setConfiguration(conf);
 
 		if (GUIManager.getOpenInventory(player).equals("none"))
-			GUIManager.openInventory(player, perks.getInventory(), "Perks");
+			GUIManager.openInventory(player, perks.getInventory(), "Perk Menu");
 		else
-			GUIManager.switchInventory(player, perks.getInventory(), "Perks");
+			GUIManager.switchInventory(player, perks.getInventory(), "Perk Menu");
 	}
 
 	public static void openPerksMenu(Player player, Division div) {
@@ -115,9 +116,9 @@ public class InventoryUtils {
 		perks.setConfiguration(conf);
 
 		if (GUIManager.getOpenInventory(player).equals("none"))
-			GUIManager.openInventory(player, perks.getInventory(), name);
+			GUIManager.openInventory(player, perks.getInventory(), ChatColor.stripColor(name));
 		else
-			GUIManager.switchInventory(player, perks.getInventory(), name);
+			GUIManager.switchInventory(player, perks.getInventory(), ChatColor.stripColor(name));
 	}
 
 	public static void craft(SurvivalPlayer player,Inventory inv) {
