@@ -6,12 +6,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.InventoryUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.perks.Perk;
+import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
 public class InventoryListener implements Listener {
 
@@ -21,7 +24,16 @@ public class InventoryListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("Perks")) {
+		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).contains("Perks")) {
+			e.setCancelled(true);
+			if(e.getCurrentItem().getType().equals(Material.DIAMOND)) {
+				ItemStack i = e.getCurrentItem();
+				if(!i.hasItemMeta()) return;
+				Perks perk = Perks.getPerk(i.getItemMeta().getDisplayName().toUpperCase());
+				SurvivalUtils.getSurvivalPlayer((Player)e.getWhoClicked()).activatePerk(perk);
+			}
+		}
+		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).equalsIgnoreCase("Perk Menu")) {
 			e.setCancelled(true);
 			if (e.getCurrentItem() == null)
 				return;

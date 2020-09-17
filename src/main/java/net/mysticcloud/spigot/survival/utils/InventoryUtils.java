@@ -72,11 +72,11 @@ public class InventoryUtils {
 
 	public static void openPerksMenu(Player player) {
 
-		InventoryCreator perks = new InventoryCreator("&5&lPerks", null, 9);
+		InventoryCreator perks = new InventoryCreator("&5&lPerk Menu", null, 9);
 
 		ArrayList<Character> conf = new ArrayList<>();
 
-		perks.addItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), "&c&lComing Soon", 'X');
+		perks.addItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), "&7Click an option.", 'X');
 
 		for (int i = 0; i != 9; i++) {
 			try {
