@@ -12,7 +12,7 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 
 public class LightningSpell extends Spell {
 
-	int scalar = 16;
+	int scalar = 8;
 
 	public LightningSpell(LivingEntity entity) {
 		this.entity = entity;
@@ -39,7 +39,7 @@ public class LightningSpell extends Spell {
 			}
 			for (Vector vec : points) {
 				Location loc = new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ());
-				entity.getWorld().spawnParticle(Particle.END_ROD,
+				entity.getWorld().spawnParticle(Particle.CRIT,
 						loc, 0);
 				for(Entity e : entity.getNearbyEntities(10, 10, 10)) {
 					if(e instanceof LivingEntity && !entity.equals(e)) {
