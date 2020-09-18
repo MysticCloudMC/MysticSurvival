@@ -112,7 +112,7 @@ public class PlayerAttackListener implements Listener {
 				net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
 						((Player) e.getDamager()).getEquipment().getItemInMainHand());
 				Player player = (Player) e.getDamager();
-				if (ItemUtils.getWeaponType(((Player) e.getDamager()).getEquipment().getItemInMainHand().getType())
+				if (!ItemUtils.getWeaponType(((Player) e.getDamager()).getEquipment().getItemInMainHand().getType())
 						.equals("Stick")) {
 					Weapon weapon = new Weapon(((Player) e.getDamager()).getEquipment().getItemInMainHand());
 					if (SurvivalUtils.getSurvivalPlayer(player).getStamina() >= weapon.getWeight()) {
