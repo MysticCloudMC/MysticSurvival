@@ -1,6 +1,8 @@
 package net.mysticcloud.spigot.survival.utils.spells;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -10,7 +12,7 @@ import org.bukkit.util.Vector;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 
 public class LightningSpell extends Spell {
-	
+
 	int scalar = 16;
 
 	public LightningSpell(LivingEntity entity) {
@@ -20,26 +22,37 @@ public class LightningSpell extends Spell {
 
 	@Override
 	public void activate() {
-		LinkedList<Vector> points = new LinkedList<>();
-		points.add(new Vector(entity.getEyeLocation().getX(), entity.getEyeLocation().getY(), entity.getEyeLocation().getZ()));
-		for (int i = 0; i != 10*scalar; i++) {
-			Vector point = points.get(points.size()-1).clone();
-			point.add(entity.getEyeLocation().getDirection().multiply((double)1/scalar));
-			point.setX(point.getX() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? (double)1/scalar : -(double)1/scalar)));
-			point.setY(point.getY() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ?(double)1/scalar : -(double)1/scalar)));
-			point.setZ(point.getZ() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? (double)1/scalar : -(double)1/scalar)));
-			points.add(point);
-//			entity.getWorld().spawnParticle(Particle.FLAME, entity.getEyeLocation().add(0, -0.5, 0), 0,
-//					entity.getEyeLocation().getDirection().getX()
-//							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
-//					entity.getEyeLocation().getDirection().getY()
-//							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
-//					entity.getEyeLocation().getDirection().getZ()
-//							+ ((CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? -1 : 1))/8),
-//					CoreUtils.getRandom().nextDouble()/1.5);
+		HashMap<Integer, LinkedList<Vector>> points = new HashMap<>();
+		points.put(0, new LinkedList<Vector>());
+		points.get(0).add(new Vector(entity.getEyeLocation().getX(), entity.getEyeLocation().getY(),
+				entity.getEyeLocation().getZ()));
+		for (int branch = 0; branch != points.size(); branch++) {
+			for (int i = 0; i != 10 * scalar; i++) {
+				Vector point = points.get(i).get(points.get(i).size() - 1).clone();
+				point.add(entity.getEyeLocation().getDirection().multiply((double) 1 / scalar));
+				point.setX(point.getX() + (CoreUtils.getRandom().nextDouble()
+						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
+				point.setY(point.getY() + (CoreUtils.getRandom().nextDouble()
+						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
+				point.setZ(point.getZ() + (CoreUtils.getRandom().nextDouble()
+						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
+				points.get(i).add(point);
+				if (CoreUtils.getRandom().nextDouble() <= 0.04) {
+					points.put(points.size(), new LinkedList<Vector>());
+					LinkedList<Vector> randomBranch = points.get(CoreUtils.getRandom().nextInt(points.size()));
+					Vector npoint = randomBranch.get(randomBranch.size() - 1).clone();
+					points.get(points.size() - 1).add(npoint);
+				}
+			}
 		}
-		for(Vector vec : points) {
-			entity.getWorld().spawnParticle(Particle.END_ROD, new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ()),0);
+
+		for (Entry<Integer, LinkedList<Vector>> entry : points.entrySet()) {
+			for (Vector v : entry.getValue()) {
+
+				entity.getWorld().spawnParticle(Particle.END_ROD,
+						new Location(entity.getWorld(), v.getX(), v.getY(), v.getZ()), 0);
+
+			}
 		}
 	}
 
