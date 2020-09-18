@@ -36,11 +36,13 @@ public class LightningSpell extends Spell {
 						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
 				points.add(point);
 			}
+			for (Vector vec : points) {
+				entity.getWorld().spawnParticle(Particle.END_ROD,
+						new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ()), 0);
+			}
+			points.clear();
 		}
-		for (Vector vec : points) {
-			entity.getWorld().spawnParticle(Particle.END_ROD,
-					new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ()), 0);
-		}
+		
 	}
 
 }
