@@ -28,7 +28,7 @@ public class LightningSpell extends Spell {
 				entity.getEyeLocation().getZ()));
 		for (int branch = 0; branch != points.size(); branch++) {
 			for (int i = 0; i != 10 * scalar; i++) {
-				Vector point = points.get(i).get(points.get(i).size() - 1).clone();
+				Vector point = points.get(branch).get(points.get(branch).size() - 1).clone();
 				point.add(entity.getEyeLocation().getDirection().multiply((double) 1 / scalar));
 				point.setX(point.getX() + (CoreUtils.getRandom().nextDouble()
 						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
@@ -36,7 +36,7 @@ public class LightningSpell extends Spell {
 						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
 				point.setZ(point.getZ() + (CoreUtils.getRandom().nextDouble()
 						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
-				points.get(i).add(point);
+				points.get(branch).add(point);
 				if (CoreUtils.getRandom().nextDouble() <= 0.04) {
 					points.put(points.size(), new LinkedList<Vector>());
 					LinkedList<Vector> randomBranch = points.get(CoreUtils.getRandom().nextInt(points.size()));
