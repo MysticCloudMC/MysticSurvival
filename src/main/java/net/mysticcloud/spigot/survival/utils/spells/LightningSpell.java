@@ -12,7 +12,7 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 
 public class LightningSpell extends Spell {
 
-	int scalar = 8;
+	int scalar = 6;
 
 	public LightningSpell(LivingEntity entity) {
 		this.entity = entity;
@@ -22,7 +22,7 @@ public class LightningSpell extends Spell {
 	@Override
 	public void activate() {
 
-		for (int f = 0; f != 5; f++) {
+		for (int f = 0; f != 2; f++) {
 			LinkedList<Vector> points = new LinkedList<>();
 			points.add(new Vector(entity.getEyeLocation().getX(), entity.getEyeLocation().getY(),
 					entity.getEyeLocation().getZ()));
