@@ -38,9 +38,10 @@ public class LightningSpell extends Spell {
 						* (CoreUtils.getRandom().nextBoolean() ? (double) 1 / scalar : -(double) 1 / scalar)));
 				points.get(branch).add(point);
 				if (CoreUtils.getRandom().nextDouble() <= 0.04) {
-					points.put(points.size(), new LinkedList<Vector>());
+					
 					LinkedList<Vector> randomBranch = points.get(CoreUtils.getRandom().nextInt(points.size()));
 					Vector npoint = randomBranch.get(randomBranch.size() - 1).clone();
+					points.put(points.size(), new LinkedList<Vector>());
 					points.get(points.size() - 1).add(npoint);
 				}
 			}
