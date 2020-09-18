@@ -39,12 +39,13 @@ public class LightningSpell extends Spell {
 			}
 			for (Vector vec : points) {
 				Location loc = new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ());
-				entity.getWorld().spawnParticle(Particle.CRIT,
+				entity.getWorld().spawnParticle(Particle.SPELL_INSTANT,
 						loc, 0);
 				for(Entity e : entity.getNearbyEntities(10, 10, 10)) {
 					if(e instanceof LivingEntity && !entity.equals(e)) {
 						if(e.getLocation().distance(loc)<=1) {
 							((LivingEntity)e).damage(1, entity);
+							((LivingEntity)e).setFireTicks(3);
 						}
 					}
 				}
