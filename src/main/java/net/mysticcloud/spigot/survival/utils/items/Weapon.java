@@ -103,6 +103,7 @@ public class Weapon extends Item {
 
 		damage = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
 		speed = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
+		weight = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
 		maxDurability = (int) (((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) * 10.0);
 		durability = maxDurability;
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
