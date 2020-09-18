@@ -2,6 +2,7 @@ package net.mysticcloud.spigot.survival.utils.spells;
 
 import java.util.LinkedList;
 
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
@@ -31,7 +32,7 @@ public class LightningSpell extends Spell {
 //					CoreUtils.getRandom().nextDouble()/1.5);
 		}
 		for(Vector vec : points) {
-			entity.getWorld().spawnParticle(Particle.END_ROD, vec.getX(), vec.getY(), vec.getZ(), 1);
+			entity.getWorld().spawnParticle(Particle.END_ROD, new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ()),0);
 		}
 	}
 
