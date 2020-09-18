@@ -22,6 +22,7 @@ import net.mysticcloud.spigot.survival.utils.spells.FireballSpell;
 import net.mysticcloud.spigot.survival.utils.spells.FlameSpell;
 import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
 import net.mysticcloud.spigot.survival.utils.spells.InvisibilitySpell;
+import net.mysticcloud.spigot.survival.utils.spells.LightningSpell;
 import net.mysticcloud.spigot.survival.utils.spells.Spell;
 import net.mysticcloud.spigot.survival.utils.spells.TeleportSpell;
 
@@ -89,6 +90,16 @@ public class PlayerInteractListener implements Listener {
 					}
 				}
 
+				if (ChatColor.stripColor(a).contains("Lightning Spell")) {
+					Spell spell = new LightningSpell(e.getPlayer());
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
+					if (player.getMana() >= spell.getCost()) {
+						spell.activate();
+						player.useMana(spell.getCost());
+					} else {
+						player.useMana(0);
+					}
+				}
 				if (ChatColor.stripColor(a).contains("Invisibility Spell")) {
 					Spell spell = new InvisibilitySpell(e.getPlayer());
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());

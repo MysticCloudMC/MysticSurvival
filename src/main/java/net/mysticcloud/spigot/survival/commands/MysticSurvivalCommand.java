@@ -117,6 +117,10 @@ public class MysticSurvivalCommand implements CommandExecutor {
 							wm.setDisplayName(CoreUtils.colorize("&fStaff of &c&lFlames"));
 							lore.add(CoreUtils.colorize("&c&lFlame &7Spell"));
 						}
+						if (args[1].equalsIgnoreCase("6")) {
+							wm.setDisplayName(CoreUtils.colorize("&fStaff of &o&lLightning"));
+							lore.add(CoreUtils.colorize("&f&o&lLightning &7Spell"));
+						}
 						if (args[1].equalsIgnoreCase("99")) {
 							wm.setDisplayName(CoreUtils.colorize("&e&lTargeting Wand"));
 							lore.add(CoreUtils.colorize("&7You can target"));
