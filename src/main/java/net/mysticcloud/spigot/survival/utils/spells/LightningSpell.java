@@ -25,9 +25,9 @@ public class LightningSpell extends Spell {
 		for (int i = 0; i != 10*scalar; i++) {
 			Vector point = points.get(points.size()-1).clone();
 			point.add(entity.getEyeLocation().getDirection().multiply((double)1/scalar));
-			point.setX(point.getX() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? 0.5 : -0.5)));
-			point.setY(point.getY() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? 0.5 : -0.5)));
-			point.setZ(point.getZ() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? 0.5 : -0.5)));
+			point.setX(point.getX() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? (double)1/scalar : -(double)1/scalar)));
+			point.setY(point.getY() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ?(double)1/scalar : -(double)1/scalar)));
+			point.setZ(point.getZ() + (CoreUtils.getRandom().nextDouble() * (CoreUtils.getRandom().nextBoolean() ? (double)1/scalar : -(double)1/scalar)));
 			points.add(point);
 //			entity.getWorld().spawnParticle(Particle.FLAME, entity.getEyeLocation().add(0, -0.5, 0), 0,
 //					entity.getEyeLocation().getDirection().getX()
