@@ -1,9 +1,20 @@
 package net.mysticcloud.spigot.survival.utils.items;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.attribute.AttributeModifier.Operation;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.Tier;
 
@@ -79,6 +90,44 @@ public class Weapon extends Item {
 			}
 		}
 		finalizeEnhancements();
+
+	}
+	
+	public int getWeight() {
+		return weight;
+	}
+
+	@Override
+	public void generateInfo(Material type, int level) {
+		String name = ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType());
+		ItemMeta a = item.getItemMeta();
+		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+
+		damage = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
+		speed = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
+		maxDurability = (int) (((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) * 10.0);
+		durability = maxDurability;
+		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
+				EquipmentSlot.HAND);
+		a.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
+
+		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", speed, Operation.ADD_NUMBER,
+				EquipmentSlot.HAND);
+		a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
+
+		lore.add(CoreUtils.colorize("&7Tier: " + tier.getName()));
+
+		lore.add(CoreUtils.colorize("&7Damage: " + ((int) damage)));
+		lore.add(CoreUtils.colorize("&7Weight: " + ((int) weight)));
+		lore.add(CoreUtils.colorize("&7Speed: " + ((int) speed)));
+		lore.add(ItemUtils.getDurabilityString(((int) durability), ((int) durability)));
+		lore.add(CoreUtils.colorize("&7------------------"));
+		a.setLore(lore);
+
+		a.setDisplayName(CoreUtils.colorize("&f" + name));
+
+		a.addItemFlags(ItemFlag.values());
+		item.setItemMeta(a);
 
 	}
 

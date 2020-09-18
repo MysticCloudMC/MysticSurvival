@@ -26,6 +26,8 @@ import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
+import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
+import net.mysticcloud.spigot.survival.utils.items.Weapon;
 
 public class PlayerAttackListener implements Listener {
 
@@ -89,114 +91,106 @@ public class PlayerAttackListener implements Listener {
 			}
 			return;
 		}
-
+		if (((Player) e.getDamager()).getEquipment().getItemInMainHand() == null)
+			return;
+		if (!((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta())
+			return;
+		if (!((Player) e.getDamager()).getEquipment().getItemInMainHand().getItemMeta().hasLore())
+			return;
 		if (e.getEntity() instanceof LivingEntity) {
 			if (e.getEntity() instanceof Player) {
-				if (((Player) e.getEntity()).getEquipment().getItemInMainHand() != null) {
-					if (((Player) e.getEntity()).getEquipment().getItemInMainHand().hasItemMeta()) {
-						if (((Player) e.getEntity()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
-							net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
-									((Player) e.getEntity()).getEquipment().getItemInMainHand());
-							if (i.hasEnhancement(Enhancement.DODGE)) {
-								e.setCancelled(true);
-								((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
-								if (e.getDamager() instanceof Player)
-									((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
-							}
-						}
-					}
+				net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
+						((Player) e.getEntity()).getEquipment().getItemInMainHand());
+				if (i.hasEnhancement(Enhancement.DODGE)) {
+					e.setCancelled(true);
+					((Player) e.getEntity()).sendMessage(CoreUtils.colorize("&a&lDodge!"));
+					if (e.getDamager() instanceof Player)
+						((Player) e.getDamager()).sendMessage(CoreUtils.colorize("&c&lMiss!"));
 				}
 			}
 			if (e.getDamager() instanceof Player) {
+				net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
+						((Player) e.getEntity()).getEquipment().getItemInMainHand());
 				Player player = (Player) e.getDamager();
-				if (SurvivalUtils.getSurvivalPlayer(player).getStamina() > 10) {
-					SurvivalUtils.getSurvivalPlayer(player).useStamina(10);
-				} else {
-					e.setCancelled(true);
-					return;
+				if (ItemUtils.getWeaponType(((Player) e.getEntity()).getEquipment().getItemInMainHand().getType())
+						.equals("Stick")) {
+					Weapon weapon = new Weapon(((Player) e.getEntity()).getEquipment().getItemInMainHand());
+					if (SurvivalUtils.getSurvivalPlayer(player).getStamina() >= weapon.getWeight()) {
+						SurvivalUtils.getSurvivalPlayer(player).useStamina(weapon.getWeight());
+					} else {
+						e.setCancelled(true);
+						return;
+					}
 				}
+
 				if (e.getEntity() instanceof Monster) {
 					e.setDamage(
 							(e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 				}
 
-				if (((Player) e.getDamager()).getEquipment().getItemInMainHand() != null) {
-					if (((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta()) {
-						if (((Player) e.getDamager()).getEquipment().getItemInMainHand().getItemMeta().hasLore()) {
-							net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
-									((Player) e.getEntity()).getEquipment().getItemInMainHand());
-
-							if (i.hasEnhancement(Enhancement.DISARM)) {
-								if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
-									if (CoreUtils.getRandom().nextInt(100) < i
-											.getEnhancementPower(Enhancement.DISARM)) {
-										if (e.getEntity() instanceof Player) {
-											Item it = e.getEntity().getWorld().dropItemNaturally(
-													e.getEntity().getLocation(),
-													((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand());
-											it.setPickupDelay(40);
-											((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand()
-													.setAmount(0);
-										}
-
-									}
-
-								}
+				if (i.hasEnhancement(Enhancement.DISARM)) {
+					if (((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand() != null) {
+						if (CoreUtils.getRandom().nextInt(100) < i.getEnhancementPower(Enhancement.DISARM)) {
+							if (e.getEntity() instanceof Player) {
+								Item it = e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(),
+										((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand());
+								it.setPickupDelay(40);
+								((LivingEntity) e.getEntity()).getEquipment().getItemInMainHand().setAmount(0);
 							}
-							if (i.hasEnhancement(Enhancement.FIRE)) {
-								e.getEntity().setFireTicks(i.getEnhancementPower(Enhancement.FIRE) * 20);
-							}
-							if (i.hasEnhancement(Enhancement.FROST)) {
-								((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
-										i.getEnhancementPower(Enhancement.FROST) * 20, 1));
-								RandomFormat format = new RandomFormat();
-								format.particle(Particle.REDSTONE);
-								format.setDustOptions(new DustOptions(Color.AQUA, 1));
-								CoreUtils.particles.put(e.getEntity().getUniqueId(), format);
-								Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
 
-									@Override
-									public void run() {
-										CoreUtils.particles__remove.add(e.getEntity().getUniqueId());
-									}
-
-								}, i.getEnhancementPower(Enhancement.FROST) * 20);
-							}
-							if (i.hasEnhancement(Enhancement.VAMPIRISM)) {
-								if (e.getEntity() instanceof Player) {
-									if (CoreUtils.getRandom().nextInt(100) <= i
-											.getEnhancementPower(Enhancement.VAMPIRISM)) {
-										RandomFormat format = new RandomFormat();
-										format.particle(Particle.REDSTONE);
-										format.setDustOptions(new DustOptions(Color.RED, 2));
-										for (int f = 0; f != 10; f++) {
-											format.display(e.getEntity().getLocation(), f);
-											format.display(e.getDamager().getLocation(), f);
-										}
-
-										try {
-											((LivingEntity) e.getDamager()).setHealth(
-													((LivingEntity) e.getDamager()).getHealth() + (e.getDamage() / 4));
-										} catch (IllegalArgumentException ex) {
-											((LivingEntity) e.getDamager())
-													.setHealth(((LivingEntity) e.getDamager()).getMaxHealth());
-										}
-
-									}
-								} else {
-									RandomFormat format = new RandomFormat();
-									format.particle(Particle.REDSTONE);
-									format.setDustOptions(new DustOptions(Color.RED, 2));
-									for (int f = 0; f != 10; f++) {
-										format.display(e.getEntity().getLocation(), f);
-										format.display(e.getDamager().getLocation(), f);
-									}
-									((LivingEntity) e.getDamager()).setHealth(((LivingEntity) e.getDamager())
-											.getHealth()
-											+ (e.getDamage() * (i.getEnhancementPower(Enhancement.VAMPIRISM)) / 10));
-								}
-							}
 						}
+
+					}
+				}
+				if (i.hasEnhancement(Enhancement.FIRE)) {
+					e.getEntity().setFireTicks(i.getEnhancementPower(Enhancement.FIRE) * 20);
+				}
+				if (i.hasEnhancement(Enhancement.FROST)) {
+					((LivingEntity) e.getEntity()).addPotionEffect(
+							new PotionEffect(PotionEffectType.SLOW, i.getEnhancementPower(Enhancement.FROST) * 20, 1));
+					RandomFormat format = new RandomFormat();
+					format.particle(Particle.REDSTONE);
+					format.setDustOptions(new DustOptions(Color.AQUA, 1));
+					CoreUtils.particles.put(e.getEntity().getUniqueId(), format);
+					Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
+
+						@Override
+						public void run() {
+							CoreUtils.particles__remove.add(e.getEntity().getUniqueId());
+						}
+
+					}, i.getEnhancementPower(Enhancement.FROST) * 20);
+				}
+				if (i.hasEnhancement(Enhancement.VAMPIRISM)) {
+					if (e.getEntity() instanceof Player) {
+						if (CoreUtils.getRandom().nextInt(100) <= i.getEnhancementPower(Enhancement.VAMPIRISM)) {
+							RandomFormat format = new RandomFormat();
+							format.particle(Particle.REDSTONE);
+							format.setDustOptions(new DustOptions(Color.RED, 2));
+							for (int f = 0; f != 10; f++) {
+								format.display(e.getEntity().getLocation(), f);
+								format.display(e.getDamager().getLocation(), f);
+							}
+
+							try {
+								((LivingEntity) e.getDamager())
+										.setHealth(((LivingEntity) e.getDamager()).getHealth() + (e.getDamage() / 4));
+							} catch (IllegalArgumentException ex) {
+								((LivingEntity) e.getDamager())
+										.setHealth(((LivingEntity) e.getDamager()).getMaxHealth());
+							}
+
+						}
+					} else {
+						RandomFormat format = new RandomFormat();
+						format.particle(Particle.REDSTONE);
+						format.setDustOptions(new DustOptions(Color.RED, 2));
+						for (int f = 0; f != 10; f++) {
+							format.display(e.getEntity().getLocation(), f);
+							format.display(e.getDamager().getLocation(), f);
+						}
+						((LivingEntity) e.getDamager()).setHealth(((LivingEntity) e.getDamager()).getHealth()
+								+ (e.getDamage() * (i.getEnhancementPower(Enhancement.VAMPIRISM)) / 10));
 					}
 				}
 			}
