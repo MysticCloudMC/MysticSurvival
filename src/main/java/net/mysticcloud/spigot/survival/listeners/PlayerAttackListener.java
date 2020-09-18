@@ -110,7 +110,7 @@ public class PlayerAttackListener implements Listener {
 			}
 			if (e.getDamager() instanceof Player) {
 				net.mysticcloud.spigot.survival.utils.items.Item i = new net.mysticcloud.spigot.survival.utils.items.Item(
-						((Player) e.getEntity()).getEquipment().getItemInMainHand());
+						((Player) e.getDamager()).getEquipment().getItemInMainHand());
 				Player player = (Player) e.getDamager();
 				if (ItemUtils.getWeaponType(((Player) e.getEntity()).getEquipment().getItemInMainHand().getType())
 						.equals("Stick")) {
