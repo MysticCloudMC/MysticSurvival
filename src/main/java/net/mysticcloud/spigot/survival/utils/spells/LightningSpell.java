@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
@@ -37,8 +38,16 @@ public class LightningSpell extends Spell {
 				points.add(point);
 			}
 			for (Vector vec : points) {
+				Location loc = new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ());
 				entity.getWorld().spawnParticle(Particle.END_ROD,
-						new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ()), 0);
+						loc, 0);
+				for(Entity e : entity.getNearbyEntities(10, 10, 10)) {
+					if(e instanceof LivingEntity && !entity.equals(e)) {
+						if(e.getLocation().distance(loc)<=1) {
+							((LivingEntity)e).damage(1, entity);
+						}
+					}
+				}
 			}
 		}
 
