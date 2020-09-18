@@ -21,10 +21,10 @@ public class LightningSpell extends Spell {
 	@Override
 	public void activate() {
 
-		LinkedList<Vector> points = new LinkedList<>();
-		points.add(new Vector(entity.getEyeLocation().getX(), entity.getEyeLocation().getY(),
-				entity.getEyeLocation().getZ()));
 		for (int f = 0; f != 5; f++) {
+			LinkedList<Vector> points = new LinkedList<>();
+			points.add(new Vector(entity.getEyeLocation().getX(), entity.getEyeLocation().getY(),
+					entity.getEyeLocation().getZ()));
 			for (int i = 0; i != 10 * scalar; i++) {
 				Vector point = points.get(points.size() - 1).clone();
 				point.add(entity.getEyeLocation().getDirection().multiply((double) 1 / scalar));
@@ -40,9 +40,8 @@ public class LightningSpell extends Spell {
 				entity.getWorld().spawnParticle(Particle.END_ROD,
 						new Location(entity.getWorld(), vec.getX(), vec.getY(), vec.getZ()), 0);
 			}
-			points.clear();
 		}
-		
+
 	}
 
 }
