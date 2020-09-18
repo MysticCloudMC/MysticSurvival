@@ -23,9 +23,7 @@ public class Weapon extends Item {
 	Tier tier;
 
 	int weight;
-
 	public Weapon(Material material, int level) {
-		super(material, level);
 		tier = Tier.getTier(level);
 		item = new ItemStack(material);
 		generateInfo(material, level);

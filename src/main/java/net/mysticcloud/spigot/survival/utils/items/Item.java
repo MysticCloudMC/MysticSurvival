@@ -30,6 +30,8 @@ public class Item {
 	Map<Enhancement, Integer> enhancements = new HashMap<>();
 	String name;
 	ItemStack item;
+	
+	public Item() {}
 
 	public Item(Material material, int level) {
 		item = new ItemStack(material);
