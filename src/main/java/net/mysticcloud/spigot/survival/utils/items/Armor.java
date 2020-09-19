@@ -87,7 +87,7 @@ public class Armor extends Item {
 
 	@Override
 	public void generateInfo(Material type, int level) {
-		String name = ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType());
+		String name = ItemUtils.getArmorDescriptor(tier) + " " + ItemUtils.getArmorType(item.getType());
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 
