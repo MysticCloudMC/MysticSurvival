@@ -34,7 +34,7 @@ public class ItemUtils {
 	static Map<Tier, Material[]> armorTiers = new HashMap<>();
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
-	
+
 	public static void start() {
 
 		for (Enhancement en : Enhancement.values()) {
@@ -95,8 +95,6 @@ public class ItemUtils {
 		armorDescriptors.put(Tier.SEVENTH, armorDescriptors.get(Tier.FOURTH));
 
 	}
-	
-	
 
 	public static String getDurabilityString(int dur, int max) {
 		double percent = (dur + 0.0) / (max + 0.0) * 100.0;
@@ -285,107 +283,37 @@ public class ItemUtils {
 	}
 
 	private static ItemStack randomizeArmorEnhancements(ItemStack item, int level) {
-		boolean enhanced = false;
+		Armor armor = new Armor(item);
 
 		Collections.shuffle(armorEnhancements);
 		for (Enhancement en : armorEnhancements) {
 
 			if (new Random().nextBoolean()) {
 				if (en.equals(Enhancement.SPEED)) {
-					ItemMeta a = item.getItemMeta();
-					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble())
-							+ CoreUtils.getRandom().nextInt(5));
-					lore.add(CoreUtils.colorize(en.getName() + level2));
-					a.setLore(lore);
-					a.setDisplayName(
-							CoreUtils.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &aSpeed&f"));
-					AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
-							getArmorType(item.getType()) + " Movement Speed", ((double) level2 / 100),
-							Operation.ADD_NUMBER);
-					a.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, am);
-					item.setItemMeta(a);
-					enhanced = true;
+					armor.enhance(en,
+							(int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)));
 				}
 				if (en.equals(Enhancement.PROTECTION)) {
-					ItemMeta a = item.getItemMeta();
-					List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-					int level2 = (int) ((level * CoreUtils.getRandom().nextDouble())
-							+ CoreUtils.getRandom().nextInt(5));
-					lore.add(CoreUtils.colorize(en.getName() + level2));
-					a.setLore(lore);
-					a.setDisplayName(CoreUtils
-							.colorize(a.getDisplayName() + "&f " + (enhanced ? "and" : "of") + " &dProtection&f"));
-					AttributeModifier am = new AttributeModifier(UUID.randomUUID(),
-							getArmorType(item.getType()) + " Protection", ((double) level2 / 100),
-							Operation.ADD_NUMBER);
-					a.addAttributeModifier(Attribute.GENERIC_ARMOR, am);
-					item.setItemMeta(a);
-					enhanced = true;
+					armor.enhance(en,
+							(int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)));
 				}
 			}
 		}
-		return item;
+		return armor.getItem();
 	}
 
 	public static ItemStack weaponGenerator(int level) {
-		
 
 		Tier tier = Tier.getTier(level);
-		ItemStack item = new ItemStack(weaponTiers.get(tier)[new Random().nextInt(weaponTiers.get(tier).length)]);
-		
-		return new Item(item.getType(),level).getItem();
-/*
-		String name = getWeaponDescriptor(tier) + " " + getWeaponType(item.getType());
-		ItemMeta a = item.getItemMeta();
-		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 
-		double damage = (level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5);
-		double speed = (level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5);
-		double dur = ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) * 10.0;
-
-		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
-				EquipmentSlot.HAND);
-		a.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);
-
-		AttributeModifier sp = new AttributeModifier(UUID.randomUUID(), "Attack Speed", speed, Operation.ADD_NUMBER,
-				EquipmentSlot.HAND);
-		a.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, sp);
-
-		lore.add(CoreUtils.colorize("&7Tier: " + tier.getName()));
-
-		lore.add(CoreUtils.colorize("&7Damage: " + ((int) damage)));
-		lore.add(CoreUtils.colorize("&7Speed: " + ((int) speed)));
-		lore.add(ItemUtils.getDurabilityString(((int) dur), ((int) dur)));
-		lore.add(CoreUtils.colorize("&7------------------"));
-		a.setLore(lore);
-
-		a.setDisplayName(CoreUtils.colorize("&f" + name));
-
-		a.addItemFlags(ItemFlag.values());
-		item.setItemMeta(a);
-
-		item = randomizeWeaponEnhancements(item, level);
-
-		return item;
-		*/
+		return new Weapon(weaponTiers.get(tier)[new Random().nextInt(weaponTiers.get(tier).length)], level).getItem();
 	}
 
 	public static ItemStack armorGenerator(int level) {
+		Material[] tier = armorTiers.get(Tier.getTier(level));
+		Armor armor = new Armor(tier[CoreUtils.getRandom().nextInt(tier.length)], level);
 
-		Tier tier = Tier.getTier(level);
-		ItemStack item = new ItemStack(armorTiers.get(tier)[new Random().nextInt(armorTiers.get(tier).length)]);
-
-		String name = getArmorDescriptor(tier) + " " + getArmorType(item.getType());
-		ItemMeta a = item.getItemMeta();
-
-		a.setDisplayName(CoreUtils.colorize("&f" + name));
-
-		a.addItemFlags(ItemFlag.values());
-		item.setItemMeta(a);
-		item = randomizeArmorEnhancements(item, level);
-
-		return item;
+		return randomizeArmorEnhancements(armor.getItem(), level);
 	}
 
 	public static ItemStack foodGenerator() {
@@ -420,10 +348,9 @@ public class ItemUtils {
 		List<ItemStack> drops = new ArrayList<>();
 		if (CoreUtils.getRandom().nextBoolean()) {
 			drops.add(armorGenerator(level));
-			if (CoreUtils.getRandom().nextBoolean()) {
-				drops.add(weaponGenerator(level));
-			}
-
+		}
+		if (CoreUtils.getRandom().nextBoolean()) {
+			drops.add(weaponGenerator(level));
 		}
 		if (CoreUtils.getRandom().nextBoolean()) {
 			drops.add(foodGenerator());
@@ -433,10 +360,6 @@ public class ItemUtils {
 			location.getWorld().dropItemNaturally(location, i);
 		}
 	}
-
-
-	
-	
 
 	public static ItemStack enhanceInInventory(ItemStack tool, ItemStack book) {
 		ItemMeta tm = tool.getItemMeta();
