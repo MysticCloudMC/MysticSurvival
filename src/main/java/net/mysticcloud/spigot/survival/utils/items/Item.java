@@ -30,8 +30,9 @@ public class Item {
 	Map<Enhancement, Integer> enhancements = new HashMap<>();
 	String name;
 	ItemStack item;
-	
-	public Item() {}
+
+	public Item() {
+	}
 
 	public Item(Material material, int level) {
 		item = new ItemStack(material);
@@ -53,7 +54,7 @@ public class Item {
 			generateInfo(item.getType(), 1);
 			return;
 		}
-		name = item.getItemMeta().getDisplayName();
+		setName(item.getItemMeta().getDisplayName());
 		String a = "";
 		for (String s : item.getItemMeta().getLore()) {
 			a = ChatColor.stripColor(s);
@@ -120,6 +121,7 @@ public class Item {
 	}
 
 	public void updateItem(ItemStack item) {
+		this.item.getItemMeta().setDisplayName(name);
 		item.setAmount(this.item.getAmount());
 		item.setItemMeta(this.item.getItemMeta());
 	}
@@ -157,7 +159,7 @@ public class Item {
 	}
 
 	public void generateInfo(Material type, int level) {
-		name = ItemUtils.getWeaponType(item.getType());
+		setName(ItemUtils.getWeaponType(item.getType()));
 		ItemMeta a = item.getItemMeta();
 		a.setDisplayName(CoreUtils.colorize("&f" + name));
 		a.addItemFlags(ItemFlag.values());
@@ -208,6 +210,14 @@ public class Item {
 		enhancements.remove(e);
 		finalizeEnhancements();
 
+	}
+	
+	public void setName(String name) {
+		ItemMeta meta = item.getItemMeta();
+		this.name = name;
+		meta.setDisplayName(CoreUtils.colorize(name));
+		
+		item.setItemMeta(meta);
 	}
 
 	public void setDamage(int damage) {

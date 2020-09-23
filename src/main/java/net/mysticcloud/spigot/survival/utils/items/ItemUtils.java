@@ -328,24 +328,6 @@ public class ItemUtils {
 
 		return new Book(level).getItem();
 		
-		
-		
-//		ItemStack item = new ItemStack(Material.BOOK);
-//
-//		String name = "&2&lEnhancement Book";
-//		ItemMeta a = item.getItemMeta();
-//
-//		a.setDisplayName(CoreUtils.colorize("&f" + name));
-//
-//		a.addItemFlags(ItemFlag.values());
-//
-//		item.setItemMeta(a);
-//		if (CoreUtils.getRandom().nextBoolean())
-//			item = randomizeArmorEnhancements(item, level);
-//		else
-//			item = randomizeWeaponEnhancements(item, level);
-//
-//		return item;
 	}
 
 	public static void handleDrops(int level, Location location) {
