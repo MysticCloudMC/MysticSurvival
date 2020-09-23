@@ -1,18 +1,14 @@
 package net.mysticcloud.spigot.survival.utils.items;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.attribute.AttributeModifier.Operation;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
@@ -22,10 +18,10 @@ public class Book extends Item {
 
 	Tier tier;
 
-	public Book(Material material, int level) {
+	public Book(int level) {
 		tier = Tier.getTier(level);
-		item = new ItemStack(material);
-		generateInfo(material, level);
+		item = new ItemStack(Material.BOOK);
+		generateInfo(Material.BOOK, level);
 	}
 
 	public Book(ItemStack item) {
@@ -78,27 +74,19 @@ public class Book extends Item {
 		finalizeEnhancements();
 
 	}
-	
 
 	@Override
 	public void generateInfo(Material type, int level) {
-		String name = ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType());
-		ItemMeta a = item.getItemMeta();
-		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-
-		maxDurability = (int) (((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) * 10.0);
-		durability = maxDurability;
-		lore.add(CoreUtils.colorize("&7Tier: " + tier.getName()));
-
-		lore.add(ItemUtils.getDurabilityString(((int) durability), ((int) durability)));
-		lore.add(CoreUtils.colorize("&7------------------"));
-		a.setLore(lore);
-
-		a.setDisplayName(CoreUtils.colorize("&f" + name));
-
-		a.addItemFlags(ItemFlag.values());
-		item.setItemMeta(a);
-
+		name = CoreUtils.colorize("&a&lEnhancement Book");
+		List<Enhancement> enhancements = new ArrayList<>();
+		for (Enhancement en : Enhancement.values()) {
+			enhancements.add(en);
+		}
+		Collections.shuffle(enhancements);
+		for (Enhancement en : enhancements) {
+			if(CoreUtils.getRandom().nextDouble() < en.getChance() && level >= en.getMinLevel()) {
+				enhance(en, en.randomizePower(level));
+			}
+		}
 	}
-
 }
