@@ -45,7 +45,7 @@ public class Weapon extends Item {
 			generateInfo(item.getType(), 1);
 			return;
 		}
-		name = item.getItemMeta().getDisplayName();
+		setName(item.getItemMeta().getDisplayName());
 		String a = "";
 		for (String s : item.getItemMeta().getLore()) {
 			a = ChatColor.stripColor(s);
@@ -97,7 +97,7 @@ public class Weapon extends Item {
 
 	@Override
 	public void generateInfo(Material type, int level) {
-		String name = ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType());
+		setName(ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType()));
 		ItemMeta a = item.getItemMeta();
 		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
 

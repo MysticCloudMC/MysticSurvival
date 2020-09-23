@@ -39,7 +39,7 @@ public class Book extends Item {
 			generateInfo(item.getType(), 1);
 			return;
 		}
-		name = item.getItemMeta().getDisplayName();
+		setName(item.getItemMeta().getDisplayName());
 		String a = "";
 		for (String s : item.getItemMeta().getLore()) {
 			a = ChatColor.stripColor(s);
@@ -77,7 +77,7 @@ public class Book extends Item {
 
 	@Override
 	public void generateInfo(Material type, int level) {
-		name = CoreUtils.colorize("&a&lEnhancement Book");
+		setName("&a&lEnhancement Book");
 		List<Enhancement> enhancements = new ArrayList<>();
 		for (Enhancement en : Enhancement.values()) {
 			enhancements.add(en);
