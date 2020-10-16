@@ -19,7 +19,8 @@ public class HealSpell extends Spell {
 		RandomFormat format = new RandomFormat();
 		format.particle(Particle.COMPOSTER);
 		for(int i=0;i!=20;i++) {
-			format.display(entity.getLocation(), i);
+			format.setLifetime(i);
+			format.display(entity.getLocation());
 		}
 	}
 

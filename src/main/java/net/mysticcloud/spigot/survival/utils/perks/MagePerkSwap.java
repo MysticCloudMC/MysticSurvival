@@ -52,8 +52,9 @@ public class MagePerkSwap extends MagePerk {
 		target.teleport(getPlayer());
 		getPlayer().teleport(loc);
 		for (int i = 0; i != 80; i++) {
-			format.display(getPlayer().getLocation(), i);
-			format.display(loc, i);
+			format.setLifetime(i);
+			format.display(getPlayer().getLocation());
+			format.display(loc);
 		}
 		
 	}

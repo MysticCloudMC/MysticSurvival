@@ -27,7 +27,8 @@ public class MagePerkManaBoost extends MagePerk {
 		format.particle(Particle.REDSTONE);
 		format.setDustOptions(new DustOptions(Color.fromRGB(30, 203, 225), 2));
 		for (int i = 0; i != 50; i++) {
-			format.display(getPlayer().getLocation(), i);
+			format.setLifetime(i);
+			format.display(getPlayer().getLocation());
 		}
 		ready = false;
 		Bukkit.getScheduler().runTaskLater(SurvivalUtils.getPlugin(), new Runnable() {

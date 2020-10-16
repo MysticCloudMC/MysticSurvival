@@ -20,7 +20,8 @@ public class Spell {
 	public void activate() {
 		RandomFormat format = new RandomFormat();
 		for(int i=0;i!=20;i++) {
-			format.display(loc == null ? entity.getLocation() : loc, i);
+			format.setLifetime(i);
+			format.display(loc == null ? entity.getLocation() : loc);
 		}
 	}
 }

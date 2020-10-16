@@ -20,8 +20,9 @@ public class TeleportSpell extends Spell {
 		ParticleFormat format = new RandomFormat();
 		format.particle(Particle.SPELL_WITCH);
 		for(int i=0;i!=60;i++) {
-			format.display(entity.getLocation(), i);
-			format.display(loc, i);
+			format.setLifetime(i);
+			format.display(entity.getLocation());
+			format.display(loc);
 		}
 		entity.teleport(loc);
 	}

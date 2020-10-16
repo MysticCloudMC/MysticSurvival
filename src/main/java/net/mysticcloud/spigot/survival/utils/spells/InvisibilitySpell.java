@@ -23,7 +23,8 @@ public class InvisibilitySpell extends Spell {
 		ParticleFormat format = new RandomFormat();
 		format.particle(Particle.ASH);
 		for (int i = 0; i != 100; i++) {
-			format.display(entity.getLocation(), i);
+			format.setLifetime(i);
+			format.display(entity.getLocation());
 		}
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
@@ -36,7 +37,8 @@ public class InvisibilitySpell extends Spell {
 				@Override
 				public void run() {
 					for (int i = 0; i != 100; i++) {
-						format.display(entity.getLocation(), i);
+						format.setLifetime(i);
+						format.display(entity.getLocation());
 					}
 				}
 			}, 15 * 20);

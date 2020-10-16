@@ -168,8 +168,8 @@ public class PlayerAttackListener implements Listener {
 							format.particle(Particle.REDSTONE);
 							format.setDustOptions(new DustOptions(Color.RED, 2));
 							for (int f = 0; f != 10; f++) {
-								format.display(e.getEntity().getLocation(), f);
-								format.display(e.getDamager().getLocation(), f);
+								format.setLifetime(f);
+								format.display(e.getEntity().getLocation());
 							}
 
 							try {
@@ -186,8 +186,9 @@ public class PlayerAttackListener implements Listener {
 						format.particle(Particle.REDSTONE);
 						format.setDustOptions(new DustOptions(Color.RED, 2));
 						for (int f = 0; f != 10; f++) {
-							format.display(e.getEntity().getLocation(), f);
-							format.display(e.getDamager().getLocation(), f);
+							format.setLifetime(f);
+							format.display(e.getEntity().getLocation());
+							format.display(e.getDamager().getLocation());
 						}
 						((LivingEntity) e.getDamager()).setHealth(((LivingEntity) e.getDamager()).getHealth()
 								+ (e.getDamage() * (i.getEnhancementPower(Enhancement.VAMPIRISM)) / 10));
