@@ -13,6 +13,7 @@ import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.InventoryUtils;
+import net.mysticcloud.spigot.survival.utils.SubSkill;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.items.Armor;
@@ -32,8 +33,8 @@ public class InventoryListener implements Listener {
 		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
 			Item i = new Weapon(e.getRecipe().getResult().getType(),
-					player.getSubSkill("crafting"));
-			player.gainSubSkill("crafting", 1);
+					player.getSubSkill(SubSkill.CRAFTING));
+			player.gainSubSkill(SubSkill.CRAFTING, 1);
 			
 			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
 
@@ -41,8 +42,8 @@ public class InventoryListener implements Listener {
 		if (!ItemUtils.getArmorType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
 			Armor i = new Armor(e.getRecipe().getResult().getType(),
-					player.getSubSkill("crafting"));
-			player.gainSubSkill("crafting", 1);
+					player.getSubSkill(SubSkill.CRAFTING));
+			player.gainSubSkill(SubSkill.CRAFTING, 1);
 			
 			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
 

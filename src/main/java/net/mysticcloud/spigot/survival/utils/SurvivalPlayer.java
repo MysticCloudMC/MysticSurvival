@@ -34,7 +34,7 @@ public class SurvivalPlayer {
 	double staminaModifier = 0;
 	double manaModifier = 0;
 
-	private Map<String, Integer> subSkills = new HashMap<>();
+	private Map<SubSkill, Integer> subSkills = new HashMap<>();
 
 	List<Perk> perks = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class SurvivalPlayer {
 		}
 		if (fc.isConfigurationSection("SubSkills")) {
 			for (String skill : fc.getConfigurationSection("SubSkills").getKeys(false)) {
-				subSkills.put(skill, fc.getInt("SubSkills." + skill));
+				subSkills.put(SubSkill.fromName(skill), fc.getInt("SubSkills." + skill));
 			}
 		}
 
@@ -264,8 +264,8 @@ public class SurvivalPlayer {
 			fc.set("Perks", p);
 		}
 		if (!subSkills.isEmpty()) {
-			for (Entry<String, Integer> e : subSkills.entrySet()) {
-				fc.set("SubSkills." + e.getKey(), e.getValue());
+			for (Entry<SubSkill, Integer> e : subSkills.entrySet()) {
+				fc.set("SubSkills." + e.getKey().getName(), e.getValue());
 			}
 		}
 		try {
@@ -301,12 +301,12 @@ public class SurvivalPlayer {
 		sendMessage("Target set.");
 	}
 
-	public int getSubSkill(String key) {
-		return subSkills.containsKey(key) ? subSkills.get(key) : 0;
+	public int getSubSkill(SubSkill skill) {
+		return subSkills.containsKey(skill) ? subSkills.get(skill) : 0;
 	}
 
-	public void gainSubSkill(String key, int i) {
-		subSkills.put(key, getSubSkill(key) + i);
+	public void gainSubSkill(SubSkill skill, int i) {
+		subSkills.put(skill, getSubSkill(skill) + i);
 	}
 
 }

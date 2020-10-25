@@ -149,7 +149,7 @@ public class InventoryUtils {
 			for (Entry<Integer, ItemStack> entry : items.entrySet()) {
 				if (entry.getValue().getType().equals(Material.STICK)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
-					player.gainSubSkill("spell",1);
+					player.gainSubSkill(SubSkill.SPELL,1);
 					break;
 				}
 			}
@@ -159,7 +159,7 @@ public class InventoryUtils {
 				if (!entry.getValue().getType().equals(Material.BOOK)
 						&& !entry.getValue().getType().equals(Material.AIR)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
-					player.gainSubSkill("enhance",1);
+					player.gainSubSkill(SubSkill.ENHANCE,1);
 					break;
 				}
 			}
