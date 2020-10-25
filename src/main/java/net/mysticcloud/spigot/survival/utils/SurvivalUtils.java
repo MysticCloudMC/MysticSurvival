@@ -45,6 +45,8 @@ public class SurvivalUtils {
 		plugin = main;
 		CoreUtils.addPrefix("homes", "&a&lHome &7>&e ");
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&e ");
+		CoreUtils.addPrefix("olympus", "&d&lOlympus &7>&e ");
+		CoreUtils.addPrefix("division", "&2&lDivision &7>&a ");
 		CoreUtils.coreHandleDamage(false);
 
 		InventoryUtils.start();

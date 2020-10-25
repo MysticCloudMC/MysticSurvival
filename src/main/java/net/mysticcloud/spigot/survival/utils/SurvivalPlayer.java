@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.utils.perks.Perk;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
@@ -77,8 +78,12 @@ public class SurvivalPlayer {
 		stamina = maxStamina;
 	}
 
+	public void sendMessage(String key, String message) {
+		player.sendMessage(key, message);
+	}
+
 	public void sendMessage(String message) {
-		player.sendMessage("olympus", message);
+		sendMessage("olympus", message);
 	}
 
 	public void addPerk(Perks perk, double power) {
@@ -141,6 +146,9 @@ public class SurvivalPlayer {
 			default:
 				break;
 			}
+		}
+		if (this.division != null && !loading) {
+			player.sendMessage("division", "You already set your division once, so you won't get any additional perks.");
 		}
 		this.division = division;
 	}
