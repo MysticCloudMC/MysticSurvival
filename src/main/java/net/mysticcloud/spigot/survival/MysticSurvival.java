@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.mysticcloud.spigot.survival.commands.DivisionCommand;
 import net.mysticcloud.spigot.survival.commands.HomeCommand;
 import net.mysticcloud.spigot.survival.commands.MenuCommand;
 import net.mysticcloud.spigot.survival.commands.MysticSurvivalCommand;
@@ -64,6 +65,7 @@ public class MysticSurvival extends JavaPlugin {
 		new MenuCommand(this, "menu");
 		new PerkCommand(this, "perk", "perks");
 		new MysticSurvivalCommand(this, "mysticsurvival", "msurvival", "ms");
+		new DivisionCommand(this, "division", "d");
 
 		new PlayerListener(this);
 		new PlayerAttackListener(this);

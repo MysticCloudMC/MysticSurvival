@@ -38,5 +38,9 @@ commands:
     aliases: ['perks']
     description: Perks command lol
     usage: /perk
+  division:
+    aliases: ['d']
+    description: Division settings.
+    usage: /division
   
   
