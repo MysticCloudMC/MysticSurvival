@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,8 +33,8 @@ public class SurvivalPlayer {
 	double staminaMultiplier = 1;
 	double staminaModifier = 0;
 	double manaModifier = 0;
-	
-	private Map<String,Integer> subSkills = new HashMap<>();
+
+	private Map<String, Integer> subSkills = new HashMap<>();
 
 	List<Perk> perks = new ArrayList<>();
 
@@ -62,8 +63,13 @@ public class SurvivalPlayer {
 		if (fc.isSet("ManaMultiplier"))
 			manaMultiplier = (Double.parseDouble(fc.getString("ManaMultiplier")));
 		if (fc.isSet("Perks")) {
-			for(String s : fc.getStringList("Perks")) {
+			for (String s : fc.getStringList("Perks")) {
 				addPerk(Perks.getPerk(s));
+			}
+		}
+		if (fc.isConfigurationSection("SubSkills")) {
+			for (String skill : fc.getConfigurationSection("SubSkills").getKeys(false)) {
+				subSkills.put(skill, fc.getInt("SubSkills." + skill));
 			}
 		}
 
@@ -78,7 +84,7 @@ public class SurvivalPlayer {
 	public void addPerk(Perks perk, double power) {
 		addPerk(perk);
 	}
-	
+
 	public void addPerk(Perks perk) {
 		perks.add(perk.getPerk(player.getUUID()));
 	}
@@ -90,25 +96,24 @@ public class SurvivalPlayer {
 		}
 		return perks;
 	}
-	
+
 	public boolean hasPerk(Perks perk) {
 		for (Perk p : this.perks) {
-			if(Perks.getName(p).equals(perk.getName())) {
+			if (Perks.getName(p).equals(perk.getName())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public Perk getPerk(Perks perk) {
 		for (Perk p : this.perks) {
-			if(Perks.getName(p).equals(perk.getName())) {
+			if (Perks.getName(p).equals(perk.getName())) {
 				return p;
 			}
 		}
 		return null;
 	}
-	
 
 	public void setDivision(Division division) {
 		setDivision(division, false);
@@ -145,7 +150,7 @@ public class SurvivalPlayer {
 	}
 
 	public void setMaxMana(int mana) {
-		if(this.maxMana < mana) 
+		if (this.maxMana < mana)
 			this.mana = mana;
 		this.maxMana = mana;
 	}
@@ -251,12 +256,17 @@ public class SurvivalPlayer {
 		fc.set("MaxStamina", maxStamina);
 		fc.set("StaminaMultiplier", staminaMultiplier);
 		fc.set("ManaMultiplier", manaMultiplier);
-		if(!perks.isEmpty()) {
+		if (!perks.isEmpty()) {
 			List<String> p = new ArrayList<>();
-			for(Perk perk : perks) {
+			for (Perk perk : perks) {
 				p.add(Perks.getName(perk));
 			}
 			fc.set("Perks", p);
+		}
+		if (!subSkills.isEmpty()) {
+			for (Entry<String, Integer> e : subSkills.entrySet()) {
+				fc.set("SubSkills." + e.getKey(), e.getValue());
+			}
 		}
 		try {
 			fc.save(file);
@@ -272,10 +282,10 @@ public class SurvivalPlayer {
 	}
 
 	public void activatePerk(Perks perk) {
-		if(!getPerk(perk).canActivate()) {
+		if (!getPerk(perk).canActivate()) {
 			String s = "";
-			for(String a : getPerk(perk).getRequirements()) {
-				s = s== "" ? a : s + ", " + a;
+			for (String a : getPerk(perk).getRequirements()) {
+				s = s == "" ? a : s + ", " + a;
 			}
 			sendMessage("You don't meet the requirements to activate this perk: " + s);
 			return;
@@ -285,20 +295,18 @@ public class SurvivalPlayer {
 	}
 
 	public void target(LivingEntity e) {
-		for(Perk perk : perks) {
+		for (Perk perk : perks) {
 			perk.setTarget(e);
 		}
 		sendMessage("Target set.");
 	}
-	
+
 	public int getSubSkill(String key) {
 		return subSkills.containsKey(key) ? subSkills.get(key) : 0;
 	}
 
 	public void gainSubSkill(String key, int i) {
-		subSkills.put(key,getSubSkill(key)+i);
+		subSkills.put(key, getSubSkill(key) + i);
 	}
-
-	
 
 }
