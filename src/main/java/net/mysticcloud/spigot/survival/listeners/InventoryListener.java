@@ -56,9 +56,9 @@ public class InventoryListener implements Listener {
 
 		if (e.getClickedInventory() instanceof CraftingInventory) {
 			CraftingInventory inv = (CraftingInventory) e.getInventory();
-			if (!ItemUtils.getWeaponType(inv.getResult().getType()).equals("Stick")) {
+			if (!ItemUtils.getWeaponType(inv.getRecipe().getResult().getType()).equals("Stick")) {
 				SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-				Item i = new Weapon(inv.getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
+				Item i = new Weapon(inv.getRecipe().getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
 				player.gainSubSkill(SubSkill.CRAFTING, 1);
 
 				e.getClickedInventory().setItem(e.getSlot(), i.getItem());
