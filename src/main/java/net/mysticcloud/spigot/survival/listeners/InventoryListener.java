@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 
 import net.mysticcloud.spigot.core.utils.GUIManager;
@@ -30,21 +31,21 @@ public class InventoryListener implements Listener {
 
 	@EventHandler
 	public void onCraft(CraftItemEvent e) {
-		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
-			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-			Item i = new Weapon(e.getRecipe().getResult().getType(),
-					player.getSubSkill(SubSkill.CRAFTING));
-			player.gainSubSkill(SubSkill.CRAFTING, 1);
-			
-			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
 
-		}
+//		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
+//			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
+//			Item i = new Weapon(e.getRecipe().getResult().getType(),
+//					player.getSubSkill(SubSkill.CRAFTING));
+//			player.gainSubSkill(SubSkill.CRAFTING, 1);
+//			
+//			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
+//
+//		}
 		if (!ItemUtils.getArmorType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-			Armor i = new Armor(e.getRecipe().getResult().getType(),
-					player.getSubSkill(SubSkill.CRAFTING));
+			Armor i = new Armor(e.getRecipe().getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
 			player.gainSubSkill(SubSkill.CRAFTING, 1);
-			
+
 			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
 
 		}
@@ -52,6 +53,19 @@ public class InventoryListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
+
+		if (e.getClickedInventory() instanceof CraftingInventory) {
+			CraftingInventory inv = (CraftingInventory) e.getInventory();
+			if (!ItemUtils.getWeaponType(inv.getResult().getType()).equals("Stick")) {
+				SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
+				Item i = new Weapon(inv.getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
+				player.gainSubSkill(SubSkill.CRAFTING, 1);
+
+				e.getClickedInventory().setItem(e.getSlot(), i.getItem());
+			}
+			return;
+		}
+
 		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).contains("Perks")) {
 			e.setCancelled(true);
 			if (e.getCurrentItem().getType().equals(Material.DIAMOND)) {
