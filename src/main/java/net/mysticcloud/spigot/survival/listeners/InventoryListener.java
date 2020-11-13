@@ -32,15 +32,15 @@ public class InventoryListener implements Listener {
 	@EventHandler
 	public void onCraft(CraftItemEvent e) {
 
-//		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
-//			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-//			Item i = new Weapon(e.getRecipe().getResult().getType(),
-//					player.getSubSkill(SubSkill.CRAFTING));
-//			player.gainSubSkill(SubSkill.CRAFTING, 1);
-//			
-//			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
-//
-//		}
+		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
+			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
+			Item i = new Weapon(e.getRecipe().getResult().getType(),
+					player.getSubSkill(SubSkill.CRAFTING));
+			player.gainSubSkill(SubSkill.CRAFTING, 1);
+			
+			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
+
+		}
 		if (!ItemUtils.getArmorType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
 			Armor i = new Armor(e.getRecipe().getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
@@ -54,19 +54,6 @@ public class InventoryListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 
-		if (e.getClickedInventory() instanceof CraftingInventory) {
-			CraftingInventory inv = (CraftingInventory) e.getInventory();
-			if (!ItemUtils.getWeaponType(inv.getRecipe().getResult().getType()).equals("Stick")) {
-				SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-				Item i = new Weapon(inv.getRecipe().getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
-				player.gainSubSkill(SubSkill.CRAFTING, 1);
-				
-				inv.setResult(i.getItem());
-
-//				e.getClickedInventory().setItem(e.getSlot(), i.getItem());
-			}
-			return;
-		}
 
 		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).contains("Perks")) {
 			e.setCancelled(true);
