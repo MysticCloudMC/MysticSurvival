@@ -47,6 +47,7 @@ public class SurvivalUtils {
 		CoreUtils.addPrefix("survival", "&d&lOlympus &7>&e ");
 		CoreUtils.addPrefix("olympus", "&d&lOlympus &7>&e ");
 		CoreUtils.addPrefix("division", "&2&lDivision &7>&a ");
+		CoreUtils.addPrefix("skills", "&a&lSkills &f>&7 ");
 		CoreUtils.coreHandleDamage(false);
 
 		InventoryUtils.start();

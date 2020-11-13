@@ -148,7 +148,8 @@ public class SurvivalPlayer {
 			}
 		}
 		if (this.division != null && !loading) {
-			player.sendMessage("division", "You already set your division once, so you won't get any additional perks.");
+			player.sendMessage("division",
+					"You already set your division once, so you won't get any additional perks.");
 		}
 		this.division = division;
 	}
@@ -313,8 +314,13 @@ public class SurvivalPlayer {
 		return subSkills.containsKey(skill) ? subSkills.get(skill) : 0;
 	}
 
-	public void gainSubSkill(SubSkill skill, int i) {
+	public void gainSubSkill(SubSkill skill, int i, boolean m) {
 		subSkills.put(skill, getSubSkill(skill) + i);
+		sendMessage("skills", "Your &a" + skill.getName() + "&7 sub-skill is now at &a" + subSkills.get(skill) + "&7.");
+	}
+
+	public void gainSubSkill(SubSkill skill, int i) {
+		gainSubSkill(skill, i, true);
 	}
 
 }
