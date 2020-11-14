@@ -97,32 +97,26 @@ public class MysticSurvivalCommand implements CommandExecutor {
 						ItemStack wand = new ItemStack(Material.PAPER);
 						ItemMeta wm = wand.getItemMeta();
 						List<String> lore = new ArrayList<>();
+						wm.setDisplayName(CoreUtils.colorize("&7Spell Paper"));
 						if (args[1].equalsIgnoreCase("1")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &5&lTeleportation"));
 							lore.add(CoreUtils.colorize("&5&lTeleportation &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("2")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &a&lHealing"));
 							lore.add(CoreUtils.colorize("&a&lHeal &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("3")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &6&lFireballs"));
 							lore.add(CoreUtils.colorize("&6&lFireball &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("4")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &1&lInvisibility"));
 							lore.add(CoreUtils.colorize("&1&lInvisibility &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("5")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &c&lFlames"));
 							lore.add(CoreUtils.colorize("&c&lFlame &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("6")) {
-							wm.setDisplayName(CoreUtils.colorize("&fStaff of &o&lLightning"));
 							lore.add(CoreUtils.colorize("&f&o&lLightning &7Spell"));
 						}
 						if (args[1].equalsIgnoreCase("99")) {
-							wm.setDisplayName(CoreUtils.colorize("&e&lTargeting Wand"));
 							lore.add(CoreUtils.colorize("&7You can target"));
 							lore.add(CoreUtils.colorize("&7an entity by right"));
 							lore.add(CoreUtils.colorize("&7clicking them with"));
