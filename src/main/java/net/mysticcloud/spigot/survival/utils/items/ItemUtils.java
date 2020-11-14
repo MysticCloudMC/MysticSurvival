@@ -30,7 +30,7 @@ public class ItemUtils {
 	static Map<Tier, Material[]> weaponTiers = new HashMap<>();
 	static Map<Tier, String[]> weaponDescriptors = new HashMap<>();
 	static List<Enhancement> weaponEnhancements = new ArrayList<>();
-	static ItemStack[] foods = new ItemStack[] { CoreUtils.getItem("Bread") };
+	static ItemStack[] foods = new ItemStack[] { new ItemStack(Material.BREAD) };
 	static Map<Tier, Material[]> armorTiers = new HashMap<>();
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
