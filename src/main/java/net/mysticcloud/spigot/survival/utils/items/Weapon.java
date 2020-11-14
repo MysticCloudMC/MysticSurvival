@@ -97,15 +97,16 @@ public class Weapon extends Item {
 
 	@Override
 	public void generateInfo(Material type, int level) {
-		setName(ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType()));
-		ItemMeta a = item.getItemMeta();
-		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
-
 		damage = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
 		speed = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
 		weight = (int) ((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5));
 		maxDurability = (int) (((level * CoreUtils.getRandom().nextDouble()) + CoreUtils.getRandom().nextInt(5)) * 10.0);
 		durability = maxDurability;
+		setName(ItemUtils.getWeaponDescriptor(tier) + " " + ItemUtils.getWeaponType(item.getType()));
+		ItemMeta a = item.getItemMeta();
+		List<String> lore = a.hasLore() ? a.getLore() : new ArrayList<String>();
+
+		
 		AttributeModifier at = new AttributeModifier(UUID.randomUUID(), "Attack Damage", damage, Operation.ADD_NUMBER,
 				EquipmentSlot.HAND);
 		a.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, at);

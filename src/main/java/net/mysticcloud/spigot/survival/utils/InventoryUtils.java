@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import net.md_5.bungee.api.ChatColor;
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.core.utils.InventoryCreator;
-import net.mysticcloud.spigot.survival.utils.items.Item;
 import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
@@ -149,6 +149,9 @@ public class InventoryUtils {
 			for (Entry<Integer, ItemStack> entry : items.entrySet()) {
 				if (entry.getValue().getType().equals(Material.STICK)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
+					ItemMeta rm = result.getItemMeta();
+					rm.setDisplayName(CoreUtils.colorize("Magic Wand"));
+					result.setItemMeta(rm);
 					player.gainSubSkill(SubSkill.SPELL,1);
 					break;
 				}

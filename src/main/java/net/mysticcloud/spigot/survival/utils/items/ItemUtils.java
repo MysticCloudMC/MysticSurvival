@@ -34,6 +34,10 @@ public class ItemUtils {
 	static Map<Tier, Material[]> armorTiers = new HashMap<>();
 	static Map<Tier, String[]> armorDescriptors = new HashMap<>();
 	static List<Enhancement> armorEnhancements = new ArrayList<>();
+	static String[] slowDescritors = new String[] {"Slow", "Sluggish"};
+	static String[] heavyDescritors = new String[] {"Heavy"};
+	static String[] fastDescritors = new String[] {"Fast", "Swift","Quick","Lightning"};
+	static String[] lightDescritors = new String[] {"Light"};
 
 	public static void start() {
 
@@ -165,6 +169,18 @@ public class ItemUtils {
 
 	public static String getWeaponDescriptor(Tier tier) {
 		return weaponDescriptors.get(tier)[new Random().nextInt(weaponDescriptors.get(tier).length)];
+	}
+	public static String getWeaponDescriptor(Tier tier, Integer[] info) {
+		int speed = 0;
+		int weight = 0;
+		int damage = 0;
+		if(info.length == 3) {
+			weight = info[0];
+			speed = info[1];
+			damage = info[2];
+		}
+		
+		return null;
 	}
 
 	public static String getArmorDescriptor(Tier tier) {
@@ -323,6 +339,14 @@ public class ItemUtils {
 		item.setItemMeta(a);
 		return item;
 	}
+	
+	public static ItemStack[] magicItemGenerator(int level) {
+		List<ItemStack> items = new ArrayList<>();
+		for(int i=0;i<=new Random().nextInt(3)+1;i++) {
+			
+		}
+		return (ItemStack[]) items.toArray();
+	}
 
 	public static ItemStack bookGenerator(int level) {
 
@@ -332,14 +356,20 @@ public class ItemUtils {
 
 	public static void handleDrops(int level, Location location) {
 		List<ItemStack> drops = new ArrayList<>();
-		if (CoreUtils.getRandom().nextBoolean()) {
+		if (CoreUtils.getRandom().nextDouble() <= 0.3) {
 			drops.add(armorGenerator(level));
 		}
-		if (CoreUtils.getRandom().nextBoolean()) {
+		if (CoreUtils.getRandom().nextDouble() <= 0.7) {
 			drops.add(weaponGenerator(level));
 		}
-		if (CoreUtils.getRandom().nextBoolean()) {
+		if (CoreUtils.getRandom().nextDouble() <= 0.1) {
 			drops.add(foodGenerator());
+		}
+		if (CoreUtils.getRandom().nextDouble() <= 0.05) {
+			for(ItemStack i : magicItemGenerator(level)) {
+				drops.add(i);
+			}
+			
 		}
 
 		for (ItemStack i : drops) {
@@ -456,5 +486,7 @@ public class ItemUtils {
 		tool.setItemMeta(tm);
 		return tool;
 	}
+
+	
 
 }

@@ -2,7 +2,7 @@ package net.mysticcloud.spigot.survival.utils;
 
 public enum SubSkill {
 	CRAFTING("Crafting"),
-	SPELL("SpellCraft"),
+	SPELL("Spell-Crafting"),
 	ENHANCE("Enhancement");
 	
 	String name;
