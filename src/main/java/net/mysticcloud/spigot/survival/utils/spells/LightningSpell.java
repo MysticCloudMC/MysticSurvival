@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
@@ -21,6 +22,8 @@ public class LightningSpell extends Spell {
 
 	@Override
 	public void activate() {
+		
+		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 10, 10);
 
 		for (int f = 0; f != 2; f++) {
 			LinkedList<Vector> points = new LinkedList<>();
