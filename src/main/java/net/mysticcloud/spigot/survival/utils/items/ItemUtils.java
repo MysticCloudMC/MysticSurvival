@@ -343,7 +343,7 @@ public class ItemUtils {
 	public static ItemStack[] magicItemGenerator(int level) {
 		List<ItemStack> items = new ArrayList<>();
 		for(int i=0;i<=new Random().nextInt(3)+1;i++) {
-			
+			items.add(new MagicItem(new Random().nextInt(1), level).getItem());
 		}
 		return (ItemStack[]) items.toArray();
 	}
