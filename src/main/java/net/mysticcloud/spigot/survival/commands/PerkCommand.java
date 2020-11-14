@@ -1,5 +1,6 @@
 package net.mysticcloud.spigot.survival.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,15 @@ public class PerkCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(CoreUtils.prefixes("admin") + "Player only command.");
+			if (args[0].equalsIgnoreCase("add")) {
+				if (args.length == 4) {
+					if (Bukkit.getPlayer(args[1]) != null) {
+						SurvivalUtils.getSurvivalPlayer(Bukkit.getPlayer(args[1]))
+								.addPerk(Perks.getPerk(Division.valueOf(args[2]), args[3]));
+					}
+				}
+			} else
+				sender.sendMessage(CoreUtils.prefixes("admin") + "Player only command.");
 			return true;
 		}
 		SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(((Player) sender));
@@ -39,7 +48,8 @@ public class PerkCommand implements CommandExecutor {
 						.colorize("&d/perks list [division] &5- lists all perks or just perks in a division."));
 				sender.sendMessage(CoreUtils.colorize("&d/perks m[ylist] &5- shows all perks you have."));
 				sender.sendMessage(CoreUtils.colorize("&d/perks u[se] <division> <perk> &5- use or activate a perk."));
-				sender.sendMessage(CoreUtils.colorize("&d/perks t[arget] &5- targets the next living entity you hit with a projectile."));
+				sender.sendMessage(CoreUtils
+						.colorize("&d/perks t[arget] &5- targets the next living entity you hit with a projectile."));
 				return true;
 			}
 			if (args[1].equals("2")) {
