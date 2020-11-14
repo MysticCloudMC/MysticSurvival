@@ -60,6 +60,7 @@ public class MagicItem extends Item {
 	}
 
 	private void generateSpellInfo(int level) {
+		setName("&7Spell Paper");
 		int spell = new Random().nextInt(5);
 		ItemMeta meta = item.getItemMeta();
 		String sname = "";
