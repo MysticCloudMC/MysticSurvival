@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -126,6 +127,18 @@ public class InventoryUtils {
 			GUIManager.openInventory(player, perks.getInventory(), ChatColor.stripColor(name));
 		else
 			GUIManager.switchInventory(player, perks.getInventory(), ChatColor.stripColor(name));
+	}
+	
+	public static void dropItems(SurvivalPlayer player, Inventory inv) {
+		LinkedHashMap<Integer, ItemStack> reicpe = getRecipe(inv);
+		if(inv.getItem(resultNum)!=null) {
+			reicpe.put(9, inv.getItem(resultNum));
+		}
+		for(Entry<Integer,ItemStack> entry : reicpe.entrySet()) {
+			if(!entry.getValue().getType().equals(Material.AIR)) {
+				Bukkit.getPlayer(player.getPlayer().getUUID()).getWorld().dropItem(Bukkit.getPlayer(player.getPlayer().getUUID()).getLocation(), entry.getValue());
+			}
+		}
 	}
 
 	public static void craft(SurvivalPlayer player, Inventory inv) {

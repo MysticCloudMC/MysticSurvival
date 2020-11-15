@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.mysticcloud.spigot.core.utils.GUIManager;
@@ -34,10 +34,9 @@ public class InventoryListener implements Listener {
 
 		if (!ItemUtils.getWeaponType(e.getRecipe().getResult().getType()).equals("Stick")) {
 			SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer((Player) e.getWhoClicked());
-			Item i = new Weapon(e.getRecipe().getResult().getType(),
-					player.getSubSkill(SubSkill.CRAFTING));
+			Item i = new Weapon(e.getRecipe().getResult().getType(), player.getSubSkill(SubSkill.CRAFTING));
 			player.gainSubSkill(SubSkill.CRAFTING, 1);
-			
+
 			e.getClickedInventory().setItem(e.getSlot(), i.getItem());
 
 		}
@@ -52,8 +51,14 @@ public class InventoryListener implements Listener {
 	}
 
 	@EventHandler
-	public void onInventoryClick(InventoryClickEvent e) {
+	public void onInventoryClose(InventoryCloseEvent e) {
+		if (GUIManager.getOpenInventory((Player) e.getPlayer()).equalsIgnoreCase("CraftingBench")) {
+			InventoryUtils.dropItems(SurvivalUtils.getSurvivalPlayer((Player) e.getPlayer()), e.getInventory());
+		}
+	}
 
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
 
 		if (GUIManager.getOpenInventory((Player) e.getWhoClicked()).contains("Perks")) {
 			e.setCancelled(true);
