@@ -1,4 +1,4 @@
-package net.mysticcloud.spigot.survival.utils;
+package net.mysticcloud.spigot.survival.utils.inventories;
 
 public enum SubSkill {
 	CRAFTING("Crafting"),

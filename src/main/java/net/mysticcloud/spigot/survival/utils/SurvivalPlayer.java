@@ -18,6 +18,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
+import net.mysticcloud.spigot.survival.utils.inventories.SubSkill;
 import net.mysticcloud.spigot.survival.utils.perks.Perk;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
@@ -320,7 +321,7 @@ public class SurvivalPlayer {
 	}
 
 	public void gainSubSkill(SubSkill skill, int i) {
-		gainSubSkill(skill, i, true);
+		gainSubSkill(skill, i, i!=0);
 	}
 
 }

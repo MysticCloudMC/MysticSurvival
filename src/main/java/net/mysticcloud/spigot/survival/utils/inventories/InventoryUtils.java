@@ -1,4 +1,4 @@
-package net.mysticcloud.spigot.survival.utils;
+package net.mysticcloud.spigot.survival.utils.inventories;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,6 +14,9 @@ import net.md_5.bungee.api.ChatColor;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.GUIManager;
 import net.mysticcloud.spigot.core.utils.InventoryCreator;
+import net.mysticcloud.spigot.survival.utils.Division;
+import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
+import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;
 
@@ -127,21 +130,24 @@ public class InventoryUtils {
 
 	public static void craft(SurvivalPlayer player, Inventory inv) {
 		LinkedHashMap<Integer, ItemStack> reicpe = getRecipe(inv);
-		ItemStack result = getResult(reicpe, player);
+		CraftResult result = getResult(reicpe);
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
-				&& !result.getType().equals(Material.AIR)) {
+				&& !result.result().getType().equals(Material.AIR)) {
 			for (int i : recipeNums) {
 				if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR)) {
 					inv.getItem(i).setAmount(inv.getItem(i).getAmount() - 1);
 				} else
 					inv.setItem(i, new ItemStack(Material.AIR));
 			}
-			inv.setItem(resultNum, result);
+			inv.setItem(resultNum, result.result());
+			player.gainSubSkill(result.subSkill(), result.amount());
 		}
 	}
 
-	private static ItemStack getResult(LinkedHashMap<Integer, ItemStack> items, SurvivalPlayer player) {
+	private static CraftResult getResult(LinkedHashMap<Integer, ItemStack> items) {
 		ItemStack result = new ItemStack(Material.AIR);
+		SubSkill skill = SubSkill.CRAFTING;
+		int amount = 0;
 
 //		0,1,2,
 //		3,4,5,
@@ -156,7 +162,8 @@ public class InventoryUtils {
 					ItemMeta rm = result.getItemMeta();
 					rm.setDisplayName(CoreUtils.colorize("Magic Wand"));
 					result.setItemMeta(rm);
-					player.gainSubSkill(SubSkill.SPELL, 1);
+					skill = SubSkill.SPELL;
+					amount = 1;
 					break;
 				}
 			}
@@ -168,13 +175,15 @@ public class InventoryUtils {
 					ItemStack e = entry.getValue().clone();
 					e.setAmount(1);
 					result = ItemUtils.enhanceInInventory(e, items.get(4));
-					player.gainSubSkill(SubSkill.ENHANCE, 1);
+					skill = SubSkill.ENHANCE;
+					amount = 1;
+
 					break;
 				}
 			}
 		}
 
-		return result;
+		return new CraftResult(result, skill, amount);
 	}
 
 	private static LinkedHashMap<Integer, ItemStack> getRecipe(Inventory inv) {

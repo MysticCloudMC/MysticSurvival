@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.survival.MysticSurvival;
-import net.mysticcloud.spigot.survival.utils.InventoryUtils;
+import net.mysticcloud.spigot.survival.utils.inventories.InventoryUtils;
 
 public class MenuCommand implements CommandExecutor {
 
