@@ -131,15 +131,17 @@ public class InventoryUtils {
 	public static void craft(SurvivalPlayer player, Inventory inv) {
 		LinkedHashMap<Integer, ItemStack> reicpe = getRecipe(inv);
 		CraftResult result = getResult(reicpe);
+		ItemStack r = inv.getItem(resultNum).clone();
+		r.setAmount(1);
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
-				|| inv.getItem(resultNum).getItemMeta().equals(result.result().getItemMeta())) {
+				|| r.equals(result.result())) {
 			for (int i : recipeNums) {
 				if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR)) {
 					inv.getItem(i).setAmount(inv.getItem(i).getAmount() - 1);
 				} else
 					inv.setItem(i, new ItemStack(Material.AIR));
 			}
-			if (inv.getItem(resultNum).getItemMeta().equals(result.result().getItemMeta())) {
+			if (r.equals(result.result())) {
 				inv.getItem(resultNum).setAmount(inv.getItem(resultNum).getAmount() + 1);
 			} else
 				inv.setItem(resultNum, result.result());
