@@ -132,14 +132,17 @@ public class InventoryUtils {
 		LinkedHashMap<Integer, ItemStack> reicpe = getRecipe(inv);
 		CraftResult result = getResult(reicpe);
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
-				&& !result.result().getType().equals(Material.AIR)) {
+				|| inv.getItem(resultNum).getItemMeta().equals(result.result().getItemMeta())) {
 			for (int i : recipeNums) {
 				if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR)) {
 					inv.getItem(i).setAmount(inv.getItem(i).getAmount() - 1);
 				} else
 					inv.setItem(i, new ItemStack(Material.AIR));
 			}
-			inv.setItem(resultNum, result.result());
+			if (inv.getItem(resultNum).getItemMeta().equals(result.result().getItemMeta())) {
+				inv.getItem(resultNum).setAmount(inv.getItem(resultNum).getAmount() + 1);
+			} else
+				inv.setItem(resultNum, result.result());
 			player.gainSubSkill(result.subSkill(), result.amount());
 		}
 	}
