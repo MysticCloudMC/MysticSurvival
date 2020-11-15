@@ -133,7 +133,7 @@ public class InventoryUtils {
 		CraftResult result = getResult(reicpe);
 		ItemStack r = inv.getItem(resultNum).clone();
 		r.setAmount(1);
-		if (inv.getItem(resultNum).getType().equals(Material.AIR)) {
+		if (inv.getItem(resultNum)==null || r.equals(result.result())) {
 			for (int i : recipeNums) {
 				if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR)) {
 					inv.getItem(i).setAmount(inv.getItem(i).getAmount() - 1);
