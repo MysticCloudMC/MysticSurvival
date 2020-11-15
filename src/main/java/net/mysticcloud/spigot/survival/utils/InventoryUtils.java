@@ -131,7 +131,10 @@ public class InventoryUtils {
 		if ((inv.getItem(resultNum) == null || inv.getItem(resultNum).getType().equals(Material.AIR))
 				&& !result.getType().equals(Material.AIR)) {
 			for (int i : recipeNums) {
-				inv.setItem(i, new ItemStack(Material.AIR));
+				if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR)) {
+					inv.getItem(i).setAmount(inv.getItem(i).getAmount() - 1);
+				} else
+					inv.setItem(i, new ItemStack(Material.AIR));
 			}
 			inv.setItem(resultNum, result);
 		}
@@ -144,15 +147,14 @@ public class InventoryUtils {
 //		3,4,5,
 //		6,7,8
 
-
 		if (items.get(4).getType().equals(Material.PAPER)) {
 			for (Entry<Integer, ItemStack> entry : items.entrySet()) {
 				if (entry.getValue().getType().equals(Material.STICK)) {
-					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
+					result = ItemUtils.enhanceInInventory(entry.getValue().clone(), new ItemStack(Material.STICK));
 					ItemMeta rm = result.getItemMeta();
 					rm.setDisplayName(CoreUtils.colorize("Magic Wand"));
 					result.setItemMeta(rm);
-					player.gainSubSkill(SubSkill.SPELL,1);
+					player.gainSubSkill(SubSkill.SPELL, 1);
 					break;
 				}
 			}
@@ -162,7 +164,7 @@ public class InventoryUtils {
 				if (!entry.getValue().getType().equals(Material.BOOK)
 						&& !entry.getValue().getType().equals(Material.AIR)) {
 					result = ItemUtils.enhanceInInventory(entry.getValue(), items.get(4));
-					player.gainSubSkill(SubSkill.ENHANCE,1);
+					player.gainSubSkill(SubSkill.ENHANCE, 1);
 					break;
 				}
 			}
