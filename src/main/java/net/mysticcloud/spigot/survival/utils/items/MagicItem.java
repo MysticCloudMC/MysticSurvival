@@ -78,7 +78,7 @@ public class MagicItem extends Item {
 			sname = "&5&lFireball";
 			break;
 		case 4:
-			sname = "&1&lInvisiblity";
+			sname = "&1&lInvisibility";
 			break;
 		case 5:
 			sname = "&5&lTeleportation";
