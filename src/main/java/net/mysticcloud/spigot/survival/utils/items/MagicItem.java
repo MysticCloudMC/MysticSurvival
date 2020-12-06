@@ -12,13 +12,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
+import net.mysticcloud.spigot.survival.utils.Spell;
+import net.mysticcloud.spigot.survival.utils.Spells;
 import net.mysticcloud.spigot.survival.utils.Tier;
 import net.mysticcloud.spigot.survival.utils.spells.FireballSpell;
 import net.mysticcloud.spigot.survival.utils.spells.FlameSpell;
 import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
 import net.mysticcloud.spigot.survival.utils.spells.InvisibilitySpell;
 import net.mysticcloud.spigot.survival.utils.spells.LightningSpell;
-import net.mysticcloud.spigot.survival.utils.spells.Spell;
 import net.mysticcloud.spigot.survival.utils.spells.TeleportSpell;
 
 public class MagicItem extends Item {
@@ -66,22 +67,22 @@ public class MagicItem extends Item {
 		String sname = "";
 		switch(spell) {
 		case 0:
-			sname = "&f&o&lLightning";
+			sname = Spells.LIGHTNING.getColorizedName();
 			break;
 		case 1:
-			sname = "&c&lFlame";
+			sname = Spells.FLAME.getColorizedName();
 			break;
 		case 2:
-			sname = "&a&lHeal";
+			sname = Spells.HEAL.getColorizedName();
 			break;
 		case 3:
-			sname = "&5&lFireball";
+			sname = Spells.FIREBALL.getColorizedName();
 			break;
 		case 4:
-			sname = "&1&lInvisibility";
+			sname = Spells.INVISIBILITY.getColorizedName();
 			break;
 		case 5:
-			sname = "&5&lTeleportation";
+			sname = Spells.TELEPORT.getColorizedName();
 			break;
 		default: break;
 		}
@@ -113,22 +114,22 @@ public class MagicItem extends Item {
 			for (String s : item.getItemMeta().getLore()) {
 				a = ChatColor.stripColor(s);
 				Spell spell = null;
-				if (a.equalsIgnoreCase("Flame Spell")) {
+				if (a.equalsIgnoreCase(Spells.FLAME.getStrippedName() + " Spell")) {
 					spell = new FlameSpell(null);
 				}
-				if (a.equalsIgnoreCase("Teleportation Spell")) {
+				if (a.equalsIgnoreCase(Spells.TELEPORT.getStrippedName() + " Spell")) {
 					spell = new TeleportSpell(null, null);
 				}
-				if (a.equalsIgnoreCase("Heal Spell")) {
+				if (a.equalsIgnoreCase(Spells.HEAL.getStrippedName() + " Spell")) {
 					spell = new HealSpell(null);
 				}
-				if (a.equalsIgnoreCase("Fireball Spell")) {
+				if (a.equalsIgnoreCase(Spells.FIREBALL.getStrippedName() + " Spell")) {
 					spell = new FireballSpell(null);
 				}
-				if (a.equalsIgnoreCase("Invisibility Spell")) {
+				if (a.equalsIgnoreCase(Spells.INVISIBILITY.getStrippedName() + " Spell")) {
 					spell = new InvisibilitySpell(null);
 				}
-				if (a.equalsIgnoreCase("Lightning Spell")) {
+				if (a.equalsIgnoreCase(Spells.LIGHTNING.getStrippedName() + " Spell")) {
 					spell = new LightningSpell(null);
 				}
 

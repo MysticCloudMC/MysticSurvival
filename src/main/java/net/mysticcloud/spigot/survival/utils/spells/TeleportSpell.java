@@ -2,15 +2,17 @@ package net.mysticcloud.spigot.survival.utils.spells;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.LivingEntity;
 
 import net.mysticcloud.spigot.core.utils.particles.ParticleFormat;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
+import net.mysticcloud.spigot.survival.utils.Spell;
+import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 
 public class TeleportSpell extends Spell {
 	
-	public TeleportSpell(LivingEntity entity, Location loc) {
-		this.entity = entity;
+	
+	public TeleportSpell(SurvivalPlayer caster, Location loc) {
+		super(caster);
 		this.loc = loc;
 		cost = 50;
 	}
@@ -21,10 +23,10 @@ public class TeleportSpell extends Spell {
 		format.particle(Particle.SPELL_WITCH);
 		for(int i=0;i!=60;i++) {
 			format.setLifetime(i);
-			format.display(entity.getLocation());
+			format.display(getCasterEntity().getLocation());
 			format.display(loc);
 		}
-		entity.teleport(loc);
+		getCasterEntity().teleport(loc);
 	}
 
 }

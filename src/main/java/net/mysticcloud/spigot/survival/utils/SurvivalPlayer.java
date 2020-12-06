@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.survival.utils.inventories.SubSkill;
 import net.mysticcloud.spigot.survival.utils.perks.Perk;
@@ -37,6 +36,8 @@ public class SurvivalPlayer {
 	double manaModifier = 0;
 
 	private Map<SubSkill, Integer> subSkills = new HashMap<>();
+
+	private Map<Spells, Double> spellSkills = new HashMap<>();
 
 	List<Perk> perks = new ArrayList<>();
 
@@ -72,6 +73,12 @@ public class SurvivalPlayer {
 		if (fc.isConfigurationSection("SubSkills")) {
 			for (String skill : fc.getConfigurationSection("SubSkills").getKeys(false)) {
 				subSkills.put(SubSkill.fromName(skill), fc.getInt("SubSkills." + skill));
+			}
+		}
+
+		if (fc.isConfigurationSection("SpellSkills")) {
+			for (String spell : fc.getConfigurationSection("SpellSkills").getKeys(false)) {
+				spellSkills.put(Spells.valueOf(spell), fc.getDouble("SpellSkills." + spell));
 			}
 		}
 
@@ -278,6 +285,13 @@ public class SurvivalPlayer {
 				fc.set("SubSkills." + e.getKey().getName(), e.getValue());
 			}
 		}
+
+		if (!spellSkills.isEmpty()) {
+			for (Entry<Spells, Double> e : spellSkills.entrySet()) {
+				fc.set("SubSkills." + e.getKey().name(), e.getValue());
+			}
+		}
+
 		try {
 			fc.save(file);
 		} catch (IOException e) {
@@ -321,7 +335,21 @@ public class SurvivalPlayer {
 	}
 
 	public void gainSubSkill(SubSkill skill, int i) {
-		gainSubSkill(skill, i, i!=0);
+		gainSubSkill(skill, i, i != 0);
+	}
+
+	public double getSpellSkill(Spells spell) {
+		return spellSkills.containsKey(spell) ? spellSkills.get(spell) : 0;
+	}
+
+	public void gainSpellSkill(Spells spell, double i, boolean m) {
+		spellSkills.put(spell, getSpellSkill(spell) + i);
+		sendMessage("skills", "Your &a" + spell.getColorizedName() + "&7 skill is now at &a"
+				+ Math.floor(spellSkills.get(spell)) + "&7.");
+	}
+
+	public void gainSpellSkill(Spells spell, double i) {
+		gainSpellSkill(spell, i, Math.floor(getSpellSkill(spell)) < Math.floor(getSpellSkill(spell) + i));
 	}
 
 }

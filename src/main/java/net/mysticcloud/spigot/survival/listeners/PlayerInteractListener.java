@@ -16,6 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
+import net.mysticcloud.spigot.survival.utils.Spell;
+import net.mysticcloud.spigot.survival.utils.Spells;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.spells.FireballSpell;
@@ -23,7 +25,6 @@ import net.mysticcloud.spigot.survival.utils.spells.FlameSpell;
 import net.mysticcloud.spigot.survival.utils.spells.HealSpell;
 import net.mysticcloud.spigot.survival.utils.spells.InvisibilitySpell;
 import net.mysticcloud.spigot.survival.utils.spells.LightningSpell;
-import net.mysticcloud.spigot.survival.utils.spells.Spell;
 import net.mysticcloud.spigot.survival.utils.spells.TeleportSpell;
 
 public class PlayerInteractListener implements Listener {
@@ -47,8 +48,8 @@ public class PlayerInteractListener implements Listener {
 			ItemStack s = (e.getPlayer()).getEquipment().getItemInMainHand();
 //			List<String> lore = new ArrayList<>();
 			for (String a : s.getItemMeta().getLore()) {
-				if (ChatColor.stripColor(a).contains("Teleportation Spell")) {
-					Spell spell = new TeleportSpell(e.getPlayer(), e.getPlayer().getTargetBlock(null, 200).getLocation()
+				if (ChatColor.stripColor(a).contains(Spells.TELEPORT.getStrippedName() + " Spell")) {
+					Spell spell = new TeleportSpell(SurvivalUtils.getSurvivalPlayer(e.getPlayer()), e.getPlayer().getTargetBlock(null, 200).getLocation()
 							.add(0, 1, 0).setDirection(e.getPlayer().getEyeLocation().getDirection()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
@@ -58,8 +59,8 @@ public class PlayerInteractListener implements Listener {
 						player.useMana(0);
 					}
 				}
-				if (ChatColor.stripColor(a).contains("Heal Spell")) {
-					Spell spell = new HealSpell(e.getPlayer());
+				if (ChatColor.stripColor(a).contains(Spells.HEAL.getStrippedName() + " Spell")) {
+					Spell spell = new HealSpell(SurvivalUtils.getSurvivalPlayer(e.getPlayer()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
@@ -68,19 +69,8 @@ public class PlayerInteractListener implements Listener {
 						player.useMana(0);
 					}
 				}
-				if (ChatColor.stripColor(a).contains("Fireball Spell")) {
-					Spell spell = new FireballSpell(e.getPlayer());
-					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
-					if (player.getMana() >= spell.getCost()) {
-						spell.activate();
-						player.useMana(spell.getCost());
-					} else {
-						player.useMana(0);
-					}
-				}
-
-				if (ChatColor.stripColor(a).contains("Flame Spell")) {
-					Spell spell = new FlameSpell(e.getPlayer());
+				if (ChatColor.stripColor(a).contains(Spells.FIREBALL.getStrippedName() + " Spell")) {
+					Spell spell = new FireballSpell(SurvivalUtils.getSurvivalPlayer(e.getPlayer()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
@@ -90,8 +80,8 @@ public class PlayerInteractListener implements Listener {
 					}
 				}
 
-				if (ChatColor.stripColor(a).contains("Lightning Spell")) {
-					Spell spell = new LightningSpell(e.getPlayer());
+				if (ChatColor.stripColor(a).contains(Spells.FLAME.getStrippedName() + " Spell")) {
+					Spell spell = new FlameSpell(SurvivalUtils.getSurvivalPlayer(e.getPlayer()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
@@ -100,8 +90,19 @@ public class PlayerInteractListener implements Listener {
 						player.useMana(0);
 					}
 				}
-				if (ChatColor.stripColor(a).contains("Invisibility Spell")) {
-					Spell spell = new InvisibilitySpell(e.getPlayer());
+
+				if (ChatColor.stripColor(a).contains(Spells.LIGHTNING.getStrippedName() + " Spell")) {
+					Spell spell = new LightningSpell(SurvivalUtils.getSurvivalPlayer(e.getPlayer()));
+					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
+					if (player.getMana() >= spell.getCost()) {
+						spell.activate();
+						player.useMana(spell.getCost());
+					} else {
+						player.useMana(0);
+					}
+				}
+				if (ChatColor.stripColor(a).contains(Spells.INVISIBILITY.getStrippedName() + " Spell")) {
+					Spell spell = new InvisibilitySpell(SurvivalUtils.getSurvivalPlayer(e.getPlayer()));
 					SurvivalPlayer player = SurvivalUtils.getSurvivalPlayer(e.getPlayer());
 					if (player.getMana() >= spell.getCost()) {
 						spell.activate();
