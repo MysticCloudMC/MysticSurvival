@@ -344,12 +344,12 @@ public class SurvivalPlayer {
 
 	public void gainSpellSkill(Spells spell, double i, boolean m) {
 		spellSkills.put(spell, getSpellSkill(spell) + i);
-		sendMessage("skills", "Your &a" + spell.getColorizedName() + "&7 skill is now at &a"
-				+ Math.floor(spellSkills.get(spell)) + "&7.");
+		sendMessage("skills", "Your &a" + spell.getColorizedName() + "&7 spell-skill is now at &a"
+				+ ((int)Math.floor(spellSkills.get(spell))) + "&7.");
 	}
 
 	public void gainSpellSkill(Spells spell, double i) {
-		gainSpellSkill(spell, i, Math.floor(getSpellSkill(spell)) < Math.floor(getSpellSkill(spell) + i));
+		gainSpellSkill(spell, i, (int)Math.floor(getSpellSkill(spell)) < (int)Math.floor(getSpellSkill(spell) + i));
 	}
 
 }

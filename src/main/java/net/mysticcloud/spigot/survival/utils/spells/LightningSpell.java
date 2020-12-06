@@ -55,7 +55,7 @@ public class LightningSpell extends Spell {
 									getCasterEntity());
 							((LivingEntity) e)
 									.setFireTicks((int) ((Math.floor(caster.getSpellSkill(Spells.LIGHTNING)) + 1) / 1));
-							caster.gainSpellSkill(Spells.LIGHTNING, 0.05);
+							caster.gainSpellSkill(Spells.LIGHTNING, 0.005);
 						}
 					}
 				}
