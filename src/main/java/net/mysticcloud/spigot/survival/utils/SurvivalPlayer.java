@@ -331,7 +331,9 @@ public class SurvivalPlayer {
 
 	public void gainSubSkill(SubSkill skill, int i, boolean m) {
 		subSkills.put(skill, getSubSkill(skill) + i);
-		sendMessage("skills", "Your &a" + skill.getName() + "&7 sub-skill is now at &a" + subSkills.get(skill) + "&7.");
+		if (m)
+			sendMessage("skills",
+					"Your &a" + skill.getName() + "&7 sub-skill is now at &a" + subSkills.get(skill) + "&7.");
 	}
 
 	public void gainSubSkill(SubSkill skill, int i) {
@@ -344,12 +346,13 @@ public class SurvivalPlayer {
 
 	public void gainSpellSkill(Spells spell, double i, boolean m) {
 		spellSkills.put(spell, getSpellSkill(spell) + i);
-		sendMessage("skills", "Your &a" + spell.getColorizedName() + "&7 spell-skill is now at &a"
-				+ ((int)Math.floor(spellSkills.get(spell))) + "&7.");
+		if (m)
+			sendMessage("skills", "Your &a" + spell.getColorizedName() + "&7 spell-skill is now at &a"
+					+ ((int) Math.floor(spellSkills.get(spell))) + "&7.");
 	}
 
 	public void gainSpellSkill(Spells spell, double i) {
-		gainSpellSkill(spell, i, (int)Math.floor(getSpellSkill(spell)) < (int)Math.floor(getSpellSkill(spell) + i));
+		gainSpellSkill(spell, i, (int) Math.floor(getSpellSkill(spell)) < (int) Math.floor(getSpellSkill(spell) + i));
 	}
 
 }
