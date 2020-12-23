@@ -6,7 +6,9 @@ import net.mysticcloud.spigot.core.utils.CoreUtils;
 
 public enum Division {
 
-	ARCHER("&a&lArcher", Material.BOW), MAGE("&b&lMage", Material.STICK), WARRIOR("&7&lWarrior", Material.IRON_SWORD);
+	ARCHER("&a&lArcher", Material.BOW),
+	MAGE("&b&lMage", Material.STICK),
+	WARRIOR("&7&lWarrior", Material.IRON_SWORD);
 
 	Material guiItem;
 	String displayName;
