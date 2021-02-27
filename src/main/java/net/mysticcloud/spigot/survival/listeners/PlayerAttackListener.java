@@ -91,6 +91,8 @@ public class PlayerAttackListener implements Listener {
 			}
 			return;
 		}
+		if (!(e.getDamager() instanceof Player))
+			return;
 		if (((Player) e.getDamager()).getEquipment().getItemInMainHand() == null)
 			return;
 		if (!((Player) e.getDamager()).getEquipment().getItemInMainHand().hasItemMeta())
