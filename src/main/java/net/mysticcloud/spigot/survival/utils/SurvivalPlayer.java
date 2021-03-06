@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.mysticcloud.spigot.core.utils.MysticPlayer;
+import net.mysticcloud.spigot.core.utils.accounts.MysticPlayer;
 import net.mysticcloud.spigot.survival.utils.inventories.SubSkill;
 import net.mysticcloud.spigot.survival.utils.perks.Perk;
 import net.mysticcloud.spigot.survival.utils.perks.Perks;

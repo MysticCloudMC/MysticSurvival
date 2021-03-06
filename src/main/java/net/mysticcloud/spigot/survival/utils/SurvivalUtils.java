@@ -2,30 +2,18 @@ package net.mysticcloud.spigot.survival.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
-import net.mysticcloud.spigot.core.utils.MysticPlayer;
+import net.mysticcloud.spigot.core.utils.accounts.MysticAccountManager;
+import net.mysticcloud.spigot.core.utils.accounts.MysticPlayer;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.runnables.MainTimer;
 import net.mysticcloud.spigot.survival.utils.inventories.InventoryUtils;
@@ -63,11 +51,11 @@ public class SurvivalUtils {
 	}
 
 	public static SurvivalPlayer getSurvivalPlayer(UUID uid) {
-		return getSurvivalPlayer(CoreUtils.getMysticPlayer(uid));
+		return getSurvivalPlayer(MysticAccountManager.getMysticPlayer(uid));
 	}
 
 	public static SurvivalPlayer getSurvivalPlayer(Player player) {
-		return getSurvivalPlayer(CoreUtils.getMysticPlayer(player));
+		return getSurvivalPlayer(MysticAccountManager.getMysticPlayer(player));
 	}
 
 	public static SurvivalPlayer getSurvivalPlayer(MysticPlayer player) {

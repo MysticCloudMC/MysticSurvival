@@ -3,7 +3,6 @@ package net.mysticcloud.spigot.survival.listeners;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
@@ -16,12 +15,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.mysticcloud.spigot.core.Main;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
+import net.mysticcloud.spigot.core.utils.accounts.MysticAccountManager;
 import net.mysticcloud.spigot.core.utils.particles.formats.RandomFormat;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
@@ -126,8 +125,8 @@ public class PlayerAttackListener implements Listener {
 				}
 
 				if (e.getEntity() instanceof Monster) {
-					e.setDamage(
-							(e.getDamage() + CoreUtils.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
+					e.setDamage((e.getDamage()
+							+ MysticAccountManager.getMysticPlayer(((Player) e.getDamager())).getLevel() * 0.3));
 				}
 
 				if (i.hasEnhancement(Enhancement.DISARM)) {

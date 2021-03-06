@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.GUIManager;
-import net.mysticcloud.spigot.core.utils.InventoryCreator;
+import net.mysticcloud.spigot.core.utils.admin.InventoryCreator;
 import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.SurvivalPlayer;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;

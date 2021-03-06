@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
+import net.mysticcloud.spigot.core.utils.accounts.MysticAccountManager;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.Division;
 import net.mysticcloud.spigot.survival.utils.Enhancement;
@@ -59,7 +60,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random book...");
 					((Player) sender).getInventory()
 							.addItem(ItemUtils.bookGenerator(args.length == 2 ? Integer.parseInt(args[1])
-									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
+									: MysticAccountManager.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
 			if (args[0].equalsIgnoreCase("color")) {
@@ -207,7 +208,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 					sender.sendMessage(CoreUtils.prefixes("admin") + "Generating random armor...");
 					((Player) sender).getInventory()
 							.addItem(ItemUtils.armorGenerator(args.length == 2 ? Integer.parseInt(args[1])
-									: CoreUtils.getMysticPlayer(((Player) sender)).getLevel()));
+									: MysticAccountManager.getMysticPlayer(((Player) sender)).getLevel()));
 				}
 			}
 			if (args[0].equalsIgnoreCase("giveRandomWeapon")) {
@@ -215,7 +216,7 @@ public class MysticSurvivalCommand implements CommandExecutor {
 				if (sender instanceof Player) {
 					((Player) sender).getInventory()
 							.addItem(ItemUtils.weaponGenerator(args.length == 2 ? Integer.parseInt(args[1])
-									: (CoreUtils.getMysticPlayer(((Player) sender)).getLevel())));
+									: (MysticAccountManager.getMysticPlayer(((Player) sender)).getLevel())));
 				}
 			}
 			if (args[0].equalsIgnoreCase("soulbind")) {

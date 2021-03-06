@@ -17,8 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import net.mysticcloud.spigot.core.utils.CoreUtils;
-import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.core.utils.SpawnReason;
+import net.mysticcloud.spigot.core.utils.accounts.MysticAccountManager;
+import net.mysticcloud.spigot.core.utils.accounts.MysticPlayer;
 import net.mysticcloud.spigot.core.utils.warps.HomeUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
@@ -36,7 +37,7 @@ public class EntityListener implements Listener {
 			MysticPlayer player = null;
 			for (Entity entity : e.getEntity().getNearbyEntities(50, 50, 50)) {
 				if (entity instanceof Player) {
-					player = CoreUtils.getMysticPlayer(entity.getUniqueId());
+					player = MysticAccountManager.getMysticPlayer(entity.getUniqueId());
 					break;
 				}
 			}
@@ -141,7 +142,7 @@ public class EntityListener implements Listener {
 		if (e.getEntity() instanceof Monster && e.getEntity().getKiller() != null
 				&& e.getEntity().hasMetadata("level")) {
 			int level = (int) e.getEntity().getMetadata("level").get(0).value();
-			CoreUtils.getMysticPlayer(e.getEntity().getKiller())
+			MysticAccountManager.getMysticPlayer(e.getEntity().getKiller())
 					.gainXP(CoreUtils.getMoneyFormat(((double) level / 100) * CoreUtils.getRandom().nextInt(25)));
 			// Drops?
 
