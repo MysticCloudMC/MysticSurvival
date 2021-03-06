@@ -12,11 +12,12 @@ import org.bukkit.entity.Player;
 
 import net.mysticcloud.spigot.core.commands.listeners.CommandTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
+import net.mysticcloud.spigot.core.utils.teleport.TeleportUtils;
+import net.mysticcloud.spigot.core.utils.warps.HomeUtils;
 import net.mysticcloud.spigot.core.utils.warps.Warp;
 import net.mysticcloud.spigot.core.utils.warps.WarpBuilder;
 import net.mysticcloud.spigot.core.utils.warps.WarpUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
-import net.mysticcloud.spigot.survival.utils.HomeUtils;
 
 public class HomeCommand implements CommandExecutor {
 
@@ -41,25 +42,17 @@ public class HomeCommand implements CommandExecutor {
 						}
 					}
 
-					Warp thome = homes.get(0);
-					boolean choosen = false;
-					if (homes.size() > 1 && args.length > 0) {
-						for (Warp home : homes) {
-							if (home.name().equalsIgnoreCase(args[0])) {
-								thome = home;
-								choosen = true;
-								break;
-							}
-						}
-					}
+					Warp home = args.length == 0 ? HomeUtils.getHome(((Player) sender).getUniqueId())
+							: HomeUtils.getHome(((Player) sender).getUniqueId(), args[0]);
 
-					((Player) sender).teleport(thome.location());
+					TeleportUtils.teleport(((Player) sender), home.location(), false, false);
+
 					sender.sendMessage(
-							CoreUtils.prefixes("homes") + "You have teleported to home " + thome.name() + ".");
-					if (!choosen) {
+							CoreUtils.prefixes("homes") + "You have teleported to home " + home.name() + ".");
+					if (args.length == 0 && HomeUtils.getHomes(((Player) sender).getUniqueId()).size() >= 2) {
 						String s = "";
-						for (Warp home : homes)
-							s = s == "" ? home.name() : s + ", " + home.name();
+						for (Warp homestr : homes)
+							s = s == "" ? homestr.name() : s + ", " + homestr.name();
 						sender.sendMessage(CoreUtils.prefixes("homes") + "Here's a list of your homes: " + s);
 					}
 
@@ -102,12 +95,26 @@ public class HomeCommand implements CommandExecutor {
 
 			if (cmd.getName().equalsIgnoreCase("deletehome")) {
 				if (sender instanceof Player) {
-					for (Warp home : HomeUtils.getHomes(((Player) sender).getUniqueId())) {
-						WarpUtils.removeWarp("home~" + ((Player) sender).getUniqueId(), home);
-						sender.sendMessage(CoreUtils.prefixes("homes") + "DELETED");
-						return true;
+					if (args.length == 1) {
+						if (HomeUtils.getHome(((Player) sender).getUniqueId(), args[0]) != null) {
+							WarpUtils.removeWarp("home~" + ((Player) sender).getUniqueId(),
+									HomeUtils.getHome(((Player) sender).getUniqueId(), args[0]));
+							sender.sendMessage(CoreUtils.prefixes("homse") + "Deleted home '" + args[0] + "'.");
+							return true;
+						} else {
+							sender.sendMessage(CoreUtils.prefixes("homes") + "Couldn't find that home.");
+						}
+					} else {
+						if (HomeUtils.getHome(((Player) sender).getUniqueId()) != null) {
+							sender.sendMessage(CoreUtils.prefixes("homes") + "Deleted home '"
+									+ HomeUtils.getHome(((Player) sender).getUniqueId()).name() + "'.");
+							WarpUtils.removeWarp("home~" + ((Player) sender).getUniqueId(),
+									HomeUtils.getHome(((Player) sender).getUniqueId()));
+							return true;
+						} else {
+							sender.sendMessage(CoreUtils.prefixes("homes") + "Couldn't find a home.");
+						}
 					}
-					sender.sendMessage(CoreUtils.prefixes("homes") + "ERROR");
 
 				} else {
 					sender.sendMessage(CoreUtils.prefixes("homes") + "You must be a player to use that command.");

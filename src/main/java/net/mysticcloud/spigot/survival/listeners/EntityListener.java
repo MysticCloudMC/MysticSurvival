@@ -19,8 +19,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MysticPlayer;
 import net.mysticcloud.spigot.core.utils.SpawnReason;
+import net.mysticcloud.spigot.core.utils.warps.HomeUtils;
 import net.mysticcloud.spigot.survival.MysticSurvival;
-import net.mysticcloud.spigot.survival.utils.HomeUtils;
 import net.mysticcloud.spigot.survival.utils.SurvivalUtils;
 import net.mysticcloud.spigot.survival.utils.items.ItemUtils;
 

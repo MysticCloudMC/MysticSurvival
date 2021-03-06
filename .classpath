@@ -7,15 +7,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/home/Minecraft/Dependencies/spigot.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/home/Minecraft/Dependencies/MysticCore.jar" sourcepath="/MysticCore">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="C:/home/Minecraft/Dependencies/spigot.jar"/>
+	<classpathentry kind="lib" path="C:/home/Minecraft/Dependencies/MysticCore.jar" sourcepath="/MysticCore"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
